@@ -13,17 +13,34 @@ const page = `<!DOCTYPE HTML>
             <input type="text" name="message" />
             <button type="submit">Send</button>
         </form>
+        <div id="message-list"></div>
     </body>
     <script>
-    const ws = new WebSocket("ws://localhost:3000/hi");
+    var loc = window.location, new_uri;
+    if (loc.protocol === "https:") {
+        new_uri = "wss:";
+    } else {
+        new_uri = "ws:";
+    }
+    new_uri += "//" + loc.host;
+    new_uri += loc.pathname + "hi";
+
+    const ws = new WebSocket(new_uri);
     const form = document.querySelector("form");
     form.addEventListener("submit", (e) => {
         e.preventDefault();
         const message = e.target.message.value;
         ws.send(message);
     });
+    ws.open = (ws) => {
+      console.log(ws);
+    
+  };
     ws.onmessage = (message) => {
         console.log(message.data);
+        const newMessageP = document.createElement('p')
+        newMessageP.innerText = message.data
+        document.getElementById("message-list").appendChild(newMessageP)
     };
 </script>
 </html>`;
@@ -34,6 +51,7 @@ const app = new Elysia()
   .use(ws())
   .ws("/hi", {
     message(ws, message) {
+      console.log({ message, ws });
       ws.send(message);
     },
     open(ws) {
