@@ -7,7 +7,9 @@
   },
   "dependencies": {
     "@elysiajs/html": "^0.6.0",
-    "elysia": "latest"
+    "elysia": "latest",
+    "socket.io": "^4.7.2",
+    "socket.io-client": "^4.7.2"
   },
   "devDependencies": {
     "bun-types": "latest"
