@@ -1,4 +1,4 @@
-import http from "http";
+import http from "node:http";
 import handler from "serve-handler";
 import nanobuffer from "nanobuffer";
 import objToResponse from "./obj-to-response.js";

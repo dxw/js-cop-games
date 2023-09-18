@@ -1,4 +1,4 @@
-import http from "http";
+import http from "node:http";
 import handler from "serve-handler";
 import nanobuffer from "nanobuffer";
 import { Server } from "socket.io";
