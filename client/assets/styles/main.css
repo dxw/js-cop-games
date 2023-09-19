@@ -36,3 +36,8 @@ h1 {
   top: 1.5rem;
   left: 1.5rem;
 }
+
+#player-list {
+  padding-inline-start: 0;
+  list-style: none;
+}
