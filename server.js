@@ -3,12 +3,11 @@ import handler from "serve-handler";
 import nanobuffer from "nanobuffer";
 import { Server } from "socket.io";
 
-const msg = new nanobuffer(50);
-const getMsgs = () => Array.from(msg).reverse();
+const users = new nanobuffer(50);
+const getMsgs = () => Array.from(users).reverse();
 
-msg.push({
-  user: "brian",
-  text: "hi",
+users.push({
+  name: "brian",
   time: Date.now(),
 });
 
@@ -27,9 +26,8 @@ io.on("connection", (socket) => {
   socket.emit("msg:get", { msg: getMsgs() });
 
   socket.on("msg:post", (data) => {
-    msg.push({
-      user: data.user,
-      text: data.text,
+    users.push({
+      name: data.name,
       time: Date.now(),
     });
     io.emit("msg:get", { msg: getMsgs() });

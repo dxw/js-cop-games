@@ -34,23 +34,22 @@ socket.on("msg:get", (data) => {
 
 chat.addEventListener("submit", function (e) {
   e.preventDefault();
-  postNewMsg(chat.elements.user.value, chat.elements.text.value);
-  chat.elements.text.value = "";
+  postNewMsg(chat.elements.name.value);
+  chat.elements.name.value = "";
 });
 
-async function postNewMsg(user, text) {
+async function postNewMsg(name) {
   const data = {
-    user,
-    text,
+    name,
   };
 
   socket.emit("msg:post", data);
 }
 
 function render() {
-  const html = allChat.map(({ user, text }) => template(user, text));
+  const html = allChat.map(({ name }) => template(name));
   msgs.innerHTML = html.join("\n");
 }
 
-const template = (user, msg) =>
-  `<li class="collection-item"><span class="badge">${user}</span>${msg}</li>`;
+const template = (name) =>
+  `<li class="collection-item"><span class="badge">${name}</span></li>`;
