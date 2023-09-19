@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "format": "npx prettier . --write",
+    "lint:css": "npx stylelint \"client/assets/styles/*.css\"",
+    "lint:css:fix": "npx stylelint \"client/assets/styles/*.css\" --fix",
     "start": "bun server/index.js"
   },
   "keywords": [],
@@ -21,6 +23,9 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.12",
-    "prettier": "^3.0.3"
+    "prettier": "^3.0.3",
+    "stylelint": "^15.10.3",
+    "stylelint-config-clean-order": "^5.2.0",
+    "stylelint-config-standard": "^34.0.0"
   }
 }
