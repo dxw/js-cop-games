@@ -3,19 +3,31 @@ const msgs = document.getElementById("msgs");
 const presence = document.getElementById("presence-indicator");
 let allChat = [];
 
-const ws = new WebSocket("ws://localhost:8080", ["json"]);
+const urlBuilder = () => {
+  var loc = window.location,
+    new_uri;
+  if (loc.protocol === "https:") {
+    new_uri = "wss:";
+  } else {
+    new_uri = "";
+  }
+  new_uri += "//" + loc.host;
+  new_uri += loc.pathname;
+  return new_uri;
+};
 
-ws.addEventListener("open", () => {
+const socket = io(urlBuilder());
+
+socket.on("connect", () => {
   console.log("connected");
   presence.innerText = "🟢";
 });
 
-ws.addEventListener("close", () => {
+socket.on("disconnect", () => {
   presence.innerText = "🔴";
 });
 
-ws.addEventListener("message", (event) => {
-  const data = JSON.parse(event.data);
+socket.on("msg:get", (data) => {
   allChat = data.msg;
   render();
 });
@@ -32,7 +44,7 @@ async function postNewMsg(user, text) {
     text,
   };
 
-  ws.send(JSON.stringify(data));
+  socket.emit("msg:post", data);
 }
 
 function render() {
