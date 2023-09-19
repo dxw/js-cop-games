@@ -1,12 +1,24 @@
 import http from "http";
 import handler from "serve-handler";
 import nanobuffer from "nanobuffer";
-import { Server } from "socket.io";
+import { Server, Socket } from "socket.io";
+import { Player } from "./@types/models";
 
+// fixed length Array<Player>
 const players = new nanobuffer(50);
 
-const getPlayers = (): Array<string> =>
-  Array.from(players as Iterable<string>).reverse();
+const addPlayer = (name: Player["name"], socketId: Socket["id"]): Player => {
+  const player: Player = { name, socketId };
+  players.push(player);
+
+  return player;
+};
+
+const getPlayerNames = (): Array<Player["name"]> => {
+  const playersArray = Array.from(players as Iterable<Player>).reverse();
+
+  return playersArray.map((player) => player.name);
+};
 
 const httpServer = http.createServer((request, response) => {
   return handler(request as any, response as any, {
@@ -19,11 +31,12 @@ const socketServer = new Server(httpServer as any, {});
 socketServer.on("connection", (socket) => {
   console.log(`connected: ${socket.id}`);
 
-  socket.emit("players:get", { players: getPlayers() });
+  socket.emit("players:get", { players: getPlayerNames() });
 
   socket.on("players:post", (data) => {
-    players.push(data.name);
-    socketServer.emit("players:get", { players: getPlayers() });
+    const player = addPlayer(data.name, socket.id);
+    socket.emit("player:set", { player });
+    socketServer.emit("players:get", { players: getPlayerNames() });
   });
 
   socket.on("disconnect", () => {
