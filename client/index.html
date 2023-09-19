@@ -1,12 +1,12 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Polling Chat</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div id="presence-indicator">🔴</div>
@@ -15,22 +15,27 @@
       <form id="chat" class="col s12">
         <div class="row">
           <div class="input-field col s3">
-
-            <input id="name" type="text" class="validate">
+            <input id="name" type="text" class="validate" />
             <label for="name">User Name</label>
           </div>
         </div>
         <div class="col s12 btn-box">
-          <button class="btn teal lighten-1 waves-effect waves-light" type="submit">Submit
-          <i class="material-icons right">send</i>
+          <button
+            class="btn teal lighten-1 waves-effect waves-light"
+            type="submit"
+          >
+            Submit
+            <i class="material-icons right">send</i>
           </button>
         </div>
       </form>
     </div>
 
     <ul class="collection page-column" id="msgs"></ul>
-    <script src="https://cdn.socket.io/4.1.2/socket.io.min.js" crossorigin="anonymous"></script>
+    <script
+      src="https://cdn.socket.io/4.1.2/socket.io.min.js"
+      crossorigin="anonymous"
+    ></script>
     <script src="index.js"></script>
-
   </body>
 </html>
