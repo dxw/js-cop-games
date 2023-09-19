@@ -3,34 +3,25 @@ import handler from "serve-handler";
 import nanobuffer from "nanobuffer";
 import { Server } from "socket.io";
 
-const users = new nanobuffer(50);
-const getMsgs = () => Array.from(users).reverse();
+const players = new nanobuffer(50);
+const getPlayers = () => Array.from(players).reverse();
 
-users.push({
-  name: "brian",
-  time: Date.now(),
-});
-
-// serve static assets
-const server = http.createServer((request, response) => {
+const httpServer = http.createServer((request, response) => {
   return handler(request, response, {
     public: "./client",
   });
 });
 
-const io = new Server(server, {});
+const socketServer = new Server(httpServer, {});
 
-io.on("connection", (socket) => {
+socketServer.on("connection", (socket) => {
   console.log(`connected: ${socket.id}`);
 
-  socket.emit("msg:get", { msg: getMsgs() });
+  socket.emit("players:get", { players: getPlayers() });
 
-  socket.on("msg:post", (data) => {
-    users.push({
-      name: data.name,
-      time: Date.now(),
-    });
-    io.emit("msg:get", { msg: getMsgs() });
+  socket.on("players:post", (data) => {
+    players.push(data.name);
+    socketServer.emit("players:get", { players: getPlayers() });
   });
 
   socket.on("disconnect", () => {
@@ -39,6 +30,7 @@ io.on("connection", (socket) => {
 });
 
 const port = process.env.PORT || 8080;
-server.listen(port, () =>
+
+httpServer.listen(port, () =>
   console.log(`Server running at http://localhost:${port}`),
 );

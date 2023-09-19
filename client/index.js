@@ -1,55 +1,51 @@
-const chat = document.getElementById("chat");
-const msgs = document.getElementById("msgs");
-const connectionStatusElement = document.getElementById("connection-status");
-let allChat = [];
+const connectionStatusIconElement = document.getElementById(
+  "connection-status-icon",
+);
+const nameFormElement = document.getElementById("name-form");
+const playerListElement = document.getElementById("player-list");
 
-const urlBuilder = () => {
-  var loc = window.location,
-    new_uri;
-  if (loc.protocol === "https:") {
-    new_uri = "wss:";
-  } else {
-    new_uri = "";
-  }
-  new_uri += "//" + loc.host;
-  new_uri += loc.pathname;
-  return new_uri;
-};
+let players = [];
 
-const socket = io(urlBuilder());
+const socket = io(genereateSocketUrl());
 
 socket.on("connect", () => {
-  console.log("connected");
-  connectionStatusElement.innerText = "Connected 🟢";
+  connectionStatusIconElement.innerText = "Connected 🟢";
 });
 
 socket.on("disconnect", () => {
-  connectionStatusElement.innerText = "Not connected 🔴";
+  connectionStatusIconElement.innerText = "Not connected 🔴";
 });
 
-socket.on("msg:get", (data) => {
-  allChat = data.msg;
-  render();
+socket.on("players:get", (data) => {
+  players = data.players;
+  renderPlayerList();
 });
 
-chat.addEventListener("submit", function (e) {
+nameFormElement.addEventListener("submit", function (e) {
   e.preventDefault();
-  postNewMsg(chat.elements.name.value);
-  chat.elements.name.value = "";
+  addPlayer(nameFormElement.elements.name.value);
+  nameFormElement.elements.name.value = "";
 });
 
-async function postNewMsg(name) {
-  const data = {
-    name,
-  };
-
-  socket.emit("msg:post", data);
+async function addPlayer(name) {
+  socket.emit("players:post", { name });
 }
 
-function render() {
-  const html = allChat.map(({ name }) => template(name));
-  msgs.innerHTML = html.join("\n");
+function genereateSocketUrl() {
+  let url = "";
+
+  const location = window.location;
+
+  if (location.protocol === "https:") {
+    url = "wss:";
+  }
+
+  url += "//" + location.host + location.pathname;
+
+  return url;
 }
 
-const template = (name) =>
-  `<li class="collection-item"><span class="badge">${name}</span></li>`;
+function renderPlayerList() {
+  const html = players.map((name) => `<li>${name}</li>`);
+  playerListElement.innerHTML = html.join("\n");
+}
