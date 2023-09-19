@@ -14,7 +14,7 @@ users.push({
 // serve static assets
 const server = http.createServer((request, response) => {
   return handler(request, response, {
-    public: "./frontend",
+    public: "./client",
   });
 });
 
