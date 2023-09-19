@@ -28,13 +28,13 @@ h1 {
 #connection-status-icon {
   position: absolute;
   top: 1.5rem;
-  right: 1.5rem;
+  right: 1rem;
 }
 
 #player-name {
   position: absolute;
   top: 1.5rem;
-  left: 1.5rem;
+  left: 1rem;
 }
 
 #player-list {
