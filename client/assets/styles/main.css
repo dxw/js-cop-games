@@ -1,19 +1,32 @@
-.page-column {
-  max-width: 600px;
-  margin: 30px auto;
+@import url("https://fonts.googleapis.com/css?family=Poppins:600&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Cardo:400,700&display=swap");
+
+body {
+  padding: 1rem;
+
+  font-family: Cardo, serif;
+  font-weight: 400;
+  color: #243746;
+
+  background-color: #f9f8f5;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: Poppins, sans-serif;
+  font-weight: 600;
 }
 
 h1 {
-  color: #26a69a;
-  text-align: center;
-}
-
-.btn-box {
   text-align: center;
 }
 
 #connection-status-icon {
   position: absolute;
-  top: 5px;
-  right: 15px;
+  top: 1.5rem;
+  right: 1.5rem;
 }
