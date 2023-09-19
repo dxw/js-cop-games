@@ -1,5 +1,6 @@
 import { io } from "socket.io-client";
 import { nameFormElement } from "../server/@types/ui";
+import { Player } from "../server/@types/models";
 
 const addPlayer = async (name: string): Promise<void> => {
   socket.emit("players:post", { name });
@@ -11,20 +12,34 @@ const generateSocketUrl = (): string => {
   return "//" + location.host + location.pathname;
 };
 
+const getNameFormElement = (): nameFormElement =>
+  document.getElementById("name-form") as nameFormElement;
+
 const renderPlayerList = (): void => {
   const html = players.map((name) => `<li>${name}</li>`);
   playerListElement.innerHTML = html.join("\n");
 };
 
+const renderPlayerName = (): void => {
+  const text = `Name: ${player.name}`;
+  playerNameElement.innerText = text;
+};
+
+const derenderNameForm = (): void => {
+  getNameFormElement().remove();
+};
+
 const connectionStatusIconElement = document.getElementById(
   "connection-status-icon",
 ) as HTMLElement;
-const nameFormElement = document.getElementById("name-form") as nameFormElement;
+const nameFormElement = getNameFormElement();
 const playerListElement = document.getElementById(
   "player-list",
 ) as HTMLFormElement;
+const playerNameElement = document.getElementById("player-name") as HTMLElement;
 
-let players: Array<string> = [];
+let player: Player;
+let players: Array<Player> = [];
 
 const socket = io(generateSocketUrl());
 
@@ -39,6 +54,12 @@ socket.on("disconnect", () => {
 socket.on("players:get", (data) => {
   players = data.players;
   renderPlayerList();
+});
+
+socket.on("player:set", (data) => {
+  player = data.player;
+  renderPlayerName();
+  derenderNameForm();
 });
 
 nameFormElement.addEventListener("submit", function (e) {
