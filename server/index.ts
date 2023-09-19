@@ -56,7 +56,7 @@ socketServer.on("connection", (socket) => {
   });
 
   socket.on("disconnect", () => {
-    console.log(`disconnect: ${socket.id}`);
+    console.log(`disconnected: ${socket.id}`);
     removePlayer(socket.id);
     socketServer.emit("players:get", { players: getPlayerNames() });
   });
