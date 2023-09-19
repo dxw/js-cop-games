@@ -12,27 +12,14 @@
   <body>
     <div id="connection-status">Not connected 🔴</div>
     <h1>Colour Me Knowledgeable!</h1>
-    <div class="row page-column">
-      <form id="chat" class="col s12">
-        <div class="row">
-          <div class="input-field col s3">
-            <input id="name" type="text" class="validate" />
-            <label for="name">User Name</label>
-          </div>
-        </div>
-        <div class="col s12 btn-box">
-          <button
-            class="btn teal lighten-1 waves-effect waves-light"
-            type="submit"
-          >
-            Submit
-            <i class="material-icons right">send</i>
-          </button>
-        </div>
-      </form>
-    </div>
+    <form id="chat">
+      <input id="name" type="text" />
+      <label for="name">Display name</label>
 
-    <ul class="collection page-column" id="msgs"></ul>
+      <button type="submit">Join game</button>
+    </form>
+
+    <ul id="msgs"></ul>
     <script
       src="https://cdn.socket.io/4.1.2/socket.io.min.js"
       crossorigin="anonymous"
