@@ -5,7 +5,7 @@ import { Server, Socket } from "socket.io";
 import { Player } from "./@types/models";
 
 // fixed length Array<Player>
-const players = new nanobuffer(50);
+let players = new nanobuffer(50);
 
 const addPlayer = (name: Player["name"], socketId: Socket["id"]): Player => {
   const player: Player = { name, socketId };
@@ -18,6 +18,22 @@ const getPlayerNames = (): Array<Player["name"]> => {
   const playersArray = Array.from(players as Iterable<Player>).reverse();
 
   return playersArray.map((player) => player.name);
+};
+
+const removePlayer = (socketId: Socket["id"]): void => {
+  const playersArray = Array.from(players as Iterable<Player>);
+
+  const playerToRemoveIndex = playersArray.findIndex(
+    (player) => (player.socketId = socketId),
+  );
+
+  players.clear();
+
+  playersArray.forEach((player, playerIndex) => {
+    if (playerIndex !== playerToRemoveIndex) {
+      players.push(player);
+    }
+  });
 };
 
 const httpServer = http.createServer((request, response) => {
@@ -41,6 +57,8 @@ socketServer.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     console.log(`disconnect: ${socket.id}`);
+    removePlayer(socket.id);
+    socketServer.emit("players:get", { players: getPlayerNames() });
   });
 });
 
