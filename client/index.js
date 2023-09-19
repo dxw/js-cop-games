@@ -1,6 +1,6 @@
 const chat = document.getElementById("chat");
 const msgs = document.getElementById("msgs");
-const presence = document.getElementById("presence-indicator");
+const connectionStatusElement = document.getElementById("connection-status");
 let allChat = [];
 
 const urlBuilder = () => {
@@ -20,11 +20,11 @@ const socket = io(urlBuilder());
 
 socket.on("connect", () => {
   console.log("connected");
-  presence.innerText = "🟢";
+  connectionStatusElement.innerText = "Connected 🟢";
 });
 
 socket.on("disconnect", () => {
-  presence.innerText = "🔴";
+  connectionStatusElement.innerText = "Not connected 🔴";
 });
 
 socket.on("msg:get", (data) => {

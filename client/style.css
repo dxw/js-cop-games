@@ -12,7 +12,7 @@ h1 {
   text-align: center;
 }
 
-#presence-indicator {
+#connection-status {
   position: absolute;
   top: 5px;
   right: 15px;
