@@ -1,18 +1,20 @@
-import http from "node:http";
+import http from "http";
 import handler from "serve-handler";
 import nanobuffer from "nanobuffer";
 import { Server } from "socket.io";
 
 const players = new nanobuffer(50);
-const getPlayers = () => Array.from(players).reverse();
+
+const getPlayers = (): Array<string> =>
+  Array.from(players as Iterable<string>).reverse();
 
 const httpServer = http.createServer((request, response) => {
-  return handler(request, response, {
+  return handler(request as any, response as any, {
     public: "./client",
   });
 });
 
-const socketServer = new Server(httpServer, {});
+const socketServer = new Server(httpServer as any, {});
 
 socketServer.on("connection", (socket) => {
   console.log(`connected: ${socket.id}`);
