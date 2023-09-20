@@ -6,7 +6,7 @@ const playerListElement = document.getElementById("player-list");
 
 let players = [];
 
-const socket = io(genereateSocketUrl());
+const socket = io(generateSocketUrl());
 
 socket.on("connect", () => {
   connectionStatusIconElement.innerText = "Connected 🟢";
@@ -31,7 +31,7 @@ async function addPlayer(name) {
   socket.emit("players:post", { name });
 }
 
-function genereateSocketUrl() {
+function generateSocketUrl() {
   let url = "";
 
   const location = window.location;
