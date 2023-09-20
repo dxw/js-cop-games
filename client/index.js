@@ -36,10 +36,6 @@ function genereateSocketUrl() {
 
   const location = window.location;
 
-  if (location.protocol === "https:") {
-    url = "wss:";
-  }
-
   url += "//" + location.host + location.pathname;
 
   return url;
