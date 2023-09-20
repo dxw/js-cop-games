@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Colour Me Knowledgeable!</title>
+
+    <link rel="stylesheet" href="assets/styles/reset.css" />
+    <link rel="stylesheet" href="assets/styles/main.css" />
+  </head>
+  <body>
+    <div id="connection-status-icon">Not connected 🔴</div>
+    <h1>Colour Me Knowledgeable!</h1>
+    <form id="name-form">
+      <input id="name" type="text" />
+      <label for="name">Display name</label>
+
+      <button type="submit">Join game</button>
+    </form>
+
+    <ul id="player-list"></ul>
+    <script
+      src="https://cdn.socket.io/4.1.2/socket.io.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="index.js"></script>
+  </body>
+</html>
