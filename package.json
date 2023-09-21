@@ -6,9 +6,10 @@
   "license": "MIT",
   "scripts": {
     "compile": "bun build ./client/index.ts --outdir ./client/assets/scripts",
-    "format": "npx prettier . --write",
-    "lint:css": "npx stylelint \"client/assets/styles/*.css\"",
-    "lint:css:fix": "npx stylelint \"client/assets/styles/*.css\" --fix",
+    "prettier:format": "bunx prettier . --write",
+    "prettier:check": "bunx prettier . --check",
+    "lint:css": "bunx stylelint \"client/assets/styles/*.css\"",
+    "lint:css:fix": "bunx stylelint \"client/assets/styles/*.css\" --fix",
     "start": "bun run compile && bun server/index.ts",
     "typecheck": "bun run tsc"
   },
