@@ -45,3 +45,6 @@ package-lock.json
 
 # compiled client script
 /client/assets/scripts/index.js
+
+# TypeScript compilation
+/dist

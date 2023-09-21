@@ -9,7 +9,8 @@
     "format": "npx prettier . --write",
     "lint:css": "npx stylelint \"client/assets/styles/*.css\"",
     "lint:css:fix": "npx stylelint \"client/assets/styles/*.css\" --fix",
-    "start": "bun run compile && bun server/index.ts"
+    "start": "bun run compile && bun server/index.ts",
+    "typecheck": "bun run tsc"
   },
   "dependencies": {
     "nanobuffer": "^3.0.0",
