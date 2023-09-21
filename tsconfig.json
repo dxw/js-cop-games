@@ -15,6 +15,7 @@
     "moduleResolution": "bundler",
     "noEmit": true,
     "noImplicitAny": true,
+    "outDir": "./dist",
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
