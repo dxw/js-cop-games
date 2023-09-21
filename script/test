@@ -1,0 +1,24 @@
+#!/bin/sh
+
+# script/test: Run the test suite for the application.
+
+
+
+
+echo "==> Linting the code"
+
+bun run lint:css
+
+
+echo "==> Formatting the code"
+
+bun run prettier:check
+
+echo "==> Typechecking the code"
+
+bun run typecheck
+
+echo "==> Compiling the assets"
+
+bun run compile
+
