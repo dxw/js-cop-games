@@ -1,0 +1,27 @@
+name: "Test"
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: 1.0.3
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install dependencies
+        run: |
+          curl -fsSL https://bun.sh/install | bash
+          bun install
+      - name: Run tests
+        run: |
+          chmod +x ./script/test
+          ./script/test
