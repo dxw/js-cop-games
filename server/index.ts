@@ -24,7 +24,7 @@ const removePlayer = (socketId: Socket["id"]): void => {
   const playersArray = Array.from(players as Iterable<Player>);
 
   const playerToRemoveIndex = playersArray.findIndex(
-    (player) => (player.socketId = socketId),
+    (player) => (player.socketId === socketId),
   );
 
   players.clear();
