@@ -3,6 +3,7 @@ import handler from "serve-handler";
 import nanobuffer from "nanobuffer";
 import { Server, Socket } from "socket.io";
 import { Player } from "./@types/models";
+import questions from "./data/questions.json";
 
 // fixed length Array<Player>
 let players = new nanobuffer(50);
@@ -53,6 +54,10 @@ socketServer.on("connection", (socket) => {
     const player = addPlayer(data.name, socket.id);
     socket.emit("player:set", { player });
     socketServer.emit("players:get", { players: getPlayerNames() });
+
+    if (players.size === 2) {
+      startGame();
+    }
   });
 
   socket.on("disconnect", () => {
@@ -61,6 +66,11 @@ socketServer.on("connection", (socket) => {
     socketServer.emit("players:get", { players: getPlayerNames() });
   });
 });
+
+const startGame = (): void => {
+  const questionIndex = Math.floor(Math.random() * questions.length);
+  socketServer.emit("question:get", questions[questionIndex]);
+};
 
 const port = process.env.PORT || 8080;
 

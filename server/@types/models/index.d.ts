@@ -3,4 +3,10 @@ type Player = {
   name: string;
 };
 
-export type { Player };
+type Question = {
+  question: string;
+  answer: Array<string>;
+  number: number;
+};
+
+export type { Player, Question };
