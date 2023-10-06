@@ -23,5 +23,5 @@
     "types": ["bun-types", "web"]
   },
   "exclude": ["node_modules"],
-  "include": ["**/*.ts"]
+  "include": ["**/*.ts", "**/*.json"]
 }
