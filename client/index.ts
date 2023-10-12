@@ -27,9 +27,9 @@ const renderPlayerName = (): void => {
 
 const askAQuestion = (data: Question): void => {
   const { question, number } = data;
-  const questionHtml = document.getElementById('question') as HTMLElement;
-  questionHtml.innerText = question
-  const numberHtml = document.getElementById('number') as HTMLElement;
+  const questionHtml = document.getElementById("question") as HTMLElement;
+  questionHtml.innerText = question;
+  const numberHtml = document.getElementById("number") as HTMLElement;
   numberHtml.innerText = number.toString();
 };
 
@@ -71,7 +71,7 @@ socket.on("player:set", (data) => {
 });
 
 socket.on("question:get", (data) => {
-  askAQuestion(data);
+  askAQuestion(data.question);
 });
 
 nameFormElement.addEventListener("submit", function (e) {

@@ -1,10 +1,15 @@
 import { Socket } from "socket.io";
 import { Player, Question } from "./@types/models";
 import questions from "./data/questions.json";
+import { SocketServer } from "./socketServer";
 
-export class Game {
+export default class Game {
   players: Array<Player> = [];
-  currentQuestion?: Question;
+  server: SocketServer;
+
+  constructor(server: SocketServer) {
+    this.server = server;
+  }
 
   addPlayer = (name: Player["name"], socketId: Socket["id"]): Player => {
     const player: Player = { name, socketId };
@@ -29,6 +34,7 @@ export class Game {
 
   setQuestion = (): void => {
     const questionIndex = Math.floor(Math.random() * questions.length);
-    this.currentQuestion = questions[questionIndex];
+
+    this.server.onQuestionSet(questions[questionIndex]);
   };
 }
