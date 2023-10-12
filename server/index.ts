@@ -1,41 +1,9 @@
 import http from "http";
 import handler from "serve-handler";
-import nanobuffer from "nanobuffer";
-import { Server, Socket } from "socket.io";
-import { Player } from "./@types/models";
-import questions from "./data/questions.json";
+import { Server } from "socket.io";
+import { Game } from "./game";
 
-// fixed length Array<Player>
-let players = new nanobuffer(50);
-
-const addPlayer = (name: Player["name"], socketId: Socket["id"]): Player => {
-  const player: Player = { name, socketId };
-  players.push(player);
-
-  return player;
-};
-
-const getPlayerNames = (): Array<Player["name"]> => {
-  const playersArray = Array.from(players as Iterable<Player>).reverse();
-
-  return playersArray.map((player) => player.name);
-};
-
-const removePlayer = (socketId: Socket["id"]): void => {
-  const playersArray = Array.from(players as Iterable<Player>);
-
-  const playerToRemoveIndex = playersArray.findIndex(
-    (player) => player.socketId === socketId,
-  );
-
-  players.clear();
-
-  playersArray.forEach((player, playerIndex) => {
-    if (playerIndex !== playerToRemoveIndex) {
-      players.push(player);
-    }
-  });
-};
+const game = new Game();
 
 const httpServer = http.createServer((request, response) => {
   return handler(request as any, response as any, {
@@ -48,28 +16,28 @@ const socketServer = new Server(httpServer as any, {});
 socketServer.on("connection", (socket) => {
   console.log(`connected: ${socket.id}`);
 
-  socket.emit("players:get", { players: getPlayerNames() });
+  socket.emit("players:get", { players: game.getPlayerNames() });
 
   socket.on("players:post", (data) => {
-    const player = addPlayer(data.name, socket.id);
+    const player = game.addPlayer(data.name, socket.id);
     socket.emit("player:set", { player });
-    socketServer.emit("players:get", { players: getPlayerNames() });
+    socketServer.emit("players:get", { players: game.getPlayerNames() });
 
-    if (players.size === 2) {
+    if (game.players.length === 2) {
       startGame();
     }
   });
 
   socket.on("disconnect", () => {
     console.log(`disconnected: ${socket.id}`);
-    removePlayer(socket.id);
-    socketServer.emit("players:get", { players: getPlayerNames() });
+    game.removePlayer(socket.id);
+    socketServer.emit("players:get", { players: game.getPlayerNames() });
   });
 });
 
 const startGame = (): void => {
-  const questionIndex = Math.floor(Math.random() * questions.length);
-  socketServer.emit("question:get", questions[questionIndex]);
+  game.start();
+  socketServer.emit("question:get", game.currentQuestion);
 };
 
 const port = process.env.PORT || 8080;
