@@ -1,6 +1,6 @@
 import { io } from "socket.io-client";
 import { nameFormElement } from "../server/@types/ui";
-import { Player } from "../server/@types/models";
+import { Player, Question } from "../server/@types/models";
 
 const addPlayer = async (name: string): Promise<void> => {
   socket.emit("players:post", { name });
@@ -23,6 +23,14 @@ const renderPlayerList = (): void => {
 const renderPlayerName = (): void => {
   const text = `Name: ${player.name}`;
   playerNameElement.innerText = text;
+};
+
+const askAQuestion = (data: Question): void => {
+  const { question, number } = data;
+  const questionHtml = document.getElementById("question") as HTMLElement;
+  questionHtml.innerText = question;
+  const numberHtml = document.getElementById("number") as HTMLElement;
+  numberHtml.innerText = number.toString();
 };
 
 const derenderNameForm = (): void => {
@@ -60,6 +68,10 @@ socket.on("player:set", (data) => {
   player = data.player;
   renderPlayerName();
   derenderNameForm();
+});
+
+socket.on("question:get", (data) => {
+  askAQuestion(data.question);
 });
 
 nameFormElement.addEventListener("submit", function (e) {

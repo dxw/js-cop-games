@@ -23,5 +23,4 @@ jobs:
           bun install
       - name: Run tests
         run: |
-          chmod +x ./script/test
           ./script/test
