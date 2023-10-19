@@ -1,6 +1,7 @@
 import { io } from "socket.io-client";
 import { NameFormElement } from "../server/@types/ui";
 import { Player, Question } from "../server/@types/models";
+import { getElementById } from "./utils/getElementById";
 
 const addPlayer = async (name: string): Promise<void> => {
   socket.emit("players:post", { name });
@@ -11,9 +12,6 @@ const generateSocketUrl = (): string => {
 
   return "//" + location.host + location.pathname;
 };
-
-const getNameFormElement = (): NameFormElement =>
-  document.getElementById("name-form") as NameFormElement;
 
 const renderPlayerList = (): void => {
   const html = players.map((name) => `<li>${name}</li>`);
@@ -27,24 +25,20 @@ const renderPlayerName = (): void => {
 
 const askAQuestion = (data: Question): void => {
   const { question, number } = data;
-  const questionHtml = document.getElementById("question") as HTMLElement;
+  const questionHtml = getElementById("question");
   questionHtml.innerText = question;
-  const numberHtml = document.getElementById("number") as HTMLElement;
+  const numberHtml = getElementById("number");
   numberHtml.innerText = number.toString();
 };
 
 const derenderNameForm = (): void => {
-  getNameFormElement().remove();
+  getElementById("name-form").remove();
 };
 
-const connectionStatusIconElement = document.getElementById(
-  "connection-status-icon",
-) as HTMLElement;
-const nameFormElement = getNameFormElement();
-const playerListElement = document.getElementById(
-  "player-list",
-) as HTMLFormElement;
-const playerNameElement = document.getElementById("player-name") as HTMLElement;
+const connectionStatusIconElement = getElementById("connection-status-icon");
+const nameFormElement = getElementById("name-form") as NameFormElement;
+const playerListElement = getElementById("player-list");
+const playerNameElement = getElementById("player-name");
 
 let player: Player;
 let players: Array<Player> = [];
