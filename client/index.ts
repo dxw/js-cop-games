@@ -1,5 +1,5 @@
 import { io } from "socket.io-client";
-import { nameFormElement } from "../server/@types/ui";
+import { NameFormElement } from "../server/@types/ui";
 import { Player, Question } from "../server/@types/models";
 
 const addPlayer = async (name: string): Promise<void> => {
@@ -12,8 +12,8 @@ const generateSocketUrl = (): string => {
   return "//" + location.host + location.pathname;
 };
 
-const getNameFormElement = (): nameFormElement =>
-  document.getElementById("name-form") as nameFormElement;
+const getNameFormElement = (): NameFormElement =>
+  document.getElementById("name-form") as NameFormElement;
 
 const renderPlayerList = (): void => {
   const html = players.map((name) => `<li>${name}</li>`);

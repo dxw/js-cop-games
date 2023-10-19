@@ -14,7 +14,6 @@ const getElementById = (id: string): HTMLElement => {
 ```
 
 - add ADRs (one for using Bun, socket.io, not using a frontend framework (for now))
-- rename nameFormElementElements => NameFormElementElements
 - remove nanobuffer dependency completely
 - e2es 
 - eslint
