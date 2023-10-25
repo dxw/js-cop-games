@@ -1,9 +1,9 @@
 ## tidyups and refactors
-- add ADRs (one for using Bun, socket.io, not using a frontend framework (for now))
-- remove nanobuffer dependency completely
-- e2es 
-- eslint
 
+- add ADRs (one for using Bun, socket.io, not using a frontend framework (for
+  now))
+- e2es
+- eslint
 
 ## features
 
