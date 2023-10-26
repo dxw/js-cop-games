@@ -1,24 +1,9 @@
 ## tidyups and refactors
-- add a util for getting HTML elements that errors if they aren't found EG:
 
-```ts
-const getElementById = (id: string): HTMLElement => {
-  const element = document.getElementById(id);
-
-  if (!element) {
-    throw new Error(`No element found with id: ${id}`);
-  }
-
-  return element
-};
-```
-
-- add ADRs (one for using Bun, socket.io, not using a frontend framework (for now))
-- rename nameFormElementElements => NameFormElementElements
-- remove nanobuffer dependency completely
-- e2es 
+- add ADRs (one for using Bun, socket.io, not using a frontend framework (for
+  now))
+- e2es
 - eslint
-
 
 ## features
 
