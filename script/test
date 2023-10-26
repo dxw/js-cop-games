@@ -7,7 +7,6 @@ echo "==> Linting the code"
 
 bun run lint:css
 
-
 echo "==> Formatting the code"
 
 bun run prettier:check
@@ -20,3 +19,10 @@ echo "==> Compiling the assets"
 
 bun run compile
 
+echo "==> Installing browsers for the test suite"
+
+bunx playwright install chromium
+
+echo "==> Running the test suite"
+
+bun run test
