@@ -1,5 +1,5 @@
 import { Socket } from "socket.io";
-import { Player, Question } from "./@types/models";
+import { Player } from "./@types/models";
 import questions from "./data/questions.json";
 import { SocketServer } from "./socketServer";
 
