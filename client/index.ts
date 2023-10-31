@@ -2,7 +2,7 @@ import { io } from "socket.io-client";
 import { NameFormElement } from "../server/@types/ui";
 import { Player, Question } from "../server/@types/models";
 import { getElementById } from "./utils/getElementById";
-import colours from "./data/colours.json";
+import colours from "../server/data/colours.json";
 
 const addPlayer = async (name: string): Promise<void> => {
   socket.emit("players:post", { name });
@@ -32,22 +32,38 @@ const askAQuestion = (data: Question): void => {
   numberHtml.innerText = number.toString();
 };
 
-const createColourCheckboxElement = (colour: string): string {
-  return `<div>
-    <input type="checkbox" id="scales" name="scales" checked />
-    <label for="scales">Scales</label>
-  </div>`
-}
-
 const renderColourCheckboxes = (): void => {
-  const colourFieldset = getElementById("colour-fieldset");
+  const colourSection = getElementById("colour-section") as HTMLElement;
   const template = getElementById("checkbox-template") as HTMLTemplateElement;
-  
-  colours.forEach(colour => {
-    const clonedTemplate = template.content.cloneNode(true)
-    // what to do here!?
-  })
-}
+  const clone = template.content.cloneNode(true) as DocumentFragment;
+  const fieldset = clone.querySelector("fieldset") as HTMLElement;
+
+  colours.forEach((colour) => {
+    const checkboxWrapper = document.createElement("div");
+    const input = getInput(colour);
+    const label = getLabelFor(colour);
+    checkboxWrapper.appendChild(input);
+    checkboxWrapper.appendChild(label);
+
+    fieldset.appendChild(checkboxWrapper);
+  });
+  colourSection.appendChild(clone);
+};
+
+const getInput = (id: string): HTMLInputElement => {
+  const input = document.createElement("input");
+  input.type = "checkbox";
+  input.id = id;
+  input.name = id;
+  return input;
+};
+
+const getLabelFor = (id: string): HTMLLabelElement => {
+  const label = document.createElement("label");
+  label.htmlFor = id;
+  label.innerText = id;
+  return label;
+};
 
 const derenderNameForm = (): void => {
   getElementById("name-form").remove();
@@ -94,6 +110,7 @@ socket.on("player:set", (data) => {
 
 socket.on("question:get", (data) => {
   askAQuestion(data.question);
+  renderColourCheckboxes();
 });
 
 socket.on("game:startable", () => {
