@@ -9,4 +9,13 @@ type Question = {
   question: string;
 };
 
-export type { Player, Question };
+type Answer = {
+  colours: Array<Colour>;
+  socketId: SocketId;
+};
+
+type Colour = 'black' | 'blue' | 'brown' | 'green' | 'grey' | 'orange' | 'pink' | 'purple' | 'red' | 'white' | 'yellow';
+
+type SocketId = string;
+
+export type { Answer, Player, Question };
