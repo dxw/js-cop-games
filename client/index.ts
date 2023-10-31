@@ -8,6 +8,12 @@ const addPlayer = async (name: string): Promise<void> => {
   socket.emit("players:post", { name });
 };
 
+const submitAnswers = async (form: HTMLFormElement): Promise<void> => {
+  const checked = form.querySelectorAll('input[type="checkbox"]:checked');
+  const answers = Array.from(checked).map((checked) => checked.id);
+  socket.emit("answers:post", { answers });
+};
+
 const generateSocketUrl = (): string => {
   const location = window.location;
 
@@ -48,6 +54,11 @@ const renderColourCheckboxes = (): void => {
     fieldset.appendChild(checkboxWrapper);
   });
   colourSection.appendChild(clone);
+  const colourForm = getElementById<HTMLFormElement>("checkbox-form");
+  colourForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    submitAnswers(colourForm);
+  });
 };
 
 const getInput = (id: string): HTMLInputElement => {

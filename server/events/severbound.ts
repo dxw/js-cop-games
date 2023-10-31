@@ -16,6 +16,18 @@ export default class ServerboundEvents {
     ];
   }
 
+  static postAnswers(socket: Socket): [string, any] {
+    return [
+      'answers:post',
+      (data: any) => {
+        console.log('answers', {
+          socketId: socket.id,
+          ...data,
+        });
+      },
+    ];
+  }
+
   static postPlayers(lobby: Lobby, socket: Socket, server: Server): [string, (data: { name: string }) => void] {
     return [
       'players:post',
