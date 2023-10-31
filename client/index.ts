@@ -33,8 +33,8 @@ const askAQuestion = (data: Question): void => {
 };
 
 const renderColourCheckboxes = (): void => {
-  const colourSection = getElementById("colour-section") as HTMLElement;
-  const template = getElementById("checkbox-template") as HTMLTemplateElement;
+  const colourSection = getElementById("colour-section");
+  const template = getElementById<HTMLTemplateElement>("checkbox-template");
   const clone = template.content.cloneNode(true) as DocumentFragment;
   const fieldset = clone.querySelector("fieldset") as HTMLElement;
 
