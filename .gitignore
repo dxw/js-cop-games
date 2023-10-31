@@ -9,6 +9,8 @@ bun.lockb
 
 # testing
 /coverage
+/playwright-report/*
+.eslintcache
 
 # next.js
 /.next/
