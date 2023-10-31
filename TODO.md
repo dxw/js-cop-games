@@ -3,6 +3,7 @@
 - add ADRs (one for using Bun, socket.io, not using a frontend framework (for
   now))
 - eslint
+- runtime typechecking (maybe zod?) - particularly for json
 
 ## features
 
