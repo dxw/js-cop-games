@@ -2,7 +2,6 @@ import { io } from "socket.io-client";
 import { NameFormElement } from "../server/@types/ui";
 import { Player, Question } from "../server/@types/models";
 import { getElementById } from "./utils/getElementById";
-import colours from "../server/data/colours.json";
 
 const addPlayer = async (name: string): Promise<void> => {
   socket.emit("players:post", { name });
@@ -42,38 +41,13 @@ const renderColourCheckboxes = (): void => {
   const colourSection = getElementById("colour-section");
   const template = getElementById<HTMLTemplateElement>("checkbox-template");
   const clone = template.content.cloneNode(true) as DocumentFragment;
-  const fieldset = clone.querySelector("fieldset") as HTMLElement;
 
-  colours.forEach((colour) => {
-    const checkboxWrapper = document.createElement("div");
-    const input = getInput(colour);
-    const label = getLabelFor(colour);
-    checkboxWrapper.appendChild(input);
-    checkboxWrapper.appendChild(label);
-
-    fieldset.appendChild(checkboxWrapper);
-  });
   colourSection.appendChild(clone);
   const colourForm = getElementById<HTMLFormElement>("checkbox-form");
   colourForm.addEventListener("submit", function (e) {
     e.preventDefault();
     submitAnswers(colourForm);
   });
-};
-
-const getInput = (id: string): HTMLInputElement => {
-  const input = document.createElement("input");
-  input.type = "checkbox";
-  input.id = id;
-  input.name = id;
-  return input;
-};
-
-const getLabelFor = (id: string): HTMLLabelElement => {
-  const label = document.createElement("label");
-  label.htmlFor = id;
-  label.innerText = id;
-  return label;
 };
 
 const derenderNameForm = (): void => {
