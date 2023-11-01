@@ -10,7 +10,12 @@ const addPlayer = async (name: string): Promise<void> => {
 const submitAnswers = async (form: HTMLFormElement): Promise<void> => {
   const checked = form.querySelectorAll('input[type="checkbox"]:checked');
   const answers = Array.from(checked).map((checked) => checked.id);
+
   socket.emit("answers:post", { answers });
+  derenderColorCheckboxes();
+  getElementById("colour-section").innerText = `You picked: ${answers.join(
+    ", ",
+  )}`;
 };
 
 const generateSocketUrl = (): string => {
@@ -48,6 +53,10 @@ const renderColourCheckboxes = (): void => {
     e.preventDefault();
     submitAnswers(colourForm);
   });
+};
+
+const derenderColorCheckboxes = (): void => {
+  getElementById("checkbox-form").remove();
 };
 
 const derenderNameForm = (): void => {
