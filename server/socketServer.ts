@@ -1,3 +1,4 @@
+import { Server as HttpServer } from "http";
 import { Server } from "socket.io";
 import Game from "./game";
 import { Question } from "./@types/models";
@@ -8,7 +9,7 @@ export class SocketServer {
   game: Game;
   server: Server;
 
-  constructor(httpServer: any) {
+  constructor(httpServer: HttpServer) {
     this.game = new Game(this);
     this.server = new Server(httpServer, {});
 

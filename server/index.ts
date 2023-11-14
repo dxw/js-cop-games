@@ -3,12 +3,14 @@ import handler from "serve-handler";
 import { SocketServer } from "./socketServer";
 
 const httpServer = http.createServer((request, response) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return handler(request as any, response as any, {
     public: "./client",
   });
 });
 
-new SocketServer(httpServer);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+new SocketServer(httpServer as any);
 
 const port = process.env.PORT || 8080;
 
