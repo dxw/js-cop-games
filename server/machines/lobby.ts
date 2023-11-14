@@ -8,16 +8,37 @@ const lobbyMachine = createMachine({
     players: [] as Array<Player>,
   },
   states: {
-    Empty: { on: { playerJoins: { target: "HasPlayers" } } },
-    HasPlayers: { on: { playerJoins: { target: "ReadyToPlay" } } },
-    ReadyToPlay: { on: { playerClicksStart: "GameStart" } },
+    Empty: { on: { playerJoins: { target: "OnePlayer" } } },
+    OnePlayer: {
+      on: {
+        playerJoins: { target: "MultiplePlayers" },
+        playerLeaves: { target: "Empty" },
+      },
+    },
+    MultiplePlayers: {
+      on: {
+        playerClicksStart: "GameStart",
+        playerLeaves: {
+          guard: ({ context }) => context.players.length < 3,
+          target: "OnePlayer",
+        },
+      },
+    },
     GameStart: {},
   },
   always: {
     guard: not(stateIn("GameStart")),
     actions: ({ context, event }) => {
-      if (event.type === "playerJoins") {
-        context.players.push(event.player);
+      console.log("\nAction:", event.type);
+      switch (event.type) {
+        case "playerJoins":
+          context.players.push(event.player);
+          break;
+        case "playerLeaves":
+          context.players = context.players.filter(
+            (player) => player.socketId !== event.player.socketId,
+          );
+          break;
       }
     },
   },
@@ -31,40 +52,53 @@ lobbyActor.subscribe((state) => {
   console.log("Context:", state.context.players);
 });
 
-console.log("\nAction: actor starts");
 lobbyActor.start(); // logs 'Inactive'
 
-console.log("\nAction: player joins");
 lobbyActor.send({
   type: "playerJoins",
   player: { socketId: "id", name: "a name" },
 });
 
-console.log("\nAction: player joins");
 lobbyActor.send({
   type: "playerJoins",
   player: { socketId: "id-2", name: "a name-2" },
 });
 
-console.log("\nAction: player joins");
 lobbyActor.send({
   type: "playerJoins",
   player: { socketId: "id-3", name: "a name-3" },
 });
 
-console.log("\nAction: player joins");
+lobbyActor.send({
+  type: "playerLeaves",
+  player: { socketId: "id-3", name: "a name-3" },
+});
+
+lobbyActor.send({
+  type: "playerLeaves",
+  player: { socketId: "id-2", name: "a name-2" },
+});
+
+lobbyActor.send({
+  type: "playerJoins",
+  player: { socketId: "id-2", name: "a name-2" },
+});
+
+lobbyActor.send({
+  type: "playerJoins",
+  player: { socketId: "id-3", name: "a name-3" },
+});
+
 lobbyActor.send({
   type: "playerJoins",
   player: { socketId: "id-4", name: "a name-4" },
 });
 
-console.log("\nAction: player clicks start");
 lobbyActor.send({
   type: "playerClicksStart",
 });
 
-console.log("\nAction: player joins");
 lobbyActor.send({
   type: "playerJoins",
-  player: { socketId: "id-4", name: "a name-4" },
+  player: { socketId: "id-5", name: "a name-5" },
 });
