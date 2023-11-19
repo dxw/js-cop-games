@@ -30,7 +30,7 @@ export default class IncomingEvents {
         socket.emit(...OutboundEvents.setPlayer(player));
         server.emit(...OutboundEvents.getPlayers(game));
 
-        if (game.players.length === 2) {
+        if (game.playerNames().length === 2) {
           game.start();
         }
       },
