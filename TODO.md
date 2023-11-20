@@ -1,7 +1,6 @@
 ## tidyups and refactors
 
-- add ADRs (one for using Bun, socket.io, not using a frontend framework (for
-  now))
+- add ADRs (socket.io, not using a frontend framework (for now))
 - runtime typechecking (maybe zod?) - particularly for json
 
 ## features
