@@ -19,10 +19,15 @@ echo "==> Compiling the assets"
 
 bun run compile
 
+echo "==> Running the unit tests"
+
+bun run test:unit
+
 echo "==> Installing browsers for the test suite"
 
 bunx playwright install chromium
 
-echo "==> Running the test suite"
+echo "==> Running the integration tests"
 
-bun run test
+bun run test:integration:cli
+

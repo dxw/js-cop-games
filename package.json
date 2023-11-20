@@ -14,8 +14,9 @@
     "lint:css:fix": "bunx stylelint \"client/assets/styles/*.css\" --fix",
     "start": "bun run compile && bun server/index.ts",
     "typecheck": "bun run tsc",
-    "test": "bunx playwright test",
-    "test:ui": "bunx playwright test --ui"
+    "test:unit": "bun test server",
+    "test:integration:cli": "bunx playwright test",
+    "test:integration:ui": "bunx playwright test --ui"
   },
   "dependencies": {
     "serve-handler": "^6.1.3",
