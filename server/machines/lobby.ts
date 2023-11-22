@@ -35,9 +35,11 @@ export const isNewPlayer = (
   players.find((player) => player.socketId === playerFromEvent.socketId) ===
   undefined;
 
+export const isOnlyPlayer = ({ players }: { players: Array<Player> }) =>
+  players.length === 1;
+
 export const lobbyMachine = createMachine(
   {
-    /** @xstate-layout N4IgpgJg5mDOIC5QBsD2AjdBPAdAUQFsAHAFywGIjkBDLMAJwClUBLAO1gG0AGAXUVBFUsFiRao2AkAA9EARgAsANhwAOBQGYA7AFYNSjYoBMSrQBoQWeVpVajcjZo2q53He40BfTxbSZcAPJsYAAKNHT0lOEMzOxcfFJCImISUrIImqo4JhrcDqpG6lpyFlYIcjoqmgqqqloaAJxydbrevhjYOEGh0ZFUtAwAMmDUAG5wPPxIIEmi4pLT6Yoq6tp6BsampYguOBpGRk21utxaqg1ePiB+nQCyAK7IYlQ9A-SwUW8AwsgsAMYAa1gAGUSNR6CRJolhHNUosdg5sgoGg0lNxTlozm5tuVFDglA1uA16nIGnpdEY2tcOrgHk8WC8wm8Pv0IsMxhMEtNZikFqB0sijDhUY4GvZ0R4FDjXCo0RctDUlAojJUyd4rmxUBA4FIbmVBDDeWlEABaJQ4k06YUohouByuJwGKl6-DEMjQ5LzY0ZIzSolqHTnRzKQO5YrOmldYJMiIe2F8mSIXJWwN2ZxGBRaMky6VyIUaQMXBQh1RhhQR-w4OnPZCvCLwbmGr3whBKho4ORKYxGYqGQklSzyPGqQvBpSh07lq4ugDi1AIYFB4JIcaNLZRWSzSgKOmahh0Ch0uYUAaDxfHpcn6s8QA */
     tsTypes: {} as import("./lobby.typegen").Typegen0,
     schema: {
       context: {} as Context,
@@ -75,6 +77,13 @@ export const lobbyMachine = createMachine(
       },
       GameStart: {
         entry: ["setQuestion"],
+        always: {
+          target: "OnePlayer",
+          cond: "isOnlyPlayer",
+        },
+        on: {
+          playerLeaves: { actions: "removePlayer" },
+        },
       },
     },
   },
@@ -98,6 +107,7 @@ export const lobbyMachine = createMachine(
     },
     guards: {
       isNewPlayer,
+      isOnlyPlayer,
     },
   },
 );

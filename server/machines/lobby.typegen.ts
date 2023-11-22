@@ -3,6 +3,7 @@
 export interface Typegen0 {
   "@@xstate/typegen": true;
   internalEvents: {
+    "": { type: "" };
     "xstate.init": { type: "xstate.init" };
   };
   invokeSrcNameMap: {};
@@ -20,6 +21,7 @@ export interface Typegen0 {
   eventsCausingDelays: {};
   eventsCausingGuards: {
     isNewPlayer: "playerJoins";
+    isOnlyPlayer: "";
   };
   eventsCausingServices: {};
   matchesStates: "Empty" | "GameStart" | "MultiplePlayers" | "OnePlayer";

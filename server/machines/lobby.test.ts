@@ -1,8 +1,8 @@
-import { describe, expect, it, beforeEach, afterEach } from "bun:test";
+import { describe, expect, it } from "bun:test";
 import { lobbyMachine, isNewPlayer, context } from "./lobby";
 import { interpret } from "xstate";
 
-describe("lobbyMachine", () => {
+describe("lobbyMachine states", () => {
   describe("Empty", () => {
     it("transitions to the OnePlayer state when it receives the player joins event", () => {
       expect(lobbyMachine.transition("Empty", "playerJoins").value).toBe(
@@ -31,6 +31,12 @@ describe("lobbyMachine", () => {
         ...context,
         players,
       });
+    });
+
+    it("transitions from OnePlayer to Empty state when it receives player leaves event", () => {
+      expect(lobbyMachine.transition("OnePlayer", "playerLeaves").value).toBe(
+        "Empty",
+      );
     });
   });
 
@@ -81,6 +87,49 @@ describe("lobbyMachine", () => {
       expect(
         lobbyMachine.transition("MultiplePlayers", "playerClicksStart").value,
       ).toBe("GameStart");
+    });
+
+    it("transitions to OnePlayer if there is only one player left when playerLeaves", () => {
+      const actor = interpret(lobbyMachine);
+      actor.start();
+      const player1 = { socketId: "id", name: "a name" };
+      const player2 = { socketId: "id-2", name: "a name 2" };
+
+      const players = [player1, player2];
+
+      players.forEach((player) => {
+        actor.send({
+          type: "playerJoins",
+          player: player,
+        });
+      });
+
+      actor.send({ type: "playerLeaves", socketId: "id" });
+      expect(actor.getSnapshot().value).toBe("OnePlayer");
+    });
+  });
+
+  describe("GameStart", () => {
+    it("transitions from GameStart to OnePlayer if there is only one player left when playerLeaves", () => {
+      const actor = interpret(lobbyMachine);
+      actor.start();
+      const player1 = { socketId: "id", name: "a name" };
+      const player2 = { socketId: "id-2", name: "a name 2" };
+
+      const players = [player1, player2];
+
+      players.forEach((player) => {
+        actor.send({
+          type: "playerJoins",
+          player: player,
+        });
+      });
+
+      actor.send({ type: "playerClicksStart" });
+      expect(actor.getSnapshot().value).toBe("GameStart");
+
+      actor.send({ type: "playerLeaves", socketId: "id" });
+      expect(actor.getSnapshot().value).toBe("OnePlayer");
     });
   });
 });
