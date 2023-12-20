@@ -22,6 +22,8 @@ export default class Game {
         case "GameStart":
           this.emitQuestionSet(state.context.selectedQuestion);
           break;
+        case "MultiplePlayers":
+          this.emitShowStartButton();
         default:
           break;
       }
@@ -59,6 +61,10 @@ export default class Game {
 
   start = (): void => {
     this.machine.send({ type: "playerClicksStart" });
+  };
+
+  emitShowStartButton = (): void => {
+    this.server.onShowStartButton();
   };
 
   emitQuestionSet = (question: Context["selectedQuestion"]): void => {

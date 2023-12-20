@@ -29,10 +29,6 @@ export default class IncomingEvents {
         const player = game.addPlayer(data.name, socket.id);
         socket.emit(...OutboundEvents.setPlayer(player));
         server.emit(...OutboundEvents.getPlayers(game));
-
-        if (game.playerNames().length === 2) {
-          game.start();
-        }
       },
     ];
   }

@@ -13,4 +13,8 @@ export default class OutboundEvents {
   static setPlayer(player: Player): [string, { player: Player }] {
     return ["player:set", { player }];
   }
+
+  static showStartButton(): string {
+    return "game:startable";
+  }
 }

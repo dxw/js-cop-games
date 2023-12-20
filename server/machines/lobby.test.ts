@@ -61,7 +61,7 @@ describe("lobbyMachine states", () => {
       expect(actor.getSnapshot().value).toBe("OnePlayer");
     });
 
-    it("does not add more than two players", () => {
+    it("adds more than two players", () => {
       const actor = interpret(lobbyMachine);
       actor.start();
       const player1 = { socketId: "id", name: "a name" };
@@ -79,7 +79,7 @@ describe("lobbyMachine states", () => {
       expect(actor.getSnapshot().value).toBe("MultiplePlayers");
       expect(actor.getSnapshot().context).toEqual({
         ...context,
-        players: [player1, player2],
+        players: [player1, player2, player3],
       });
     });
 
@@ -130,6 +130,30 @@ describe("lobbyMachine states", () => {
 
       actor.send({ type: "playerLeaves", socketId: "id" });
       expect(actor.getSnapshot().value).toBe("OnePlayer");
+    });
+
+    it("does not transition to OnePlayer if there is more than one player left when playerLeaves", () => {
+      const players = [
+        { socketId: "id", name: "a name" },
+        { socketId: "id-2", name: "a name 2" },
+        { socketId: "id-3", name: "a name 3" },
+      ];
+
+      const actor = interpret(lobbyMachine);
+      actor.start();
+
+      players.forEach((player) => {
+        actor.send({
+          type: "playerJoins",
+          player: player,
+        });
+      });
+
+      actor.send({ type: "playerClicksStart" });
+      expect(actor.getSnapshot().value).toBe("GameStart");
+
+      actor.send({ type: "playerLeaves", socketId: "id" });
+      expect(actor.getSnapshot().value).toBe("GameStart");
     });
   });
 });

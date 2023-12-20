@@ -29,4 +29,8 @@ export class SocketServer {
   onQuestionSet(question: Question) {
     this.server.emit(...OutboundEvents.getQuestion(question));
   }
+
+  onShowStartButton() {
+    this.server.emit(OutboundEvents.showStartButton());
+  }
 }

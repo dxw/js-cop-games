@@ -73,6 +73,7 @@ export const lobbyMachine = createMachine(
             target: "OnePlayer",
             actions: "removePlayer",
           },
+          playerJoins: { actions: "addPlayer" },
         },
       },
       GameStart: {
