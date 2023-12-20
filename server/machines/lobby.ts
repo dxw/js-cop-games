@@ -67,12 +67,13 @@ export const lobbyMachine = createMachine(
         },
       },
       MultiplePlayers: {
+        always: {
+          target: "OnePlayer",
+          cond: "isOnlyPlayer",
+        },
         on: {
           playerClicksStart: "GameStart",
-          playerLeaves: {
-            target: "OnePlayer",
-            actions: "removePlayer",
-          },
+          playerLeaves: { actions: "removePlayer" },
           playerJoins: { actions: "addPlayer" },
         },
       },

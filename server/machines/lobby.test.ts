@@ -125,6 +125,27 @@ describe("lobbyMachine states", () => {
       expect(actor.getSnapshot().value).toBe("OnePlayer");
     });
 
+    it("does not transition to OnePlayer if there is more than one player left when playerLeaves", () => {
+      const players = [
+        { socketId: "id", name: "a name" },
+        { socketId: "id-2", name: "a name 2" },
+        { socketId: "id-3", name: "a name 3" },
+      ];
+
+      const actor = interpret(lobbyMachine);
+      actor.start();
+
+      players.forEach((player) => {
+        actor.send({
+          type: "playerJoins",
+          player: player,
+        });
+      });
+
+      actor.send({ type: "playerLeaves", socketId: "id" });
+      expect(actor.getSnapshot().value).toBe("MultiplePlayers");
+    });
+
     it("removes a player from the player list when it receives playerLeaves event", () => {
       const actor = interpret(lobbyMachine);
       const players = [
