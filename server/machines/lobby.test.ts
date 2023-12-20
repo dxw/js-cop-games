@@ -38,6 +38,23 @@ describe("lobbyMachine states", () => {
         "Empty",
       );
     });
+
+    it("removes a player from the player list when it receives playerLeaves event", () => {
+      const actor = interpret(lobbyMachine);
+      actor.start();
+
+      actor.send({
+        type: "playerJoins",
+        player: { socketId: "id", name: "a name" },
+      });
+
+      actor.send({
+        type: "playerLeaves",
+        socketId: "id",
+      });
+
+      expect(actor.getSnapshot().context.players.length).toEqual(0);
+    });
   });
 
   describe("MultiplePlayers", () => {
@@ -107,6 +124,31 @@ describe("lobbyMachine states", () => {
       actor.send({ type: "playerLeaves", socketId: "id" });
       expect(actor.getSnapshot().value).toBe("OnePlayer");
     });
+
+    it("removes a player from the player list when it receives playerLeaves event", () => {
+      const actor = interpret(lobbyMachine);
+      const players = [
+        { socketId: "id", name: "a name" },
+        { socketId: "id-2", name: "a name" },
+      ];
+      actor.start();
+
+      players.forEach((player) => {
+        actor.send({
+          type: "playerJoins",
+          player,
+        });
+      });
+
+      actor.send({
+        type: "playerLeaves",
+        socketId: "id",
+      });
+
+      expect(actor.getSnapshot().context.players).toEqual([
+        { socketId: "id-2", name: "a name" },
+      ]);
+    });
   });
 
   describe("GameStart", () => {
@@ -154,6 +196,33 @@ describe("lobbyMachine states", () => {
 
       actor.send({ type: "playerLeaves", socketId: "id" });
       expect(actor.getSnapshot().value).toBe("GameStart");
+    });
+
+    it("removes a player from the player list when it receives playerLeaves event", () => {
+      const actor = interpret(lobbyMachine);
+      const players = [
+        { socketId: "id", name: "a name" },
+        { socketId: "id-2", name: "a name" },
+      ];
+      actor.start();
+
+      players.forEach((player) => {
+        actor.send({
+          type: "playerJoins",
+          player,
+        });
+      });
+
+      actor.send({ type: "playerClicksStart" });
+
+      actor.send({
+        type: "playerLeaves",
+        socketId: "id",
+      });
+
+      expect(actor.getSnapshot().context.players).toEqual([
+        { socketId: "id-2", name: "a name" },
+      ]);
     });
   });
 });
