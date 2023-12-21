@@ -32,7 +32,7 @@
     "eslint-plugin-prettier": "^5.0.1",
     "prettier": "^3.0.3",
     "socket.io-client": "^4.7.2",
-    "stylelint": "^15.10.3",
+    "stylelint": "^16.0.0",
     "stylelint-config-clean-order": "^5.2.0",
     "stylelint-config-standard": "^35.0.0",
     "typescript": "^5.2.2"
