@@ -11,7 +11,7 @@ export default class IncomingEvents {
     return [
       "disconnect",
       () => {
-        console.log(`disconnected: ${socket.id}`);
+        console.info(`disconnected: ${socket.id}`);
         game.removePlayer(socket.id);
         server.emit(...OutboundEvents.getPlayers(game));
       },
@@ -29,10 +29,6 @@ export default class IncomingEvents {
         const player = game.addPlayer(data.name, socket.id);
         socket.emit(...OutboundEvents.setPlayer(player));
         server.emit(...OutboundEvents.getPlayers(game));
-
-        if (game.players.length === 2) {
-          game.start();
-        }
       },
     ];
   }

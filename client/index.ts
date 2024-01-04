@@ -35,6 +35,11 @@ const derenderNameForm = (): void => {
   getElementById("name-form").remove();
 };
 
+const showStartButton = (): void => {
+  const button = getElementById("start-button");
+  button.style.display = "block";
+};
+
 const connectionStatusIconElement = getElementById("connection-status-icon");
 const nameFormElement = getElementById("name-form") as NameFormElement;
 const playerListElement = getElementById("player-list");
@@ -66,6 +71,10 @@ socket.on("player:set", (data) => {
 
 socket.on("question:get", (data) => {
   askAQuestion(data.question);
+});
+
+socket.on("game:startable", () => {
+  showStartButton();
 });
 
 nameFormElement.addEventListener("submit", function (e) {

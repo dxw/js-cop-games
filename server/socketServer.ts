@@ -18,7 +18,7 @@ export class SocketServer {
 
   onCreated() {
     this.server.on("connection", (socket) => {
-      console.log(`connected: ${socket.id}`);
+      console.info(`connected: ${socket.id}`);
 
       socket.emit(...OutboundEvents.getPlayers(this.game));
       socket.on(...IncomingEvents.postPlayers(this.game, socket, this.server));
@@ -28,5 +28,9 @@ export class SocketServer {
 
   onQuestionSet(question: Question) {
     this.server.emit(...OutboundEvents.getQuestion(question));
+  }
+
+  onShowStartButton() {
+    this.server.emit(OutboundEvents.showStartButton());
   }
 }
