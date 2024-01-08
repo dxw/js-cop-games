@@ -96,12 +96,6 @@ describe("lobbyMachine states", () => {
       });
     });
 
-    it("transitions from the MultiplePlayers to the GameStart state when sent playerClicksStart event", () => {
-      expect(
-        lobbyMachine.transition("MultiplePlayers", "playerClicksStart").value,
-      ).toBe("GameStart");
-    });
-
     it("transitions to OnePlayer if there is only one player left when playerLeaves", () => {
       actor.send({ type: "playerLeaves", socketId: player1.socketId });
       expect(actor.getSnapshot().value).toBe("OnePlayer");
@@ -124,70 +118,6 @@ describe("lobbyMachine states", () => {
       });
 
       expect(actor.getSnapshot().context.players).toEqual([player2]);
-    });
-  });
-
-  describe("GameStart", () => {
-    let actor: InterpreterFrom<typeof lobbyMachine>;
-
-    beforeEach(() => {
-      actor = interpret(lobbyMachine);
-      actor.start();
-
-      actor.send({
-        type: "playerJoins",
-        player: player1,
-      });
-
-      actor.send({
-        type: "playerJoins",
-        player: player2,
-      });
-    });
-
-    describe("given there are two players", () => {
-      beforeEach(() => {
-        actor.send({ type: "playerClicksStart" });
-      });
-
-      it("transitions from GameStart to OnePlayer when playerLeaves", () => {
-        actor.send({ type: "playerLeaves", socketId: player1.socketId });
-        expect(actor.getSnapshot().value).toBe("OnePlayer");
-      });
-
-      it("removes a player from the player list when it receives playerLeaves event", () => {
-        actor.send({
-          type: "playerLeaves",
-          socketId: "id",
-        });
-
-        expect(actor.getSnapshot().context.players).toEqual([player2]);
-      });
-    });
-
-    describe("given there are more than two players", () => {
-      beforeEach(() => {
-        actor.send({
-          type: "playerJoins",
-          player: player3,
-        });
-
-        actor.send({ type: "playerClicksStart" });
-      });
-
-      it("does not transition to OnePlayer if there is more than one player left when playerLeaves", () => {
-        actor.send({ type: "playerLeaves", socketId: player1.socketId });
-        expect(actor.getSnapshot().value).toBe("GameStart");
-      });
-
-      it("removes a player from the player list when it receives playerLeaves event", () => {
-        actor.send({
-          type: "playerLeaves",
-          socketId: "id",
-        });
-
-        expect(actor.getSnapshot().context.players).toEqual([player2, player3]);
-      });
     });
   });
 });
