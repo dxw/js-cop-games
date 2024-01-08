@@ -1,10 +1,10 @@
 import { Server, Socket } from "socket.io";
-import Game from "../game";
+import Lobby from "../lobby";
 import OutboundEvents from "./outbound";
 
 export default class IncomingEvents {
   static disconnect(
-    game: Game,
+    lobby: Lobby,
     socket: Socket,
     server: Server,
   ): [string, () => void] {
@@ -12,23 +12,23 @@ export default class IncomingEvents {
       "disconnect",
       () => {
         console.info(`disconnected: ${socket.id}`);
-        game.removePlayer(socket.id);
-        server.emit(...OutboundEvents.getPlayers(game));
+        lobby.removePlayer(socket.id);
+        server.emit(...OutboundEvents.getPlayers(lobby));
       },
     ];
   }
 
   static postPlayers(
-    game: Game,
+    lobby: Lobby,
     socket: Socket,
     server: Server,
   ): [string, (data: { name: string }) => void] {
     return [
       "players:post",
       (data: { name: string }) => {
-        const player = game.addPlayer(data.name, socket.id);
+        const player = lobby.addPlayer(data.name, socket.id);
         socket.emit(...OutboundEvents.setPlayer(player));
-        server.emit(...OutboundEvents.getPlayers(game));
+        server.emit(...OutboundEvents.getPlayers(lobby));
       },
     ];
   }
