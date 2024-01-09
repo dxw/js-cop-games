@@ -5,9 +5,9 @@ import { interpret } from 'xstate';
 import { context, isNewPlayer, lobbyMachine } from './lobby';
 
 describe('lobbyMachine states', () => {
-  const player1 = { socketId: 'id', name: 'a name' };
-  const player2 = { socketId: 'id-2', name: 'a name 2' };
-  const player3 = { socketId: 'id-3', name: 'a name 3' };
+  const player1 = { name: 'a name', socketId: 'id' };
+  const player2 = { name: 'a name 2', socketId: 'id-2' };
+  const player3 = { name: 'a name 3', socketId: 'id-3' };
 
   describe('Empty', () => {
     it('transitions to the OnePlayer state when it receives the player joins event', () => {
@@ -22,15 +22,15 @@ describe('lobbyMachine states', () => {
       actor = interpret(lobbyMachine);
       actor.start();
       actor.send({
-        type: 'playerJoins',
         player: player1,
+        type: 'playerJoins',
       });
     });
 
     it('transitions to the MultiplePlayers state when it receives two player joins events', () => {
       actor.send({
-        type: 'playerJoins',
         player: player2,
+        type: 'playerJoins',
       });
 
       expect(actor.getSnapshot().value).toBe('MultiplePlayers');
@@ -46,8 +46,8 @@ describe('lobbyMachine states', () => {
 
     it('removes a player from the player list when it receives playerLeaves event', () => {
       actor.send({
-        type: 'playerLeaves',
         socketId: player1.socketId,
+        type: 'playerLeaves',
       });
 
       expect(actor.getSnapshot().context.players.length).toEqual(0);
@@ -62,20 +62,20 @@ describe('lobbyMachine states', () => {
       actor.start();
 
       actor.send({
-        type: 'playerJoins',
         player: player1,
+        type: 'playerJoins',
       });
 
       actor.send({
-        type: 'playerJoins',
         player: player2,
+        type: 'playerJoins',
       });
     });
 
     it('transitions from the MultiplePlayers state to the OnePlayer state when it receives a playerLeaves event', () => {
       actor.send({
-        type: 'playerLeaves',
         socketId: player2.socketId,
+        type: 'playerLeaves',
       });
 
       expect(actor.getSnapshot().value).toBe('OnePlayer');
@@ -83,8 +83,8 @@ describe('lobbyMachine states', () => {
 
     it('adds more than two players', () => {
       actor.send({
-        type: 'playerJoins',
         player: player3,
+        type: 'playerJoins',
       });
 
       expect(actor.getSnapshot().value).toBe('MultiplePlayers');
@@ -95,24 +95,32 @@ describe('lobbyMachine states', () => {
     });
 
     it('transitions to OnePlayer if there is only one player left when playerLeaves', () => {
-      actor.send({ type: 'playerLeaves', socketId: player1.socketId });
+      actor.send({
+        socketId: player1.socketId,
+        type: 'playerLeaves',
+      });
+
       expect(actor.getSnapshot().value).toBe('OnePlayer');
     });
 
     it('does not transition to OnePlayer if there is more than one player left when playerLeaves', () => {
       actor.send({
-        type: 'playerJoins',
         player: player3,
+        type: 'playerJoins',
       });
 
-      actor.send({ type: 'playerLeaves', socketId: player1.socketId });
+      actor.send({
+        socketId: player1.socketId,
+        type: 'playerLeaves',
+      });
+
       expect(actor.getSnapshot().value).toBe('MultiplePlayers');
     });
 
     it('removes a player from the player list when it receives playerLeaves event', () => {
       actor.send({
-        type: 'playerLeaves',
         socketId: player1.socketId,
+        type: 'playerLeaves',
       });
 
       expect(actor.getSnapshot().context.players).toEqual([player2]);
@@ -122,14 +130,14 @@ describe('lobbyMachine states', () => {
 
 describe('isNewPlayer', () => {
   it('returns true if the player is not present in the players array', () => {
-    const player = { socketId: 'id', name: 'a name' };
+    const player = { name: 'a name', socketId: 'id' };
     const context = { players: [] };
 
     expect(isNewPlayer(context, { player })).toBe(true);
   });
 
   it('returns false if the player is present in the players array', () => {
-    const player = { socketId: 'id', name: 'a name' };
+    const player = { name: 'a name', socketId: 'id' };
     const context = { players: [player] };
 
     expect(isNewPlayer(context, { player })).toBe(false);

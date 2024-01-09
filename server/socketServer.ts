@@ -34,11 +34,11 @@ export class SocketServer {
     this.server.emit(...ClientboundEvents.getQuestion(question));
   }
 
-  onShowStartButton() {
-    this.server.emit(ClientboundEvents.showStartButton());
-  }
-
   onRoundStarted() {
     this.round = new Round(this);
+  }
+
+  onShowStartButton() {
+    this.server.emit(ClientboundEvents.showStartButton());
   }
 }

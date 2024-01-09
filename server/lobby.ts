@@ -15,7 +15,7 @@ export default class Lobby {
     this.machine = interpret(lobbyMachine.withContext({ ...context })).start();
     this.machine.start();
     this.machine.onTransition((state) => {
-      console.info({ state: state.value, context: state.context });
+      console.info({ context: state.context, state: state.value });
 
       switch (state.value) {
         case 'MultiplePlayers':
@@ -29,8 +29,12 @@ export default class Lobby {
 
   addPlayer = (name: Player['name'], socketId: Socket['id']) => {
     const player = { name, socketId };
-    this.machine.send({ type: 'playerJoins', player });
+    this.machine.send({ player, type: 'playerJoins' });
     return this.findPlayer(player);
+  };
+
+  emitShowStartButton = (): void => {
+    this.server.onShowStartButton();
   };
 
   findPlayer = (player: Player): Player => {
@@ -51,10 +55,6 @@ export default class Lobby {
   };
 
   removePlayer = (socketId: Socket['id']): void => {
-    this.machine.send({ type: 'playerLeaves', socketId });
-  };
-
-  emitShowStartButton = (): void => {
-    this.server.onShowStartButton();
+    this.machine.send({ socketId, type: 'playerLeaves' });
   };
 }

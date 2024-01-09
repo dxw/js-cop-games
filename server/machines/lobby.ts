@@ -10,15 +10,15 @@ type Context = typeof context;
 
 type Events =
   | {
-      type: 'playerClicksStart';
-    }
-  | {
-      type: 'playerJoins';
       player: Player;
+      type: 'playerJoins';
     }
   | {
-      type: 'playerLeaves';
       socketId: Player['socketId'];
+      type: 'playerLeaves';
+    }
+  | {
+      type: 'playerClicksStart';
     };
 
 const isNewPlayer = ({ players }: { players: Array<Player> }, { player: playerFromEvent }: { player: Player }) =>
@@ -28,44 +28,44 @@ const isOnlyPlayer = ({ players }: { players: Array<Player> }) => players.length
 
 const lobbyMachine = createMachine(
   {
-    // eslint-disable-next-line @typescript-eslint/consistent-type-imports
-    tsTypes: {} as import('./lobby.typegen').Typegen0,
+    context: context,
+    id: 'lobby',
+    initial: 'Empty',
+    predictableActionArguments: true,
     schema: {
       context: {} as Context,
       events: {} as Events,
     },
-    predictableActionArguments: true,
-    id: 'lobby',
-    initial: 'Empty',
-    context: context,
     states: {
       Empty: {
-        on: { playerJoins: { target: 'OnePlayer', actions: 'addPlayer' } },
+        on: { playerJoins: { actions: 'addPlayer', target: 'OnePlayer' } },
+      },
+      MultiplePlayers: {
+        always: {
+          cond: 'isOnlyPlayer',
+          target: 'OnePlayer',
+        },
+        on: {
+          playerJoins: { actions: 'addPlayer' },
+          playerLeaves: { actions: 'removePlayer' },
+        },
       },
       OnePlayer: {
         on: {
           playerJoins: {
-            target: 'MultiplePlayers',
             actions: 'addPlayer',
             cond: 'isNewPlayer',
+            target: 'MultiplePlayers',
           },
           playerLeaves: {
-            target: 'Empty',
             actions: 'removePlayer',
+            target: 'Empty',
           },
-        },
-      },
-      MultiplePlayers: {
-        always: {
-          target: 'OnePlayer',
-          cond: 'isOnlyPlayer',
-        },
-        on: {
-          playerLeaves: { actions: 'removePlayer' },
-          playerJoins: { actions: 'addPlayer' },
         },
       },
     },
+    // eslint-disable-next-line @typescript-eslint/consistent-type-imports
+    tsTypes: {} as import('./lobby.typegen').Typegen0,
   },
   {
     actions: {

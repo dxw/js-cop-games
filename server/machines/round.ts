@@ -19,21 +19,21 @@ type Events = {
 
 const gameMachine = createMachine(
   {
-    // eslint-disable-next-line @typescript-eslint/consistent-type-imports
-    tsTypes: {} as import('./round.typegen').Typegen0,
+    context,
+    id: 'game',
+    initial: 'GameStart',
+    predictableActionArguments: true,
     schema: {
       context: {} as Context,
       events: {} as Events,
     },
-    predictableActionArguments: true,
-    id: 'game',
-    initial: 'GameStart',
-    context,
     states: {
       GameStart: {
         entry: ['setQuestion'],
       },
     },
+    // eslint-disable-next-line @typescript-eslint/consistent-type-imports
+    tsTypes: {} as import('./round.typegen').Typegen0,
   },
   {
     actions: {
