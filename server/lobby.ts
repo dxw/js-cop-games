@@ -20,6 +20,7 @@ export default class Lobby {
       switch (state.value) {
         case 'MultiplePlayers':
           this.emitShowStartButton();
+          break;
         default:
           break;
       }
