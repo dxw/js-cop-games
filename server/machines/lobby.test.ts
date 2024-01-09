@@ -131,15 +131,14 @@ describe('lobbyMachine states', () => {
 describe('isNewPlayer', () => {
   it('returns true if the player is not present in the players array', () => {
     const player = { name: 'a name', socketId: 'id' };
-    const context = { players: [] };
-
-    expect(isNewPlayer(context, { player })).toBe(true);
+    const contextWithNoPlayers = { players: [] };
+    expect(isNewPlayer(contextWithNoPlayers, { player })).toBe(true);
   });
 
   it('returns false if the player is present in the players array', () => {
     const player = { name: 'a name', socketId: 'id' };
-    const context = { players: [player] };
+    const contextWithPlayer = { players: [player] };
 
-    expect(isNewPlayer(context, { player })).toBe(false);
+    expect(isNewPlayer(contextWithPlayer, { player })).toBe(false);
   });
 });
