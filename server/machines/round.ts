@@ -1,4 +1,4 @@
-import { assign, createMachine } from "xstate";
+import { assign, createMachine } from 'xstate';
 
 type Question = {
   answer: Array<string>;
@@ -11,24 +11,20 @@ export const context = {
   selectedQuestion: {} as Question | undefined,
 };
 
-export type Context = typeof context;
-
-export type Events = any;
-
 export const gameMachine = createMachine(
   {
-    tsTypes: {} as import("./round.typegen").Typegen0,
+    tsTypes: {} as import('./round.typegen').Typegen0,
     schema: {
       context: {} as Context,
       events: {} as Events,
     },
     predictableActionArguments: true,
-    id: "game",
-    initial: "GameStart",
+    id: 'game',
+    initial: 'GameStart',
     context,
     states: {
       GameStart: {
-        entry: ["setQuestion"],
+        entry: ['setQuestion'],
       },
     },
   },
@@ -36,12 +32,14 @@ export const gameMachine = createMachine(
     actions: {
       setQuestion: assign({
         selectedQuestion: ({ questions }) => {
-          const questionIndex = Math.floor(
-            Math.random() * (questions.length - 1),
-          );
+          const questionIndex = Math.floor(Math.random() * (questions.length - 1));
           return questions[questionIndex];
         },
       }),
     },
   },
 );
+
+export type Context = typeof context;
+
+export type Events = any;
