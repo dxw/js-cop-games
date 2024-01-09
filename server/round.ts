@@ -1,3 +1,4 @@
+import type { InterpreterFrom } from 'xstate';
 import { interpret } from 'xstate';
 
 import questions from './data/questions.json';
@@ -6,7 +7,7 @@ import type { SocketServer } from './socketServer';
 
 export default class Round {
   server: SocketServer;
-  machine;
+  machine: InterpreterFrom<typeof gameMachine>;
 
   constructor(server: SocketServer) {
     this.server = server;
