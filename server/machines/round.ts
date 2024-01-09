@@ -14,11 +14,12 @@ const context = {
 type Context = typeof context;
 
 type Events = {
-  type: string
+  type: string;
 };
 
 const gameMachine = createMachine(
   {
+    // eslint-disable-next-line @typescript-eslint/consistent-type-imports
     tsTypes: {} as import('./round.typegen').Typegen0,
     schema: {
       context: {} as Context,

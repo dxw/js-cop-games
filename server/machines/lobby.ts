@@ -28,7 +28,7 @@ const isOnlyPlayer = ({ players }: { players: Array<Player> }) => players.length
 
 const lobbyMachine = createMachine(
   {
-    /** @xstate-layout N4IgpgJg5mDOIC5QBsD2AjdBPAdAUQFsAHAFywGIjkBDLMAJwClUBLAO1gG0AGAXUVBFUsFiRao2AkAA9EARgAsAdhwAmJQGYFGgJwBWZUp0AOVQBoQWRKpM4lANg3cNxhXqVzuxuQF8fFtExcAHk2MAAFGjp6SiiGZnYuPikhETEJKVkEbR0cbQUdbjl7Ezk9VXt7CysEJzk1R2dXd09vPwCMbBxQiLiYqloGABkwagA3OB5+JBBU0XFJGazFFXUtXQMlI1Nq62ccPW4lU259IrlVBXaQQK6AWQBXZDEqXsH6WFj3gGFkFgBjADWsAAyiRqPQSFMUsJ5hkloh7MY9Dh7B5jMYlNpyuo5LsELicMYNCTlEVuPYKjprrdcI9nixXpF3p8BtERuNJskZnN0otQFklNxuGpMQ4lHpkaYNFVLPIHAdjhczjKNBcaZ06U8Xsg3tFWX0EhxoTzYXzMoghfYcDo0Qp7HJdLbkeY5QhvDgNKobHI5DpbY49HoNUEcPSdXqGJ8TYIzQsLQg9BoUUH7YU-a5iUp8aogzaFGtVM5lC0-P4QGxUBA4FJaTC0vGEQgALSymqtkNdQikGqxhvwgWIAv4tUaA72AuS+zOQpKVSdkJhZnRetw-kyRBOFEeU4KYlHSpuEfFHAUgu5hxaBRuK7l2lh7WM3XLqOr81NkoKHDFRQOjQePRHFdGovWtCdJSDCUg28akyyAA */
+    // eslint-disable-next-line @typescript-eslint/consistent-type-imports
     tsTypes: {} as import('./lobby.typegen').Typegen0,
     schema: {
       context: {} as Context,
