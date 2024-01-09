@@ -6,12 +6,16 @@ type Question = {
   question: string;
 };
 
-export const context = {
+const context = {
   questions: [] as Array<Question>,
   selectedQuestion: {} as Question | undefined,
 };
 
-export const gameMachine = createMachine(
+type Context = typeof context;
+
+type Events = any;
+
+const gameMachine = createMachine(
   {
     tsTypes: {} as import('./round.typegen').Typegen0,
     schema: {
@@ -40,6 +44,4 @@ export const gameMachine = createMachine(
   },
 );
 
-export type Context = typeof context;
-
-export type Events = any;
+export { context, gameMachine };
