@@ -1,9 +1,9 @@
 type NameFormElementElements = HTMLFormControlsCollection & {
-  name: HTMLInputElement;
-};
+  name: HTMLInputElement
+}
 
 type NameFormElement = HTMLFormElement & {
-  elements: NameFormElementElements;
-};
+  elements: NameFormElementElements
+}
 
-export type { NameFormElement };
+export type { NameFormElement }

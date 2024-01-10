@@ -1,12 +1,12 @@
-type Player = {
-  socketId: string;
-  name: string;
-};
+interface Player {
+  socketId: string
+  name: string
+}
 
-type Question = {
-  question: string;
-  answer: Array<string>;
-  number: number;
-};
+interface Question {
+  question: string
+  answer: string[]
+  number: number
+}
 
-export type { Player, Question };
+export type { Player, Question }
