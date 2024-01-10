@@ -3,13 +3,9 @@ set -e
 
 # script/test: Run the test suite for the application.
 
-echo "==> Linting the code"
+echo "==> Checking linting and formatting of the code"
 
-bun run lint:css
-
-echo "==> Formatting the code"
-
-bun run prettier:check
+bun run lint
 
 echo "==> Typechecking the code"
 
