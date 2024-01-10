@@ -1,6 +1,7 @@
 import { Server, Socket } from "socket.io";
 import Lobby from "../lobby";
 import OutboundEvents from "./outbound";
+import { SocketServer } from "../socketServer";
 
 export default class IncomingEvents {
   static disconnect(
@@ -29,6 +30,15 @@ export default class IncomingEvents {
         const player = lobby.addPlayer(data.name, socket.id);
         socket.emit(...OutboundEvents.setPlayer(player));
         server.emit(...OutboundEvents.getPlayers(lobby));
+      },
+    ];
+  }
+
+  static startRound(server: SocketServer): [string, () => void] {
+    return [
+      "round:start",
+      () => {
+        server.onRoundStarted();
       },
     ];
   }
