@@ -1,9 +1,9 @@
 import { Server, Socket } from "socket.io";
 import Lobby from "../lobby";
-import OutboundEvents from "./outbound";
+import ClientboundEvents from "./clientbound";
 import { SocketServer } from "../socketServer";
 
-export default class IncomingEvents {
+export default class ServerboundEvents {
   static disconnect(
     lobby: Lobby,
     socket: Socket,
@@ -14,7 +14,7 @@ export default class IncomingEvents {
       () => {
         console.info(`disconnected: ${socket.id}`);
         lobby.removePlayer(socket.id);
-        server.emit(...OutboundEvents.getPlayers(lobby));
+        server.emit(...ClientboundEvents.getPlayers(lobby));
       },
     ];
   }
@@ -28,8 +28,8 @@ export default class IncomingEvents {
       "players:post",
       (data: { name: string }) => {
         const player = lobby.addPlayer(data.name, socket.id);
-        socket.emit(...OutboundEvents.setPlayer(player));
-        server.emit(...OutboundEvents.getPlayers(lobby));
+        socket.emit(...ClientboundEvents.setPlayer(player));
+        server.emit(...ClientboundEvents.getPlayers(lobby));
       },
     ];
   }

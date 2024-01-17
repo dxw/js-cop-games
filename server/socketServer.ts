@@ -2,8 +2,8 @@ import { Server as HttpServer } from "http";
 import { Server } from "socket.io";
 import Lobby from "./lobby";
 import { Question } from "./@types/models";
-import OutboundEvents from "./events/outbound";
-import InboundEvents from "./events/inbound";
+import ClientboundEvents from "./events/clientbound";
+import ServerboundEvents from "./events/severbound";
 import Round from "./round";
 
 export class SocketServer {
@@ -22,19 +22,23 @@ export class SocketServer {
     this.server.on("connection", (socket) => {
       console.info(`connected: ${socket.id}`);
 
-      socket.emit(...OutboundEvents.getPlayers(this.lobby));
-      socket.on(...InboundEvents.postPlayers(this.lobby, socket, this.server));
-      socket.on(...InboundEvents.disconnect(this.lobby, socket, this.server));
-      socket.on(...InboundEvents.startRound(this));
+      socket.emit(...ClientboundEvents.getPlayers(this.lobby));
+      socket.on(
+        ...ServerboundEvents.postPlayers(this.lobby, socket, this.server),
+      );
+      socket.on(
+        ...ServerboundEvents.disconnect(this.lobby, socket, this.server),
+      );
+      socket.on(...ServerboundEvents.startRound(this));
     });
   }
 
   onQuestionSet(question: Question) {
-    this.server.emit(...OutboundEvents.getQuestion(question));
+    this.server.emit(...ClientboundEvents.getQuestion(question));
   }
 
   onShowStartButton() {
-    this.server.emit(OutboundEvents.showStartButton());
+    this.server.emit(ClientboundEvents.showStartButton());
   }
 
   onRoundStarted() {

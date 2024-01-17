@@ -1,7 +1,7 @@
 import { Player, Question } from "../@types/models";
 import Lobby from "../lobby";
 
-export default class OutboundEvents {
+export default class ClientboundEvents {
   static getPlayers(
     lobby: Lobby,
   ): [string, { players: Array<Player["name"]> }] {
