@@ -13,7 +13,9 @@ const context = {
 
 type Context = typeof context;
 
-type Events = any;
+type Events = {
+  type: string
+};
 
 const gameMachine = createMachine(
   {
