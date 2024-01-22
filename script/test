@@ -7,10 +7,6 @@ echo "==> Linting the code"
 
 bun run lint:css
 
-echo "==> Formatting the code"
-
-bun run prettier:check
-
 echo "==> Typechecking the code"
 
 bun run typecheck

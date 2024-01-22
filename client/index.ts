@@ -35,10 +35,15 @@ const derenderNameForm = (): void => {
   getElementById("name-form").remove();
 };
 
+const startButton = getElementById("start-button");
+
 const showStartButton = (): void => {
-  const button = getElementById("start-button");
-  button.style.display = "block";
+  startButton.style.display = "block";
 };
+
+startButton.addEventListener("click", () => {
+  socket.emit("round:start");
+});
 
 const connectionStatusIconElement = getElementById("connection-status-icon");
 const nameFormElement = getElementById("name-form") as NameFormElement;

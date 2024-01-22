@@ -1,16 +1,8 @@
 import { createMachine, assign } from "xstate";
 import { Player } from "../@types/models";
 
-type Question = {
-  answer: Array<string>;
-  number: number;
-  question: string;
-};
-
 export const context = {
   players: [] as Array<Player>,
-  questions: [] as Array<Question>,
-  selectedQuestion: {} as Question | undefined,
 };
 
 export type Context = typeof context;
@@ -40,6 +32,7 @@ export const isOnlyPlayer = ({ players }: { players: Array<Player> }) =>
 
 export const lobbyMachine = createMachine(
   {
+    /** @xstate-layout N4IgpgJg5mDOIC5QBsD2AjdBPAdAUQFsAHAFywGIjkBDLMAJwClUBLAO1gG0AGAXUVBFUsFiRao2AkAA9EARgAsAdhwAmJQGYFGgJwBWZUp0AOVQBoQWRKpM4lANg3cNxhXqVzuxuQF8fFtExcAHk2MAAFGjp6SiiGZnYuPikhETEJKVkEbR0cbQUdbjl7Ezk9VXt7CysEJzk1R2dXd09vPwCMbBxQiLiYqloGABkwagA3OB5+JBBU0XFJGazFFXUtXQMlI1Nq62ccPW4lU259IrlVBXaQQK6AWQBXZDEqXsH6WFj3gGFkFgBjADWsAAyiRqPQSFMUsJ5hkloh7MY9Dh7B5jMYlNpyuo5LsELicMYNCTlEVuPYKjprrdcI9nixXpF3p8BtERuNJskZnN0otQFklNxuGpMQ4lHpkaYNFVLPIHAdjhczjKNBcaZ06U8Xsg3tFWX0EhxoTzYXzMoghfYcDo0Qp7HJdLbkeY5QhvDgNKobHI5DpbY49HoNUEcPSdXqGJ8TYIzQsLQg9BoUUH7YU-a5iUp8aogzaFGtVM5lC0-P4QGxUBA4FJaTC0vGEQgALSymqtkNdQikGqxhvwgWIAv4tUaA72AuS+zOQpKVSdkJhZnRetw-kyRBOFEeU4KYlHSpuEfFHAUgu5hxaBRuK7l2lh7WM3XLqOr81NkoKHDFRQOjQePRHFdGovWtCdJSDCUg28akyyAA */
     tsTypes: {} as import("./lobby.typegen").Typegen0,
     schema: {
       context: {} as Context,
@@ -72,19 +65,8 @@ export const lobbyMachine = createMachine(
           cond: "isOnlyPlayer",
         },
         on: {
-          playerClicksStart: "GameStart",
           playerLeaves: { actions: "removePlayer" },
           playerJoins: { actions: "addPlayer" },
-        },
-      },
-      GameStart: {
-        entry: ["setQuestion"],
-        always: {
-          target: "OnePlayer",
-          cond: "isOnlyPlayer",
-        },
-        on: {
-          playerLeaves: { actions: "removePlayer" },
         },
       },
     },
@@ -97,14 +79,6 @@ export const lobbyMachine = createMachine(
       removePlayer: assign({
         players: ({ players }, { socketId }) =>
           players.filter((p) => p.socketId !== socketId),
-      }),
-      setQuestion: assign({
-        selectedQuestion: ({ questions }) => {
-          const questionIndex = Math.floor(
-            Math.random() * (questions.length - 1),
-          );
-          return questions[questionIndex];
-        },
       }),
     },
     guards: {

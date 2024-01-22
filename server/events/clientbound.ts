@@ -1,9 +1,11 @@
 import { Player, Question } from "../@types/models";
-import Game from "../game";
+import Lobby from "../lobby";
 
-export default class OutboundEvents {
-  static getPlayers(game: Game): [string, { players: Array<Player["name"]> }] {
-    return ["players:get", { players: game.playerNames() }];
+export default class ClientboundEvents {
+  static getPlayers(
+    lobby: Lobby,
+  ): [string, { players: Array<Player["name"]> }] {
+    return ["players:get", { players: lobby.playerNames() }];
   }
 
   static getQuestion(question: Question): [string, { question: Question }] {
