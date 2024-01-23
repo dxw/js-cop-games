@@ -1,10 +1,11 @@
-import { Server as HttpServer } from "http";
-import { Server } from "socket.io";
-import Lobby from "./lobby";
-import { Question } from "./@types/models";
-import ClientboundEvents from "./events/clientbound";
-import ServerboundEvents from "./events/severbound";
-import Round from "./round";
+import type { Server as HttpServer } from 'http';
+import { Server } from 'socket.io';
+
+import type { Question } from './@types/models';
+import ClientboundEvents from './events/clientbound';
+import ServerboundEvents from './events/severbound';
+import Lobby from './lobby';
+import Round from './round';
 
 export class SocketServer {
   lobby: Lobby;
@@ -19,16 +20,12 @@ export class SocketServer {
   }
 
   onCreated() {
-    this.server.on("connection", (socket) => {
+    this.server.on('connection', (socket) => {
       console.info(`connected: ${socket.id}`);
 
       socket.emit(...ClientboundEvents.getPlayers(this.lobby));
-      socket.on(
-        ...ServerboundEvents.postPlayers(this.lobby, socket, this.server),
-      );
-      socket.on(
-        ...ServerboundEvents.disconnect(this.lobby, socket, this.server),
-      );
+      socket.on(...ServerboundEvents.postPlayers(this.lobby, socket, this.server));
+      socket.on(...ServerboundEvents.disconnect(this.lobby, socket, this.server));
       socket.on(...ServerboundEvents.startRound(this));
     });
   }
@@ -37,11 +34,11 @@ export class SocketServer {
     this.server.emit(...ClientboundEvents.getQuestion(question));
   }
 
-  onShowStartButton() {
-    this.server.emit(ClientboundEvents.showStartButton());
-  }
-
   onRoundStarted() {
     this.round = new Round(this);
+  }
+
+  onShowStartButton() {
+    this.server.emit(ClientboundEvents.showStartButton());
   }
 }

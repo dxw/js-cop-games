@@ -1,16 +1,13 @@
-import { Server, Socket } from "socket.io";
-import Lobby from "../lobby";
-import ClientboundEvents from "./clientbound";
-import { SocketServer } from "../socketServer";
+import type { Server, Socket } from 'socket.io';
+
+import ClientboundEvents from './clientbound';
+import type Lobby from '../lobby';
+import type { SocketServer } from '../socketServer';
 
 export default class ServerboundEvents {
-  static disconnect(
-    lobby: Lobby,
-    socket: Socket,
-    server: Server,
-  ): [string, () => void] {
+  static disconnect(lobby: Lobby, socket: Socket, server: Server): [string, () => void] {
     return [
-      "disconnect",
+      'disconnect',
       () => {
         console.info(`disconnected: ${socket.id}`);
         lobby.removePlayer(socket.id);
@@ -19,13 +16,9 @@ export default class ServerboundEvents {
     ];
   }
 
-  static postPlayers(
-    lobby: Lobby,
-    socket: Socket,
-    server: Server,
-  ): [string, (data: { name: string }) => void] {
+  static postPlayers(lobby: Lobby, socket: Socket, server: Server): [string, (data: { name: string }) => void] {
     return [
-      "players:post",
+      'players:post',
       (data: { name: string }) => {
         const player = lobby.addPlayer(data.name, socket.id);
         socket.emit(...ClientboundEvents.setPlayer(player));
@@ -36,7 +29,7 @@ export default class ServerboundEvents {
 
   static startRound(server: SocketServer): [string, () => void] {
     return [
-      "round:start",
+      'round:start',
       () => {
         server.onRoundStarted();
       },

@@ -1,4 +1,4 @@
-import { assign, createMachine } from "xstate";
+import { assign, createMachine } from 'xstate';
 
 type Question = {
   answer: Array<string>;
@@ -6,42 +6,45 @@ type Question = {
   question: string;
 };
 
-export const context = {
+const context = {
   questions: [] as Array<Question>,
   selectedQuestion: {} as Question | undefined,
 };
 
-export type Context = typeof context;
+type Context = typeof context;
 
-export type Events = any;
+type Events = {
+  type: string;
+};
 
-export const gameMachine = createMachine(
+const gameMachine = createMachine(
   {
-    tsTypes: {} as import("./round.typegen").Typegen0,
+    context,
+    id: 'game',
+    initial: 'GameStart',
+    predictableActionArguments: true,
     schema: {
       context: {} as Context,
       events: {} as Events,
     },
-    predictableActionArguments: true,
-    id: "game",
-    initial: "GameStart",
-    context,
     states: {
       GameStart: {
-        entry: ["setQuestion"],
+        entry: ['setQuestion'],
       },
     },
+    // eslint-disable-next-line @typescript-eslint/consistent-type-imports
+    tsTypes: {} as import('./round.typegen').Typegen0,
   },
   {
     actions: {
       setQuestion: assign({
         selectedQuestion: ({ questions }) => {
-          const questionIndex = Math.floor(
-            Math.random() * (questions.length - 1),
-          );
+          const questionIndex = Math.floor(Math.random() * (questions.length - 1));
           return questions[questionIndex];
         },
       }),
     },
   },
 );
+
+export { context, gameMachine };

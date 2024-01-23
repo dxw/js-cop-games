@@ -1,20 +1,20 @@
-import { interpret } from "xstate";
-import { SocketServer } from "./socketServer";
-import { gameMachine, context } from "./machines/round";
-import questions from "./data/questions.json";
+import type { InterpreterFrom } from 'xstate';
+import { interpret } from 'xstate';
+
+import questions from './data/questions.json';
+import { context, gameMachine } from './machines/round';
+import type { SocketServer } from './socketServer';
 
 export default class Round {
+  machine: InterpreterFrom<typeof gameMachine>;
   server: SocketServer;
-  machine;
 
   constructor(server: SocketServer) {
     this.server = server;
-    this.machine = interpret(
-      gameMachine.withContext({ ...context, questions }),
-    ).start();
+    this.machine = interpret(gameMachine.withContext({ ...context, questions })).start();
 
     this.machine.onTransition((state) => {
-      console.info({ state: state.value, context: state.context });
+      console.info({ context: state.context, state: state.value });
     });
   }
 }

@@ -5,6 +5,7 @@ set -e
 
 echo "==> Linting the code"
 
+bun run lint:ts
 bun run lint:css
 
 echo "==> Typechecking the code"
