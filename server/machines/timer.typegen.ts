@@ -4,10 +4,11 @@
   export interface Typegen0 {
         '@@xstate/typegen': true;
         internalEvents: {
-          "xstate.init": { type: "xstate.init" };
+          "": { type: "" };
+"xstate.init": { type: "xstate.init" };
         };
         invokeSrcNameMap: {
-          
+          "runTimer": "done.invoke.(machine).running:invocation[0]";
         };
         missingImplementations: {
           actions: never;
@@ -16,19 +17,18 @@
           services: never;
         };
         eventsCausingActions: {
-          "addAnswer": "playerSubmitsAnswer";
-"setQuestion": "xstate.init";
+          "tick": "TICK";
         };
         eventsCausingDelays: {
           
         };
         eventsCausingGuards: {
-          
+          "isCountdownFinished": "";
         };
         eventsCausingServices: {
-          
+          "runTimer": "xstate.init";
         };
-        matchesStates: "Countdown" | "GameStart";
+        matchesStates: "finished" | "running";
         tags: never;
       }
   
