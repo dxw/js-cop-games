@@ -24,6 +24,7 @@ export default class ServerboundEvents {
           socketId: socket.id,
           ...data,
         });
+        socket.emit('round:answers', data.answers);
       },
     ];
   }

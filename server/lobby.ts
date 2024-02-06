@@ -15,8 +15,12 @@ export default class Lobby {
     this.machine = interpret(lobbyMachine.withContext({ ...context })).start();
     this.machine.start();
     this.machine.onTransition((state) => {
-      console.info({ context: state.context, state: state.value });
-
+      console.info({
+        [`lobby: ${Date.now()}`]: {
+          context: state.context,
+          state: state.value,
+        },
+      });
       switch (state.value) {
         case 'MultiplePlayers':
           this.emitShowStartButton();

@@ -15,7 +15,12 @@ export default class Round {
     this.machine = interpret(gameMachine.withContext({ ...context, questions })).start();
 
     this.machine.onTransition((state) => {
-      console.info({ context: state.context, state: state.value });
+      console.info({
+        [`round ${Date.now()}`]: {
+          context: state.context,
+          state: state.value,
+        },
+      });
       switch (state.value) {
         case 'GameStart':
           this.server.onQuestionSet(this.machine.getSnapshot().context.selectedQuestion as Question);
