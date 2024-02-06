@@ -7,9 +7,11 @@ const addPlayer = async (name: string): Promise<void> => {
   socket.emit("players:post", { name });
 };
 
+export type Answers = Array<string>;
+
 const submitAnswers = async (form: HTMLFormElement): Promise<void> => {
   const checked = form.querySelectorAll('input[type="checkbox"]:checked');
-  const answers = Array.from(checked).map((checked) => checked.id);
+  const answers: Answers = Array.from(checked).map((checked) => checked.id);
 
   socket.emit("answers:post", { answers });
   derenderColorCheckboxes();
@@ -75,7 +77,7 @@ startButton.addEventListener("click", () => {
 
 const derenderStartButton = (): void => {
   startButton.remove();
-}
+};
 
 const connectionStatusIconElement = getElementById("connection-status-icon");
 const nameFormElement = getElementById("name-form") as NameFormElement;

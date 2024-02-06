@@ -1,13 +1,18 @@
-import type { Server, Socket } from 'socket.io';
+import type { Server, Socket } from "socket.io";
 
-import ClientboundEvents from './clientbound';
-import type Lobby from '../lobby';
-import type { SocketServer } from '../socketServer';
+import ClientboundEvents from "./clientbound";
+import type Lobby from "../lobby";
+import type { SocketServer } from "../socketServer";
+import { Answers } from "../../client";
 
 export default class ServerboundEvents {
-  static disconnect(lobby: Lobby, socket: Socket, server: Server): [string, () => void] {
+  static disconnect(
+    lobby: Lobby,
+    socket: Socket,
+    server: Server,
+  ): ServerboundSocketServerEvent {
     return [
-      'disconnect',
+      "disconnect",
       () => {
         console.info(`disconnected: ${socket.id}`);
         lobby.removePlayer(socket.id);
@@ -15,23 +20,26 @@ export default class ServerboundEvents {
       },
     ];
   }
-
-  static postAnswers(socket: Socket): [string, any] {
+  static postAnswers(socket: Socket): ServerboundSocketServerEvent<"answers"> {
     return [
-      'answers:post',
-      (data: any) => {
-        console.log('answers', {
-          socketId: socket.id,
+      "answers:post",
+      (data) => {
+        console.log("answers", {
           ...data,
+          socketId: socket.id,
         });
         socket.emit('round:answers', data.answers);
       },
     ];
   }
 
-  static postPlayers(lobby: Lobby, socket: Socket, server: Server): [string, (data: { name: string }) => void] {
+  static postPlayers(
+    lobby: Lobby,
+    socket: Socket,
+    server: Server,
+  ): ServerboundSocketServerEvent<"name"> {
     return [
-      'players:post',
+      "players:post",
       (data: { name: string }) => {
         const player = lobby.addPlayer(data.name, socket.id);
         socket.emit(...ClientboundEvents.setPlayer(player));
@@ -40,12 +48,26 @@ export default class ServerboundEvents {
     ];
   }
 
-  static startRound(server: SocketServer): [string, () => void] {
+  static startRound(server: SocketServer): [Event, () => void] {
     return [
-      'round:start',
+      "round:start",
       () => {
         server.onRoundStarted();
       },
     ];
   }
 }
+
+type Event = "players:post" | "answers:post" | "round:start" | "disconnect";
+type Payload = keyof Payloads;
+type Name = string;
+interface Payloads {
+  answers: Answers;
+  name: Name;
+  socketId: string;
+}
+
+type ServerboundSocketServerEvent<T extends Payload | void = void> =
+  T extends void
+    ? ["disconnect", () => void]
+    : [Event, (data: Payloads) => void];
