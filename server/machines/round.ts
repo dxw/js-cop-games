@@ -49,12 +49,12 @@ const gameMachine = createMachine(
   {
     actions: {
       addAnswer: assign({
-        answers: ({ answers }, { answer }) => [...answers, answer],
+        answers: (context, event) => [...context.answers, event.answer],
       }),
       setQuestion: assign({
-        selectedQuestion: ({ questions }) => {
-          const questionIndex = Math.floor(Math.random() * (questions.length - 1));
-          return questions[questionIndex];
+        selectedQuestion: (context) => {
+          const questionIndex = Math.floor(Math.random() * (context.questions.length - 1));
+          return context.questions[questionIndex];
         },
       }),
     },

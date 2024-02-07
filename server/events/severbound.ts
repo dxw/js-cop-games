@@ -24,8 +24,8 @@ export default class ServerboundEvents {
   static postAnswers(socket: Socket, round?: Round): ServerboundSocketServerEvent<"colours"> {
     return [
       "answers:post",
-      ({colours}) => round?.addAnswer({
-        colours, 
+      (data: {colours: Array<Colour>}) => round?.addAnswer({
+        colours: data.colours, 
         socketId: socket.id
       } as Answer)
     ];
