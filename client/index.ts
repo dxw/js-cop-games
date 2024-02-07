@@ -1,21 +1,19 @@
 import { io } from "socket.io-client";
 import { NameFormElement } from "../server/@types/ui";
-import { Player, Question } from "../server/@types/models";
+import { Answer, Colour, Player, Question } from "../server/@types/models";
 import { getElementById } from "./utils/getElementById";
 
 const addPlayer = async (name: string): Promise<void> => {
   socket.emit("players:post", { name });
 };
 
-export type Answers = Array<string>;
-
 const submitAnswers = async (form: HTMLFormElement): Promise<void> => {
   const checked = form.querySelectorAll('input[type="checkbox"]:checked');
-  const answers: Answers = Array.from(checked).map((checked) => checked.id);
+  const colours: Answer["colours"] = Array.from(checked).map((checked) => checked.id as Colour);
 
-  socket.emit("answers:post", { answers });
+  socket.emit("answers:post", colours);
   derenderColorCheckboxes();
-  getElementById("colour-section").innerText = `You picked: ${answers.join(
+  getElementById("colour-section").innerText = `You picked: ${colours.join(
     ", ",
   )}`;
 };

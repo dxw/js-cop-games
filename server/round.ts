@@ -1,7 +1,7 @@
 import type { InterpreterFrom } from 'xstate';
 import { interpret } from 'xstate';
 
-import type { Question } from './@types/models';
+import type { Answer, Question } from './@types/models';
 import questions from './data/questions.json';
 import { context, gameMachine } from './machines/round';
 import type { SocketServer } from './socketServer';
@@ -29,5 +29,10 @@ export default class Round {
           break;
       }
     });
+  }
+
+  addAnswer(answer: Answer) {
+    console.log(answer)
+    this.machine.send({type: 'playerSubmitsAnswer', answer})
   }
 }

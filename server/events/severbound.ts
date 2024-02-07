@@ -1,9 +1,10 @@
 import type { Server, Socket } from "socket.io";
 
-import ClientboundEvents from "./clientbound";
-import type Lobby from "../lobby";
-import type { SocketServer } from "../socketServer";
-import { Answers } from "../../client";
+import ClientboundEvents from './clientbound';
+import type Lobby from '../lobby';
+import type { SocketServer } from '../socketServer';
+import { Answer, Colour } from "../@types/models";
+import Round from "../round";
 
 export default class ServerboundEvents {
   static disconnect(
@@ -20,16 +21,13 @@ export default class ServerboundEvents {
       },
     ];
   }
-  static postAnswers(socket: Socket): ServerboundSocketServerEvent<"answers"> {
+  static postAnswers(socket: Socket, round?: Round): ServerboundSocketServerEvent<"colours"> {
     return [
       "answers:post",
-      (data) => {
-        console.log("answers", {
-          ...data,
-          socketId: socket.id,
-        });
-        socket.emit('round:answers', data.answers);
-      },
+      ({colours}) => round?.addAnswer({
+        colours, 
+        socketId: socket.id
+      } as Answer)
     ];
   }
 
@@ -62,7 +60,7 @@ type Event = "players:post" | "answers:post" | "round:start" | "disconnect";
 type Payload = keyof Payloads;
 type Name = string;
 interface Payloads {
-  answers: Answers;
+  colours: Array<Colour>;
   name: Name;
   socketId: string;
 }

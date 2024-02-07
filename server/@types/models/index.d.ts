@@ -18,4 +18,4 @@ type Colour = 'black' | 'blue' | 'brown' | 'green' | 'grey' | 'orange' | 'pink' 
 
 type SocketId = string;
 
-export type { Answer, Player, Question };
+export type { Answer, Colour, Player, Question };
