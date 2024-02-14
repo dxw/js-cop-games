@@ -1,12 +1,12 @@
 type Player = {
-  name: string;
-  socketId: string;
+	name: string;
+	socketId: string;
 };
 
 type Question = {
-  answer: Array<string>;
-  number: number;
-  question: string;
+	answer: string[];
+	number: number;
+	question: string;
 };
 
 export type { Player, Question };

@@ -1,0 +1,9 @@
+{
+	"editor.codeActionsOnSave": {
+		"quickfix.biome": "always",
+		"source.organizeImports.biome": "explicit"
+	},
+	"[javascript][typescript][json]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	}
+}

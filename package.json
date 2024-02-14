@@ -6,8 +6,8 @@
   "license": "MIT",
   "scripts": {
     "compile": "bun build ./client/index.ts --outdir ./client/assets/scripts",
-    "lint:ts": "eslint ./server --cache --max-warnings 0 --ignore-pattern node_modules",
-    "lint:ts:fix": "eslint ./server --cache --max-warnings 0 --fix",
+    "lint:ts": "bunx @biomejs/biome check .",
+    "lint:ts:fix": "bunx @biomejs/biome check --apply .",
     "lint:css": "bunx stylelint \"client/assets/styles/*.css\"",
     "lint:css:fix": "bunx stylelint \"client/assets/styles/*.css\" --fix",
     "start": "bun run compile && bun server/index.ts --watch",
@@ -22,6 +22,7 @@
     "xstate": "4.38.3"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.5.3",
     "@playwright/test": "^1.39.0",
     "@types/serve-handler": "^6.1.1",
     "@types/web": "^0.0.138",
