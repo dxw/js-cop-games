@@ -14,7 +14,7 @@ export default class Lobby {
     this.server = server;
     this.machine = interpret(lobbyMachine.withContext({ ...context })).start();
     this.machine.start();
-    this.machine.onTransition((state) => {
+    this.machine.onTransition(state => {
       console.info({ context: state.context, state: state.value });
 
       switch (state.value) {
@@ -38,7 +38,7 @@ export default class Lobby {
   };
 
   findPlayer = (player: Player): Player => {
-    const desiredPlayer = this.machine.getSnapshot().context.players.find((p) => p.socketId === player.socketId);
+    const desiredPlayer = this.machine.getSnapshot().context.players.find(p => p.socketId === player.socketId);
 
     if (!desiredPlayer) {
       throw new Error('Player not found in context');
@@ -50,7 +50,7 @@ export default class Lobby {
   playerNames = (): Array<Player['name']> => {
     return this.machine
       .getSnapshot()
-      .context.players.map((player) => player.name)
+      .context.players.map(player => player.name)
       .reverse();
   };
 

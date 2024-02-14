@@ -19,9 +19,6 @@
       "@typescript-eslint/parser": [".ts", ".tsx"]
     },
     "import/resolver": {
-      "node": {
-        "extensions": [".js", ".jsx", ".ts", ".tsx", ".json"]
-      },
       "typescript-bun": {
         "alwaysTryTypes": true
       }
@@ -103,12 +100,7 @@
     "import/no-extraneous-dependencies": [
       "error",
       {
-        "devDependencies": [
-          "**/*.test.js",
-          "**/*.test.ts",
-          "**/testutils/**",
-          "cypress.config.ts"
-        ]
+        "devDependencies": ["**/*.test.js", "**/*.test.ts", "**/testutils/**", "cypress.config.ts"]
       }
     ],
     "import/no-unresolved": "error",
@@ -145,6 +137,7 @@
         "printWidth": 120
       }
     ],
+    "quotes": ["error", "single", { "avoidEscape": true }],
     "sort-exports/sort-exports": ["error", { "sortExportKindFirst": "value" }],
     "sort-imports": [
       "error",

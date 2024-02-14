@@ -13,7 +13,7 @@ export default class Round {
     this.server = server;
     this.machine = interpret(gameMachine.withContext({ ...context, questions })).start();
 
-    this.machine.onTransition((state) => {
+    this.machine.onTransition(state => {
       console.info({ context: state.context, state: state.value });
     });
   }

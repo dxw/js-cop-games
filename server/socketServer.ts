@@ -20,7 +20,7 @@ export class SocketServer {
   }
 
   onCreated() {
-    this.server.on('connection', (socket) => {
+    this.server.on('connection', socket => {
       console.info(`connected: ${socket.id}`);
 
       socket.emit(...ClientboundEvents.getPlayers(this.lobby));

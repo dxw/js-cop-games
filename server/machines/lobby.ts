@@ -22,7 +22,7 @@ type Events =
     };
 
 const isNewPlayer = ({ players }: { players: Array<Player> }, { player: playerFromEvent }: { player: Player }) =>
-  players.find((player) => player.socketId === playerFromEvent.socketId) === undefined;
+  players.find(player => player.socketId === playerFromEvent.socketId) === undefined;
 
 const isOnlyPlayer = ({ players }: { players: Array<Player> }) => players.length === 1;
 
@@ -73,7 +73,7 @@ const lobbyMachine = createMachine(
         players: ({ players }, { player }) => [...players, player],
       }),
       removePlayer: assign({
-        players: ({ players }, { socketId }) => players.filter((p) => p.socketId !== socketId),
+        players: ({ players }, { socketId }) => players.filter(p => p.socketId !== socketId),
       }),
     },
     guards: {
