@@ -1,4 +1,4 @@
-# 1. Use Bun
+# 2. Use Bun
 
 Date: 2023-10-24
 
