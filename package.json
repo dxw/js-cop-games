@@ -6,8 +6,8 @@
   "license": "MIT",
   "scripts": {
     "compile": "bun build ./client/index.ts --outdir ./client/assets/scripts",
-    "lint:ts": "eslint ./server --cache --max-warnings 0 --ignore-pattern node_modules",
-    "lint:ts:fix": "eslint ./server --cache --max-warnings 0 --fix",
+    "lint:ts": "bunx --bun eslint ./server --cache --max-warnings 0 --ignore-pattern node_modules",
+    "lint:ts:fix": "bunx --bun eslint ./server --cache --max-warnings 0 --fix",
     "lint:css": "bunx stylelint \"client/assets/styles/*.css\"",
     "lint:css:fix": "bunx stylelint \"client/assets/styles/*.css\" --fix",
     "start": "bun run compile && bun server/index.ts --watch",
