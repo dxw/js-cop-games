@@ -1,20 +1,19 @@
-import type { Player, Question } from '../@types/models';
-import type Lobby from '../lobby';
+import type { Player, Question } from "../@types/models";
+import type { Lobby } from "../lobby";
 
-export default class ClientboundEvents {
-  static getPlayers(lobby: Lobby): [string, { players: Array<Player['name']> }] {
-    return ['players:get', { players: lobby.playerNames() }];
-  }
+const clientboundEvents = {
+	getPlayers: (lobby: Lobby): [string, { players: Player["name"][] }] => {
+		return ["players:get", { players: lobby.playerNames() }];
+	},
+	getQuestion: (question: Question): [string, { question: Question }] => {
+		return ["question:get", { question }];
+	},
+	setPlayer: (player: Player): [string, { player: Player }] => {
+		return ["player:set", { player }];
+	},
+	showStartButton: (): string => {
+		return "game:startable";
+	},
+};
 
-  static getQuestion(question: Question): [string, { question: Question }] {
-    return ['question:get', { question }];
-  }
-
-  static setPlayer(player: Player): [string, { player: Player }] {
-    return ['player:set', { player }];
-  }
-
-  static showStartButton(): string {
-    return 'game:startable';
-  }
-}
+export { clientboundEvents };

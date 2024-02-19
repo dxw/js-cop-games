@@ -1,4 +1,4 @@
-# 1. Use Game class to interact with state machine
+# 3. Use Game class to interact with state machine
 
 Date: 2023-11-20
 

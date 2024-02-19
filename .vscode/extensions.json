@@ -1,0 +1,8 @@
+{
+	"recommendations": [
+		"biomejs.biome",
+		"ms-playwright.playwright",
+		"oven.bun-vscode",
+		"statelyai.stately-vscode"
+	]
+}

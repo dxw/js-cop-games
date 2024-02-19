@@ -1,17 +1,17 @@
 [
-  {
-    "answer": ["black", "orange", "yellow", "white"],
-    "number": 4,
-    "question": "duxw"
-  },
-  {
-    "answer": ["green", "red", "white"],
-    "number": 3,
-    "question": "Caprese salad"
-  },
-  {
-    "answer": ["blue", "red", "yellow"],
-    "number": 3,
-    "question": "Moldovan flag"
-  }
+	{
+		"answer": ["black", "orange", "yellow", "white"],
+		"number": 4,
+		"question": "duxw"
+	},
+	{
+		"answer": ["green", "red", "white"],
+		"number": 3,
+		"question": "Caprese salad"
+	},
+	{
+		"answer": ["blue", "red", "yellow"],
+		"number": 3,
+		"question": "Moldovan flag"
+	}
 ]
