@@ -16,7 +16,7 @@ const context = {
 
 type Context = typeof context;
 
-type Events = {
+type Event = {
 	type: "playerSubmitsAnswer";
 	answer: Answer;
 };
@@ -28,7 +28,7 @@ const roundMachine = createMachine(
 		initial: "roundStart",
 		types: {
 			context: {} as Context,
-			events: {} as Events,
+			events: {} as Event,
 			typegen: {} as import("./round.typegen").Typegen0,
 		},
 		states: {
