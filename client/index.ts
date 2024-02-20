@@ -46,6 +46,10 @@ startButton.addEventListener("click", () => {
 	socket.emit("round:start");
 });
 
+const derenderStartButton = (): void => {
+	startButton.remove();
+};
+
 const connectionStatusIconElement = getElementById("connection-status-icon");
 const nameFormElement = getElementById("name-form") as NameFormElement;
 const playerListElement = getElementById("player-list");
@@ -76,6 +80,7 @@ socket.on("player:set", (data) => {
 });
 
 socket.on("question:get", (data) => {
+	derenderStartButton();
 	askAQuestion(data.question);
 });
 
