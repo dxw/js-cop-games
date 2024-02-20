@@ -46,11 +46,11 @@ const roundMachine = createMachine(
 				answers: (context, event) => [...context.answers, event.answer],
 			}),
 			setQuestion: assign({
-				selectedQuestion: ({ questions }) => {
+				selectedQuestion: (context) => {
 					const questionIndex = Math.floor(
-						Math.random() * (questions.length - 1),
+						Math.random() * (context.questions.length - 1),
 					);
-					return questions[questionIndex];
+					return context.questions[questionIndex];
 				},
 			}),
 		},
