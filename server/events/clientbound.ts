@@ -12,7 +12,7 @@ const clientboundEvents = {
 		return ["player:set", { player }];
 	},
 	showStartButton: (): string => {
-		return "game:startable";
+		return "round:startable";
 	},
 };
 
