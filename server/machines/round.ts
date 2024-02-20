@@ -20,18 +20,18 @@ type Events = {
 	answer: Answer;
 };
 
-const gameMachine = createMachine(
+const roundMachine = createMachine(
 	{
 		context,
-		id: "game",
-		initial: "gameStart",
+		id: "round",
+		initial: "roundStart",
 		predictableActionArguments: true,
 		schema: {
 			context: {} as Context,
 			events: {} as Events,
 		},
 		states: {
-			gameStart: {
+			roundStart: {
 				entry: ["setQuestion"],
 				on: {
 					playerSubmitsAnswer: { actions: "addAnswer" },
@@ -57,4 +57,4 @@ const gameMachine = createMachine(
 	},
 );
 
-export { context, gameMachine };
+export { context, roundMachine };

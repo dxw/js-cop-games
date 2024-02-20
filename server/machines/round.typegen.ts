@@ -19,6 +19,6 @@ export interface Typegen0 {
 	eventsCausingDelays: {};
 	eventsCausingGuards: {};
 	eventsCausingServices: {};
-	matchesStates: "gameStart";
+	matchesStates: "roundStart";
 	tags: never;
 }
