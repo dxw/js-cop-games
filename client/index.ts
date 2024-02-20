@@ -32,6 +32,13 @@ const askAQuestion = (data: Question): void => {
 	numberHtml.innerText = number.toString();
 };
 
+const renderColourCheckboxes = (): void => {
+	const colourSection = getElementById("colour-section");
+	const template = getElementById<HTMLTemplateElement>("checkbox-template");
+	const clone = template.content.cloneNode(true) as DocumentFragment;
+	colourSection.appendChild(clone);
+};
+
 const derenderNameForm = (): void => {
 	getElementById("name-form").remove();
 };
@@ -82,6 +89,7 @@ socket.on("player:set", (data) => {
 socket.on("question:get", (data) => {
 	derenderStartButton();
 	askAQuestion(data.question);
+	renderColourCheckboxes();
 });
 
 socket.on("game:startable", () => {
