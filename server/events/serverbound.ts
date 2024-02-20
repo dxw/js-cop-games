@@ -1,8 +1,8 @@
 import type { Server, Socket } from "socket.io";
 
 import { Colour, Player } from "../@types/models";
-import type { Lobby } from "../lobby";
-import { Round } from "../round";
+import type { Lobby } from "../models/lobby";
+import type { Round } from "../models/round";
 import type { SocketServer } from "../socketServer";
 import { clientboundEvents } from "./clientbound";
 

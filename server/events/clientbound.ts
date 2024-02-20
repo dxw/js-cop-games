@@ -1,5 +1,5 @@
 import type { Player, Question } from "../@types/models";
-import type { Lobby } from "../lobby";
+import type { Lobby } from "../models/lobby";
 
 const clientboundEvents = {
 	getPlayers: (

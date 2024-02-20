@@ -2,9 +2,9 @@ import type { Socket } from "socket.io";
 import type { InterpreterFrom } from "xstate";
 import { interpret } from "xstate";
 
-import type { Player } from "./@types/models";
-import { context, lobbyMachine } from "./machines/lobby";
-import type { SocketServer } from "./socketServer";
+import type { Player } from "../@types/models";
+import { context, lobbyMachine } from "../machines/lobby";
+import type { SocketServer } from "../socketServer";
 
 class Lobby {
 	machine: InterpreterFrom<typeof lobbyMachine>;

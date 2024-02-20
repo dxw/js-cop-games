@@ -4,8 +4,8 @@ import { Server } from "socket.io";
 import type { Question } from "./@types/models";
 import { clientboundEvents } from "./events/clientbound";
 import { serverboundEvents } from "./events/serverbound";
-import { Lobby } from "./lobby";
-import { Round } from "./round";
+import { Lobby } from "./models/lobby";
+import { Round } from "./models/round";
 
 export class SocketServer {
 	lobby: Lobby;
