@@ -1,6 +1,8 @@
+import type { Socket } from "socket.io";
+
 type Player = {
 	name: string;
-	socketId: string;
+	socketId: Socket["id"];
 };
 
 type Question = {
