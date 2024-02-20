@@ -2,7 +2,7 @@ import type { Server as HttpServer } from "http";
 import { Server } from "socket.io";
 import type { Question } from "./@types/models";
 import { clientboundEvents } from "./events/clientbound";
-import { serverboundEvents } from "./events/severbound";
+import { serverboundEvents } from "./events/serverbound";
 import { Lobby } from "./lobby";
 import { Round } from "./round";
 
