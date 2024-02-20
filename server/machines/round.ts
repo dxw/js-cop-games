@@ -15,7 +15,7 @@ const context = {
 
 type Context = typeof context;
 
-type Events = {
+type Event = {
 	type: "playerSubmitsAnswer";
 	answer: Answer;
 };
@@ -28,7 +28,7 @@ const roundMachine = createMachine(
 		predictableActionArguments: true,
 		schema: {
 			context: {} as Context,
-			events: {} as Events,
+			events: {} as Event,
 		},
 		states: {
 			roundStart: {

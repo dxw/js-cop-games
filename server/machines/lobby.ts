@@ -8,7 +8,7 @@ const context = {
 
 type Context = typeof context;
 
-type Events =
+type Event =
 	| {
 			player: Player;
 			type: "playerJoins";
@@ -39,7 +39,7 @@ const lobbyMachine = createMachine(
 		predictableActionArguments: true,
 		schema: {
 			context: {} as Context,
-			events: {} as Events,
+			events: {} as Event,
 		},
 		states: {
 			empty: {
