@@ -1,6 +1,6 @@
 import type { Server, Socket } from "socket.io";
 
-import { Colour } from "../@types/models";
+import { Colour, Player } from "../@types/models";
 import type { Lobby } from "../lobby";
 import { Round } from "../round";
 import type { SocketServer } from "../socketServer";
@@ -11,7 +11,7 @@ const serverboundEvents = {
 		lobby: Lobby,
 		socket: Socket,
 		server: Server,
-	): [string, () => void] => {
+	): ServerboundSocketServerEvent => {
 		return [
 			"disconnect",
 			() => {
@@ -24,7 +24,7 @@ const serverboundEvents = {
 	postAnswers(
 		socket: Socket,
 		round?: Round,
-	): [string, (data: { colours: Colour[] }) => void] {
+	): ServerboundSocketServerEvent<"colours"> {
 		return [
 			"answers:post",
 			(data: { colours: Colour[] }) =>
@@ -35,17 +35,18 @@ const serverboundEvents = {
 		lobby: Lobby,
 		socket: Socket,
 		server: Server,
-	): [string, (data: { name: string }) => void] => {
+	): ServerboundSocketServerEvent<"name"> => {
 		return [
 			"players:post",
-			(data: { name: string }) => {
+			(data: { name: Player["name"] }) => {
 				const player = lobby.addPlayer(data.name, socket.id);
 				socket.emit(...clientboundEvents.setPlayer(player));
 				server.emit(...clientboundEvents.getPlayers(lobby));
 			},
 		];
 	},
-	startRound: (server: SocketServer): [string, () => void] => {
+	// this one needs to use the new type format
+	startRound: (server: SocketServer): ["round:start", () => void] => {
 		return [
 			"round:start",
 			() => {
@@ -54,5 +55,22 @@ const serverboundEvents = {
 		];
 	},
 };
+
+type Event = "answers:post" | "disconnect" | "players:post" | "round:start";
+
+type Payload = keyof Payloads;
+
+interface Payloads {
+	colours: Colour[];
+	name: Player["name"];
+	socketId: Socket["id"];
+}
+
+// Biome error - we could possibly ignore it
+type ServerboundSocketServerEvent<T extends Payload | void = void> =
+	T extends void
+		? ["disconnect", () => void]
+		: // data: Payloads doesn't seem right - maybe Payloads[T] (but that doesn't work)?
+		  [Event, (data: Payloads) => void];
 
 export { serverboundEvents };
