@@ -1,5 +1,5 @@
 import { io } from "socket.io-client";
-import { Player, Question } from "../server/@types/models";
+import { Answer, Colour, Player, Question } from "../server/@types/models";
 import { NameFormElement } from "../server/@types/ui";
 import { getElementById } from "./utils/getElementById";
 
@@ -37,6 +37,12 @@ const renderColourCheckboxes = (): void => {
 	const template = getElementById<HTMLTemplateElement>("checkbox-template");
 	const clone = template.content.cloneNode(true) as DocumentFragment;
 	colourSection.appendChild(clone);
+
+	const colourForm = getElementById<HTMLFormElement>("checkbox-form");
+	colourForm.addEventListener("submit", (e) => {
+		e.preventDefault();
+		submitAnswers(colourForm);
+	});
 };
 
 const derenderNameForm = (): void => {
@@ -55,6 +61,22 @@ startButton.addEventListener("click", () => {
 
 const derenderStartButton = (): void => {
 	startButton.remove();
+};
+
+const submitAnswers = async (form: HTMLFormElement): Promise<void> => {
+	const checked = form.querySelectorAll('input[type="checkbox"]:checked');
+	const colours: Answer["colours"] = Array.from(checked).map(
+		(checked) => checked.id as Colour,
+	);
+	socket.emit("answers:post", { colours });
+	derenderColorCheckboxes();
+	getElementById("colour-section").innerText = `You picked: ${colours.join(
+		", ",
+	)}`;
+};
+
+const derenderColorCheckboxes = (): void => {
+	getElementById("checkbox-form").remove();
 };
 
 const connectionStatusIconElement = getElementById("connection-status-icon");

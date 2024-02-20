@@ -13,6 +13,7 @@ export interface Typegen0 {
 		services: never;
 	};
 	eventsCausingActions: {
+		addAnswer: "playerSubmitsAnswer";
 		setQuestion: "xstate.init";
 	};
 	eventsCausingDelays: {};
