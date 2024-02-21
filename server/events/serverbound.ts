@@ -9,9 +9,9 @@ import { clientboundEvents } from "./clientbound";
 const serverboundEvents = {
 	disconnect: (
 		lobby: Lobby,
-		socket: Socket,
+		socket: Socket, // this can just be the ID
 		server: Server,
-	): ServerboundSocketServerEvent => {
+	): ServerboundSocketServerEvent<"disconnect"> => {
 		return [
 			"disconnect",
 			() => {
@@ -22,9 +22,9 @@ const serverboundEvents = {
 		];
 	},
 	postAnswers(
-		socket: Socket,
+		socket: Socket, // this can just be the ID
 		round?: Round,
-	): ServerboundSocketServerEvent<"colours"> {
+	): ServerboundSocketServerEvent<"answers:post"> {
 		return [
 			"answers:post",
 			(data: { colours: Colour[] }) =>
@@ -35,7 +35,7 @@ const serverboundEvents = {
 		lobby: Lobby,
 		socket: Socket,
 		server: Server,
-	): ServerboundSocketServerEvent<"name"> => {
+	): ServerboundSocketServerEvent<"players:post"> => {
 		return [
 			"players:post",
 			(data: { name: Player["name"] }) => {
@@ -46,7 +46,9 @@ const serverboundEvents = {
 		];
 	},
 	// this one needs to use the new type format
-	startRound: (server: SocketServer): ["round:start", () => void] => {
+	startRound: (
+		server: SocketServer,
+	): ServerboundSocketServerEvent<"round:start"> => {
 		return [
 			"round:start",
 			() => {
@@ -58,7 +60,7 @@ const serverboundEvents = {
 
 type Event = "answers:post" | "disconnect" | "players:post" | "round:start";
 
-type Payload = keyof Payloads;
+// type Payload = keyof Payloads;
 
 interface Payloads {
 	colours: Colour[];
@@ -66,11 +68,18 @@ interface Payloads {
 	socketId: Socket["id"];
 }
 
-// Biome error - we could possibly ignore it
-type ServerboundSocketServerEvent<T extends Payload | void = void> =
-	T extends void
-		? ["disconnect", () => void]
-		: // data: Payloads doesn't seem right - maybe Payloads[T] (but that doesn't work)?
-		  [Event, (data: Payloads) => void];
+type ServerboundSocketServerEvent<T extends Event> = T extends
+	| "disconnect"
+	| "round:start"
+	? [Event, () => void]
+	: // data: Payloads doesn't seem right - maybe Payloads[T] (but that doesn't work)?
+	  [Event, (data: Payloads) => void];
+
+// // Biome error - we could possibly ignore it
+// type ServerboundSocketServerEvent<T extends Payload> =
+// 	T extends void
+// 		? ["disconnect" | "round:start", () => void]
+// 		: // data: Payloads doesn't seem right - maybe Payloads[T] (but that doesn't work)?
+// 		  [Event, (data: Payloads) => void];
 
 export { serverboundEvents };
