@@ -1,5 +1,6 @@
 import { assign, createMachine } from "xstate";
 import { Answer } from "../@types/models";
+import questions from "../data/questions.json";
 
 type Question = {
 	answer: string[];
@@ -9,7 +10,7 @@ type Question = {
 
 const context = {
 	answers: [] as Answer[],
-	questions: [] as Question[],
+	questions: questions as Question[],
 	selectedQuestion: {} as Question | undefined,
 };
 
@@ -25,10 +26,10 @@ const gameMachine = createMachine(
 		context,
 		id: "game",
 		initial: "gameStart",
-		predictableActionArguments: true,
-		schema: {
+		types: {
 			context: {} as Context,
 			events: {} as Events,
+			typegen: {} as import("./round.typegen").Typegen0,
 		},
 		states: {
 			gameStart: {
@@ -38,19 +39,18 @@ const gameMachine = createMachine(
 				},
 			},
 		},
-		tsTypes: {} as import("./round.typegen").Typegen0,
 	},
 	{
 		actions: {
 			addAnswer: assign({
-				answers: (context, event) => [...context.answers, event.answer],
+				answers: (args) => [...args.context.answers, args.event.answer],
 			}),
 			setQuestion: assign({
-				selectedQuestion: ({ questions }) => {
+				selectedQuestion: (args) => {
 					const questionIndex = Math.floor(
-						Math.random() * (questions.length - 1),
+						Math.random() * (args.context.questions.length - 1),
 					);
-					return questions[questionIndex];
+					return args.context.questions[questionIndex];
 				},
 			}),
 		},

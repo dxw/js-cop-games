@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from "bun:test";
-import type { InterpreterFrom } from "xstate";
-import { interpret } from "xstate";
+import type { Actor } from "xstate";
+import { createActor, getNextSnapshot } from "xstate";
 
 import { context, isNewPlayer, lobbyMachine } from "./lobby";
 
@@ -11,17 +11,27 @@ describe("lobbyMachine states", () => {
 
 	describe("empty", () => {
 		it("transitions to the onePlayer state when it receives the player joins event", () => {
-			expect(lobbyMachine.transition("empty", "playerJoins").value).toBe(
-				"onePlayer",
-			);
+			expect(
+				getNextSnapshot(
+					lobbyMachine,
+					lobbyMachine.resolveState({
+						value: "empty",
+						context: { players: [] },
+					}),
+					{
+						type: "playerJoins",
+						player: player1,
+					},
+				).value,
+			).toBe("onePlayer");
 		});
 	});
 
 	describe("onePlayer", () => {
-		let actor: InterpreterFrom<typeof lobbyMachine>;
+		let actor: Actor<typeof lobbyMachine>;
 
 		beforeEach(() => {
-			actor = interpret(lobbyMachine);
+			actor = createActor(lobbyMachine);
 			actor.start();
 			actor.send({
 				player: player1,
@@ -43,9 +53,16 @@ describe("lobbyMachine states", () => {
 		});
 
 		it("transitions from onePlayer to empty state when it receives player leaves event", () => {
-			expect(lobbyMachine.transition("onePlayer", "playerLeaves").value).toBe(
-				"empty",
-			);
+			expect(
+				getNextSnapshot(
+					lobbyMachine,
+					lobbyMachine.resolveState({
+						value: "onePlayer",
+						context: { players: [player1] },
+					}),
+					{ type: "playerLeaves", socketId: player1.socketId },
+				).value,
+			).toBe("empty");
 		});
 
 		it("removes a player from the player list when it receives playerLeaves event", () => {
@@ -59,10 +76,10 @@ describe("lobbyMachine states", () => {
 	});
 
 	describe("multiplePlayers", () => {
-		let actor: InterpreterFrom<typeof lobbyMachine>;
+		let actor: Actor<typeof lobbyMachine>;
 
 		beforeEach(() => {
-			actor = interpret(lobbyMachine);
+			actor = createActor(lobbyMachine);
 			actor.start();
 
 			actor.send({
@@ -136,13 +153,23 @@ describe("isNewPlayer", () => {
 	it("returns true if the player is not present in the players array", () => {
 		const player = { name: "a name", socketId: "id" };
 		const contextWithNoPlayers = { players: [] };
-		expect(isNewPlayer(contextWithNoPlayers, { player })).toBe(true);
+		expect(
+			isNewPlayer({
+				context: contextWithNoPlayers,
+				event: { player, type: "playerJoins" },
+			}),
+		).toBe(true);
 	});
 
 	it("returns false if the player is present in the players array", () => {
 		const player = { name: "a name", socketId: "id" };
 		const contextWithPlayer = { players: [player] };
 
-		expect(isNewPlayer(contextWithPlayer, { player })).toBe(false);
+		expect(
+			isNewPlayer({
+				context: contextWithPlayer,
+				event: { player, type: "playerJoins" },
+			}),
+		).toBe(false);
 	});
 });

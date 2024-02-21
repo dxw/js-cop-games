@@ -1,22 +1,18 @@
-import type { InterpreterFrom } from "xstate";
-import { interpret } from "xstate";
+import type { Actor } from "xstate";
+import { createActor } from "xstate";
 
 import { Answer, Question } from "./@types/models";
-import questions from "./data/questions.json";
 import { context, gameMachine } from "./machines/round";
 import type { SocketServer } from "./socketServer";
 
 class Round {
-	machine: InterpreterFrom<typeof gameMachine>;
+	machine: Actor<typeof gameMachine>;
 	server: SocketServer;
 
 	constructor(server: SocketServer) {
 		this.server = server;
-		this.machine = interpret(
-			gameMachine.withContext({ ...context, questions }),
-		).start();
-
-		this.machine.onTransition((state) => {
+		this.machine = createActor(gameMachine, { ...context });
+		this.machine.subscribe((state) => {
 			console.info({ context: state.context, state: state.value });
 
 			switch (state.value) {
@@ -30,6 +26,7 @@ class Round {
 					break;
 			}
 		});
+		this.machine.start();
 	}
 
 	addAnswer(answer: Answer) {

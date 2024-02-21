@@ -1,5 +1,6 @@
-import { assign, createMachine } from "xstate";
+import { EventObject, assign, createMachine } from "xstate";
 
+import { GuardArgs } from "xstate/guards";
 import type { Player } from "../@types/models";
 
 const context = {
@@ -8,11 +9,13 @@ const context = {
 
 type Context = typeof context;
 
+type PlayerJoinsEvent = {
+	player: Player;
+	type: "playerJoins";
+};
+
 type Events =
-	| {
-			player: Player;
-			type: "playerJoins";
-	  }
+	| PlayerJoinsEvent
 	| {
 			socketId: Player["socketId"];
 			type: "playerLeaves";
@@ -21,25 +24,23 @@ type Events =
 			type: "playerClicksStart";
 	  };
 
-const isNewPlayer = (
-	{ players }: { players: Player[] },
-	{ player: playerFromEvent }: { player: Player },
-) =>
-	players.find((player) => player.socketId === playerFromEvent.socketId) ===
-	undefined;
+const isNewPlayer = (args: GuardArgs<Context, PlayerJoinsEvent>) =>
+	args.context.players.find(
+		(player) => player.socketId === args.event.player.socketId,
+	) === undefined;
 
-const isOnlyPlayer = ({ players }: { players: Player[] }) =>
-	players.length === 1;
+const isOnlyPlayer = (args: GuardArgs<Context, EventObject>) =>
+	args.context.players.length === 1;
 
 const lobbyMachine = createMachine(
 	{
-		context: context,
+		context,
 		id: "lobby",
 		initial: "empty",
-		predictableActionArguments: true,
-		schema: {
+		types: {
 			context: {} as Context,
 			events: {} as Events,
+			typegen: {} as import("./lobby.typegen").Typegen0,
 		},
 		states: {
 			empty: {
@@ -47,7 +48,7 @@ const lobbyMachine = createMachine(
 			},
 			multiplePlayers: {
 				always: {
-					cond: "isOnlyPlayer",
+					guard: "isOnlyPlayer",
 					target: "onePlayer",
 				},
 				on: {
@@ -59,7 +60,7 @@ const lobbyMachine = createMachine(
 				on: {
 					playerJoins: {
 						actions: "addPlayer",
-						cond: "isNewPlayer",
+						guard: "isNewPlayer",
 						target: "multiplePlayers",
 					},
 					playerLeaves: {
@@ -69,16 +70,17 @@ const lobbyMachine = createMachine(
 				},
 			},
 		},
-		tsTypes: {} as import("./lobby.typegen").Typegen0,
 	},
 	{
 		actions: {
 			addPlayer: assign({
-				players: ({ players }, { player }) => [...players, player],
+				players: (args) => [...args.context.players, args.event.player],
 			}),
 			removePlayer: assign({
-				players: ({ players }, { socketId }) =>
-					players.filter((p) => p.socketId !== socketId),
+				players: (args) =>
+					args.context.players.filter(
+						(player) => player.socketId !== args.event.socketId,
+					),
 			}),
 		},
 		guards: {
