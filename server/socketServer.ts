@@ -31,6 +31,7 @@ export class SocketServer {
 				...serverboundEvents.disconnect(this.lobby, socket, this.server),
 			);
 			socket.on(...serverboundEvents.startRound(this));
+			socket.on(...serverboundEvents.postAnswers(socket, this.round));
 		});
 	}
 

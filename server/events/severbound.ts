@@ -1,6 +1,8 @@
 import type { Server, Socket } from "socket.io";
 
+import { Colour } from "../@types/models";
 import type { Lobby } from "../lobby";
+import { Round } from "../round";
 import type { SocketServer } from "../socketServer";
 import { clientboundEvents } from "./clientbound";
 
@@ -17,6 +19,16 @@ const serverboundEvents = {
 				lobby.removePlayer(socket.id);
 				server.emit(...clientboundEvents.getPlayers(lobby));
 			},
+		];
+	},
+	postAnswers(
+		socket: Socket,
+		round?: Round,
+	): [string, (data: { colours: Colour[] }) => void] {
+		return [
+			"answers:post",
+			(data: { colours: Colour[] }) =>
+				round?.addAnswer({ colours: data.colours, socketId: socket.id }),
 		];
 	},
 	postPlayers: (

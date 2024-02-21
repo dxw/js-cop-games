@@ -1,4 +1,5 @@
 import { assign, createMachine } from "xstate";
+import { Answer } from "../@types/models";
 
 type Question = {
 	answer: string[];
@@ -7,6 +8,7 @@ type Question = {
 };
 
 const context = {
+	answers: [] as Answer[],
 	questions: [] as Question[],
 	selectedQuestion: {} as Question | undefined,
 };
@@ -14,7 +16,8 @@ const context = {
 type Context = typeof context;
 
 type Events = {
-	type: string;
+	type: "playerSubmitsAnswer";
+	answer: Answer;
 };
 
 const gameMachine = createMachine(
@@ -30,12 +33,18 @@ const gameMachine = createMachine(
 		states: {
 			gameStart: {
 				entry: ["setQuestion"],
+				on: {
+					playerSubmitsAnswer: { actions: "addAnswer" },
+				},
 			},
 		},
 		tsTypes: {} as import("./round.typegen").Typegen0,
 	},
 	{
 		actions: {
+			addAnswer: assign({
+				answers: (context, event) => [...context.answers, event.answer],
+			}),
 			setQuestion: assign({
 				selectedQuestion: ({ questions }) => {
 					const questionIndex = Math.floor(
