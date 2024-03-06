@@ -1,20 +1,17 @@
 import type { Socket } from "socket.io";
-import type { InterpreterFrom } from "xstate";
-import { interpret } from "xstate";
-
+import { Actor, createActor } from "xstate";
 import type { Player } from "./@types/models";
 import { context, lobbyMachine } from "./machines/lobby";
 import type { SocketServer } from "./socketServer";
 
 class Lobby {
-	machine: InterpreterFrom<typeof lobbyMachine>;
+	machine: Actor<typeof lobbyMachine>;
 	server: SocketServer;
 
 	constructor(server: SocketServer) {
 		this.server = server;
-		this.machine = interpret(lobbyMachine.withContext({ ...context })).start();
-		this.machine.start();
-		this.machine.onTransition((state) => {
+		this.machine = createActor(lobbyMachine, { ...context });
+		this.machine.subscribe((state) => {
 			console.info({ context: state.context, state: state.value });
 
 			switch (state.value) {
@@ -26,6 +23,7 @@ class Lobby {
 					break;
 			}
 		});
+		this.machine.start();
 	}
 
 	addPlayer = (name: Player["name"], socketId: Socket["id"]) => {
