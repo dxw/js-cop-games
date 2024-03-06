@@ -10,9 +10,9 @@ const serverboundEvents = {
 		lobby: Lobby,
 		socketId: Socket["id"],
 		server: Server,
-	): ServerboundSocketServerEvent<"disconnect"> => {
+	): ServerboundSocketServerEvent<Events.Disconnect> => {
 		return [
-			"disconnect",
+			Events.Disconnect,
 			() => {
 				console.info(`disconnected: ${socketId}`);
 				lobby.removePlayer(socketId);
@@ -23,9 +23,9 @@ const serverboundEvents = {
 	postAnswers(
 		socketId: Socket["id"],
 		round?: Round,
-	): ServerboundSocketServerEvent<"answers:post"> {
+	): ServerboundSocketServerEvent<Events.AnswersPost> {
 		return [
-			"answers:post",
+			Events.AnswersPost,
 			(data: { colours: Colour[] }) =>
 				round?.addAnswer({ colours: data.colours, socketId }),
 		];
@@ -34,9 +34,9 @@ const serverboundEvents = {
 		lobby: Lobby,
 		socket: Socket,
 		server: Server,
-	): ServerboundSocketServerEvent<"players:post"> => {
+	): ServerboundSocketServerEvent<Events.PlayersPost> => {
 		return [
-			"players:post",
+			Events.PlayersPost,
 			(data: { name: Player["name"] }) => {
 				const player = lobby.addPlayer(data.name, socket.id);
 				socket.emit(...clientboundEvents.setPlayer(player));
@@ -46,9 +46,9 @@ const serverboundEvents = {
 	},
 	startRound: (
 		server: SocketServer,
-	): ServerboundSocketServerEvent<"round:start"> => {
+	): ServerboundSocketServerEvent<Events.RoundStart> => {
 		return [
-			"round:start",
+			Events.RoundStart,
 			() => {
 				server.onRoundStarted();
 			},
@@ -56,15 +56,20 @@ const serverboundEvents = {
 	},
 };
 
-type Event = "answers:post" | "disconnect" | "players:post" | "round:start";
+export enum Events  {
+ AnswersPost = "answers:post",
+ Disconnect = "disconnect",
+ PlayersPost = "players:post",
+ RoundStart = "round:start"
+}
 
 type Payloads = {
-	"answers:post": { colours: Colour[] };
-	"players:post": { name: Player["name"] };
+	[Events.AnswersPost]: { colours: Colour[] };
+	[Events.PlayersPost]: { name: Player["name"] };
 };
 
-type ServerboundSocketServerEvent<T extends Event> = T extends keyof Payloads
-	? [Event, (data: Payloads[T]) => void]
-	: [Event, () => void];
+type ServerboundSocketServerEvent<T extends Events> = T extends keyof Payloads
+	? [Events, (data: Payloads[T]) => void]
+	: [Events, () => void];
 
 export { serverboundEvents };

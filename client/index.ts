@@ -1,6 +1,7 @@
 import { io } from "socket.io-client";
 import { Answer, Colour, Player, Question } from "../server/@types/models";
 import { NameFormElement } from "../server/@types/ui";
+import { Events } from "../server/events/serverbound";
 import { getElementById } from "./utils/getElementById";
 
 const addPlayer = async (name: string): Promise<void> => {
@@ -68,7 +69,7 @@ const submitAnswers = async (form: HTMLFormElement): Promise<void> => {
 	const colours: Answer["colours"] = Array.from(checked).map(
 		(checked) => checked.id as Colour,
 	);
-	socket.emit("answers:post", { colours });
+	socket.emit(Events.AnswersPost, { colours });
 	derenderColorCheckboxes();
 	getElementById("colour-section").innerText = `You picked: ${colours.join(
 		", ",
