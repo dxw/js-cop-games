@@ -1,7 +1,6 @@
 import { beforeEach, describe, expect, it } from "bun:test";
 import type { Actor } from "xstate";
 import { createActor, getNextSnapshot } from "xstate";
-
 import { context, isNewPlayer, lobbyMachine } from "./lobby";
 
 describe("lobbyMachine states", () => {

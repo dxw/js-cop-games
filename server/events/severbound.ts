@@ -1,5 +1,4 @@
 import type { Server, Socket } from "socket.io";
-
 import { Colour } from "../@types/models";
 import type { Lobby } from "../lobby";
 import { Round } from "../round";

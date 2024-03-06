@@ -1,5 +1,4 @@
 import { EventObject, assign, createMachine } from "xstate";
-
 import { GuardArgs } from "xstate/guards";
 import type { Player } from "../@types/models";
 

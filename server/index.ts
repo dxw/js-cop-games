@@ -1,6 +1,5 @@
 import http from "http";
 import handler from "serve-handler";
-
 import { SocketServer } from "./socketServer";
 
 const httpServer = http.createServer((request, response) => {

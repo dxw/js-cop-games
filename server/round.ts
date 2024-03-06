@@ -1,6 +1,5 @@
 import type { Actor } from "xstate";
 import { createActor } from "xstate";
-
 import { Answer, Question } from "./@types/models";
 import { context, gameMachine } from "./machines/round";
 import type { SocketServer } from "./socketServer";
