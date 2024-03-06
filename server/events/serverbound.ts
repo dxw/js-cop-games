@@ -8,26 +8,26 @@ import { clientboundEvents } from "./clientbound";
 const serverboundEvents = {
 	disconnect: (
 		lobby: Lobby,
-		socket: Socket,
+		socketId: Socket["id"],
 		server: Server,
 	): ServerboundSocketServerEvent<"disconnect"> => {
 		return [
 			"disconnect",
 			() => {
-				console.info(`disconnected: ${socket.id}`);
-				lobby.removePlayer(socket.id);
+				console.info(`disconnected: ${socketId}`);
+				lobby.removePlayer(socketId);
 				server.emit(...clientboundEvents.getPlayers(lobby));
 			},
 		];
 	},
 	postAnswers(
-		socket: Socket,
+		socketId: Socket["id"],
 		round?: Round,
 	): ServerboundSocketServerEvent<"answers:post"> {
 		return [
 			"answers:post",
 			(data: { colours: Colour[] }) =>
-				round?.addAnswer({ colours: data.colours, socketId: socket.id }),
+				round?.addAnswer({ colours: data.colours, socketId }),
 		];
 	},
 	postPlayers: (

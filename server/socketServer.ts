@@ -27,10 +27,10 @@ export class SocketServer {
 				...serverboundEvents.postPlayers(this.lobby, socket, this.server),
 			);
 			socket.on(
-				...serverboundEvents.disconnect(this.lobby, socket, this.server),
+				...serverboundEvents.disconnect(this.lobby, socket.id, this.server),
 			);
 			socket.on(...serverboundEvents.startRound(this));
-			socket.on(...serverboundEvents.postAnswers(socket, this.round));
+			socket.on(...serverboundEvents.postAnswers(socket.id, this.round));
 		});
 	}
 
