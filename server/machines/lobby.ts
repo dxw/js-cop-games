@@ -1,6 +1,6 @@
 import { EventObject, assign, createMachine } from "xstate";
 import { GuardArgs } from "xstate/guards";
-import type { Player } from "../@types/models";
+import { Player } from "../@types/models";
 
 const context = {
 	players: [] as Player[],

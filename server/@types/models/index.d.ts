@@ -1,4 +1,4 @@
-import type { Socket } from "socket.io";
+import { Socket } from "socket.io";
 
 type Answer = {
 	colours: Colour[];
