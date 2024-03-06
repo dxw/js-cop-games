@@ -2,30 +2,32 @@ import { Player, Question } from "../@types/models";
 import { Lobby } from "../lobby";
 
 const clientboundEvents = {
-	getPlayers: (
-		lobby: Lobby,
-	): ClientboundSocketServerEvent<{ players: Player["name"][] }> => {
+	getPlayers: (lobby: Lobby): ClientboundSocketServerEvent<"players:get"> => {
 		return ["players:get", { players: lobby.playerNames() }];
 	},
 	getQuestion: (
 		question: Question,
-	): ClientboundSocketServerEvent<{ question: Question }> => {
+	): ClientboundSocketServerEvent<"question:get"> => {
 		return ["question:get", { question }];
 	},
-	setPlayer: (
-		player: Player,
-	): ClientboundSocketServerEvent<{ player: Player }> => {
+	setPlayer: (player: Player): ClientboundSocketServerEvent<"player:set"> => {
 		return ["player:set", { player }];
 	},
-	showStartButton: (): ClientboundSocketServerEvent => {
+	showStartButton: (): ClientboundSocketServerEvent<"round:startable"> => {
 		return "round:startable";
 	},
 };
 
 type Event = "round:startable" | "player:set" | "players:get" | "question:get";
 
-type ClientboundSocketServerEvent<T = void> = T extends Record<string, unknown>
-	? [Event, T]
-	: Event;
+type Payloads = {
+	"question:get": { question: Question };
+	"players:get": { players: Player["name"][] };
+	"player:set": { player: Player };
+};
+
+type ClientboundSocketServerEvent<T = Event> = T extends keyof Payloads
+	? [T, Payloads[T]]
+	: T;
 
 export { clientboundEvents };

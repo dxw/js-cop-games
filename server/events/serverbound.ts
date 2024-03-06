@@ -58,15 +58,13 @@ const serverboundEvents = {
 
 type Event = "answers:post" | "disconnect" | "players:post" | "round:start";
 
-interface Payload {
-	colours: Colour[];
-	name: Player["name"];
-}
+type Payloads = {
+	"answers:post": { colours: Colour[] };
+	"players:post": { name: Player["name"] };
+};
 
-type ServerboundSocketServerEvent<T extends Event> = T extends
-	| "disconnect"
-	| "round:start"
-	? [Event, () => void]
-	: [Event, (data: Payload) => void];
+type ServerboundSocketServerEvent<T extends Event> = T extends keyof Payloads
+	? [Event, (data: Payloads[T]) => void]
+	: [Event, () => void];
 
 export { serverboundEvents };
