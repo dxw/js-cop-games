@@ -1,6 +1,6 @@
-import type { Server as HttpServer } from "http";
+import { Server as HttpServer } from "http";
 import { Server } from "socket.io";
-import type { Question } from "./@types/models";
+import { Question } from "./@types/models";
 import { clientboundEvents } from "./events/clientbound";
 import { serverboundEvents } from "./events/serverbound";
 import { Lobby } from "./lobby";
