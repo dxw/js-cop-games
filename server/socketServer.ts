@@ -1,8 +1,8 @@
-import type { Server as HttpServer } from "http";
+import { Server as HttpServer } from "http";
 import { Server } from "socket.io";
-import type { Question } from "./@types/models";
+import { Question } from "./@types/models";
 import { clientboundEvents } from "./events/clientbound";
-import { serverboundEvents } from "./events/severbound";
+import { serverboundEvents } from "./events/serverbound";
 import { Lobby } from "./lobby";
 import { Round } from "./round";
 
@@ -27,10 +27,10 @@ export class SocketServer {
 				...serverboundEvents.postPlayers(this.lobby, socket, this.server),
 			);
 			socket.on(
-				...serverboundEvents.disconnect(this.lobby, socket, this.server),
+				...serverboundEvents.disconnect(this.lobby, socket.id, this.server),
 			);
 			socket.on(...serverboundEvents.startRound(this));
-			socket.on(...serverboundEvents.postAnswers(socket, this.round));
+			socket.on(...serverboundEvents.postAnswers(socket.id, this.round));
 		});
 	}
 

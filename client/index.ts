@@ -114,7 +114,7 @@ socket.on("question:get", (data) => {
 	renderColourCheckboxes();
 });
 
-socket.on("game:startable", () => {
+socket.on("round:startable", () => {
 	showStartButton();
 });
 
