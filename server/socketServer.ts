@@ -1,15 +1,17 @@
-import { Server as HttpServer } from "http";
+import type { Server as HttpServer } from "http";
 import { Server } from "socket.io";
-import { Question } from "./@types/models";
-import { clientboundEvents } from "./events/clientbound";
-import { serverboundEvents } from "./events/serverbound";
+import {
+	ClientboundSocketServerEvents,
+	ServerboundSocketServerEvents,
+} from "./@types/events";
+import type { Colour, Player, Question } from "./@types/models";
 import { Lobby } from "./lobby";
 import { Round } from "./round";
 
 export class SocketServer {
 	lobby: Lobby;
 	round?: Round;
-	server: Server;
+	server: Server<ServerboundSocketServerEvents, ClientboundSocketServerEvents>;
 
 	constructor(httpServer: HttpServer) {
 		this.lobby = new Lobby(this);
@@ -22,20 +24,28 @@ export class SocketServer {
 		this.server.on("connection", (socket) => {
 			console.info(`connected: ${socket.id}`);
 
-			socket.emit(...clientboundEvents.getPlayers(this.lobby));
-			socket.on(
-				...serverboundEvents.postPlayers(this.lobby, socket, this.server),
+			socket.emit("players:get", this.lobby.playerNames());
+			socket.on("players:post", (name: Player["name"]) => {
+				const player = this.lobby.addPlayer(name, socket.id);
+				socket.emit("player:set", player);
+				this.server.emit("players:get", this.lobby.playerNames());
+			});
+			socket.on("disconnect", () => {
+				console.info(`disconnected: ${socket.id}`);
+				this.lobby.removePlayer(socket.id);
+				this.server.emit("players:get", this.lobby.playerNames());
+			});
+			socket.on("round:start", () => {
+				this.onRoundStarted();
+			});
+			socket.on("answers:post", (colours: Colour[]) =>
+				this.round?.addAnswer({ colours: colours, socketId: socket.id }),
 			);
-			socket.on(
-				...serverboundEvents.disconnect(this.lobby, socket.id, this.server),
-			);
-			socket.on(...serverboundEvents.startRound(this));
-			socket.on(...serverboundEvents.postAnswers(socket.id, this.round));
 		});
 	}
 
 	onQuestionSet(question: Question) {
-		this.server.emit(...clientboundEvents.getQuestion(question));
+		this.server.emit("question:get", question);
 	}
 
 	onRoundStarted() {
@@ -43,6 +53,6 @@ export class SocketServer {
 	}
 
 	onShowStartButton() {
-		this.server.emit(clientboundEvents.showStartButton());
+		this.server.emit("round:startable");
 	}
 }
