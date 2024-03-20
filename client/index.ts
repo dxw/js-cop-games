@@ -1,10 +1,15 @@
 import { io } from "socket.io-client";
-import { Answer, Colour, Player, Question } from "../server/@types/models";
-import { NameFormElement } from "../server/@types/ui";
+import type { Socket } from "socket.io-client";
+import type {
+	ClientboundSocketServerEvents,
+	ServerboundSocketServerEvents,
+} from "../server/@types/events";
+import type { Answer, Colour, Player, Question } from "../server/@types/models";
+import type { NameFormElement } from "../server/@types/ui";
 import { getElementById } from "./utils/getElementById";
 
 const addPlayer = async (name: string): Promise<void> => {
-	socket.emit("players:post", { name });
+	socket.emit("players:post", name);
 };
 
 const generateSocketUrl = (): string => {
@@ -14,12 +19,12 @@ const generateSocketUrl = (): string => {
 };
 
 const renderPlayerList = (): void => {
-	const html = players.map((name) => `<li>${name}</li>`);
+	const html = playerNames.map((name) => `<li>${name}</li>`);
 	playerListElement.innerHTML = html.join("\n");
 };
 
 const renderPlayerName = (): void => {
-	const text = `Name: ${player.name}`;
+	const text = `Name: ${currentPlayer.name}`;
 	playerNameElement.innerText = text;
 };
 
@@ -68,7 +73,7 @@ const submitAnswers = async (form: HTMLFormElement): Promise<void> => {
 	const colours: Answer["colours"] = Array.from(checked).map(
 		(checked) => checked.id as Colour,
 	);
-	socket.emit("answers:post", { colours });
+	socket.emit("answers:post", colours);
 	derenderColorCheckboxes();
 	getElementById("colour-section").innerText = `You picked: ${colours.join(
 		", ",
@@ -84,10 +89,13 @@ const nameFormElement = getElementById("name-form") as NameFormElement;
 const playerListElement = getElementById("player-list");
 const playerNameElement = getElementById("player-name");
 
-let player: Player;
-let players: Player[] = [];
+let currentPlayer: Player;
+let playerNames: Player["name"][] = [];
 
-const socket = io(generateSocketUrl());
+const socket: Socket<
+	ClientboundSocketServerEvents,
+	ServerboundSocketServerEvents
+> = io(generateSocketUrl());
 
 socket.on("connect", () => {
 	connectionStatusIconElement.innerText = "Connected 🟢";
@@ -97,20 +105,20 @@ socket.on("disconnect", () => {
 	connectionStatusIconElement.innerText = "Disconnected 🔴";
 });
 
-socket.on("players:get", (data) => {
-	players = data.players;
+socket.on("players:get", (newPlayers) => {
+	playerNames = newPlayers;
 	renderPlayerList();
 });
 
-socket.on("player:set", (data) => {
-	player = data.player;
+socket.on("player:set", (player) => {
+	currentPlayer = player;
 	renderPlayerName();
 	derenderNameForm();
 });
 
-socket.on("question:get", (data) => {
+socket.on("question:get", (question) => {
 	derenderStartButton();
-	askAQuestion(data.question);
+	askAQuestion(question);
 	renderColourCheckboxes();
 });
 
