@@ -1,10 +1,15 @@
 import { io } from "socket.io-client";
 import type { Socket } from "socket.io-client";
 import type {
+	Answer,
+	Colour,
+	Player,
+	Question,
+} from "../server/@types/entities";
+import type {
 	ClientboundSocketServerEvents,
 	ServerboundSocketServerEvents,
 } from "../server/@types/events";
-import type { Answer, Colour, Player, Question } from "../server/@types/models";
 import type { NameFormElement } from "../server/@types/ui";
 import { getElementById } from "./utils/getElementById";
 
