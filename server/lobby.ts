@@ -1,6 +1,6 @@
 import { Socket } from "socket.io";
 import { Actor, createActor } from "xstate";
-import { Player } from "./@types/models";
+import { Player } from "./@types/entities";
 import { context, lobbyMachine } from "./machines/lobby";
 import { SocketServer } from "./socketServer";
 

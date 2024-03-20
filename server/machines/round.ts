@@ -1,5 +1,5 @@
 import { assign, createMachine } from "xstate";
-import { Answer } from "../@types/models";
+import { Answer } from "../@types/entities";
 import questions from "../data/questions.json";
 
 type Question = {

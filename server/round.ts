@@ -1,6 +1,6 @@
 import { Actor } from "xstate";
 import { createActor } from "xstate";
-import { Answer, Question } from "./@types/models";
+import { Answer, Question } from "./@types/entities";
 import { context, roundMachine } from "./machines/round";
 import { SocketServer } from "./socketServer";
 

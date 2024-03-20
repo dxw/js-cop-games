@@ -1,10 +1,10 @@
 import type { Server as HttpServer } from "http";
 import { Server } from "socket.io";
+import type { Colour, Player, Question } from "./@types/entities";
 import {
 	ClientboundSocketServerEvents,
 	ServerboundSocketServerEvents,
 } from "./@types/events";
-import type { Colour, Player, Question } from "./@types/models";
 import { Lobby } from "./lobby";
 import { Round } from "./round";
 
