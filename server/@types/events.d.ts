@@ -1,4 +1,4 @@
-import { Colour, Player, Question } from "./entities";
+import type { Colour, Player, Question } from "./entities";
 
 export interface ClientboundSocketServerEvents {
 	"round:startable": () => void;

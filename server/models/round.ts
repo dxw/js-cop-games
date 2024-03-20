@@ -1,8 +1,7 @@
-import { Actor } from "xstate";
-import { createActor } from "xstate";
-import { Answer, Question } from "../@types/entities";
+import { type Actor, createActor } from "xstate";
+import type { Answer, Question } from "../@types/entities";
 import { context, roundMachine } from "../machines/round";
-import { SocketServer } from "../socketServer";
+import type { SocketServer } from "../socketServer";
 
 class Round {
 	machine: Actor<typeof roundMachine>;
