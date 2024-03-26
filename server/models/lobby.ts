@@ -12,7 +12,11 @@ class Lobby {
 		this.server = server;
 		this.machine = createActor(lobbyMachine, { ...context });
 		this.machine.subscribe((state) => {
-			console.info({ context: state.context, state: state.value });
+			console.info({
+				machine: "lobby",
+				context: state.context,
+				state: state.value,
+			});
 
 			switch (state.value) {
 				case "multiplePlayers": {

@@ -11,7 +11,11 @@ class Round {
 		this.server = server;
 		this.machine = createActor(roundMachine, { ...context });
 		this.machine.subscribe((state) => {
-			console.info({ context: state.context, state: state.value });
+			console.info({
+				machine: "round",
+				context: state.context,
+				state: state.value,
+			});
 
 			switch (state.value) {
 				case "roundStart": {
