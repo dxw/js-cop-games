@@ -1,7 +1,7 @@
-import type { Server as HttpServer } from "http";
+import type { Server as HttpServer } from "node:http";
 import { Server } from "socket.io";
 import type { Colour, Player, Question } from "./@types/entities";
-import {
+import type {
 	ClientboundSocketServerEvents,
 	ServerboundSocketServerEvents,
 } from "./@types/events";

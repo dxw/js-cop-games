@@ -1,5 +1,4 @@
-import { io } from "socket.io-client";
-import type { Socket } from "socket.io-client";
+import { type Socket, io } from "socket.io-client";
 import type {
 	Answer,
 	Colour,
@@ -13,7 +12,7 @@ import type {
 import type { NameFormElement } from "../server/@types/ui";
 import { getElementById } from "./utils/getElementById";
 
-const addPlayer = async (name: string): Promise<void> => {
+const addPlayer = (name: string): void => {
 	socket.emit("players:post", name);
 };
 

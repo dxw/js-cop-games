@@ -1,8 +1,8 @@
-import { Socket } from "socket.io";
-import { Actor, createActor } from "xstate";
-import { Player } from "../@types/entities";
+import type { Socket } from "socket.io";
+import { type Actor, createActor } from "xstate";
+import type { Player } from "../@types/entities";
 import { context, lobbyMachine } from "../machines/lobby";
-import { SocketServer } from "../socketServer";
+import type { SocketServer } from "../socketServer";
 
 class Lobby {
 	machine: Actor<typeof lobbyMachine>;
