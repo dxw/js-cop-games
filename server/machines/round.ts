@@ -35,8 +35,19 @@ const roundMachine = createMachine(
 			roundStart: {
 				entry: ["setQuestion"],
 				on: {
+					playerSubmitsAnswer: { actions: "addAnswer", target: "countdown" },
+				},
+			},
+			countdown: {
+				on: {
 					playerSubmitsAnswer: { actions: "addAnswer" },
 				},
+				after: {
+					[15000]: { target: "finished" },
+				},
+			},
+			finished: {
+				type: "final",
 			},
 		},
 	},
