@@ -1178,7 +1178,7 @@ xmlhttprequest-ssl@~2.0.0:
   resolved "https://registry.yarnpkg.com/xmlhttprequest-ssl/-/xmlhttprequest-ssl-2.0.0.tgz#91360c86b914e67f44dce769180027c0da618c67"
   integrity sha512-QKxVRxiRACQcVuQEYFsI1hhkrMlrXHPegbbd1yn9UHOmRxY+si12nQYzri3vbzt8VdTTRviqcKxcyllFas5z2A==
 
-xstate@5.9.1:
-  version "5.9.1"
-  resolved "https://registry.npmjs.org/xstate/-/xstate-5.9.1.tgz"
-  integrity sha512-85edx7iMqRJSRlEPevDwc98EWDYUlT5zEQ54AXuRVR+G76gFbcVTAUdtAeqOVxy8zYnUr9FBB5114iK6enljjw==
+xstate@5.10.0:
+  version "5.10.0"
+  resolved "https://registry.yarnpkg.com/xstate/-/xstate-5.10.0.tgz#9910ef6d465ef9c8dc8e6c10370ed7bf30c8c2df"
+  integrity sha512-rn3AbPFHngLqtfFTe9KDXJ1wQX4ACDKnQyQ2ShjuKor3iVnxDSKyDL9llFLiOpaBQu+cFMKcZYlpXo5nb/q5rw==
