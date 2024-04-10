@@ -93,6 +93,16 @@ const nameFormElement = getElementById("name-form") as NameFormElement;
 const playerListElement = getElementById("player-list");
 const playerNameElement = getElementById("player-name");
 
+const renderTimer = (): void => {
+	const timerSectionElement = getElementById("timer-section");
+	const timerParagraph = document.createElement("p")
+	timerParagraph.innerText = "15"
+	timerSectionElement.appendChild(timerParagraph)
+	// 15 second timer
+	// tick down every second and update the rendered value
+}
+
+
 let currentPlayer: Player;
 let playerNames: Player["name"][] = [];
 
@@ -129,6 +139,10 @@ socket.on("question:get", (question) => {
 socket.on("round:startable", () => {
 	showStartButton();
 });
+
+socket.on("round:countdown", () => {
+	renderTimer();
+})
 
 nameFormElement.addEventListener("submit", (e) => {
 	e.preventDefault();
