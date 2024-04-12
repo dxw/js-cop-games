@@ -95,13 +95,34 @@ const playerNameElement = getElementById("player-name");
 
 const renderTimer = (): void => {
 	const timerSectionElement = getElementById("timer-section");
-	const timerParagraph = document.createElement("p")
-	timerParagraph.innerText = "15"
-	timerSectionElement.appendChild(timerParagraph)
-	// 15 second timer
-	// tick down every second and update the rendered value
-}
+	renderInitialTimer(timerSectionElement);
+	renderCountdown(timerSectionElement);
+};
 
+const renderInitialTimer = (timerElement: HTMLElement): void => {
+	const secondsUntilRoundEnd = document.createElement("p");
+	secondsUntilRoundEnd.innerText = "15";
+	timerElement.appendChild(secondsUntilRoundEnd);
+	appendTimerSuffix(secondsUntilRoundEnd);
+};
+
+const renderCountdown = (timerElement: HTMLElement) => {
+	let secondsElapsed = 0;
+	const updateTimer = setInterval(() => {
+		secondsElapsed++;
+		timerElement.innerText = (15 - secondsElapsed).toString();
+		appendTimerSuffix(timerElement);
+		if (secondsElapsed === 15) {
+			clearInterval(updateTimer);
+		}
+	}, 1000);
+};
+
+const appendTimerSuffix = (timerElement: HTMLElement) => {
+	const description = document.createElement("span");
+	description.innerText = " seconds left";
+	timerElement.appendChild(description);
+};
 
 let currentPlayer: Player;
 let playerNames: Player["name"][] = [];
@@ -142,7 +163,7 @@ socket.on("round:startable", () => {
 
 socket.on("round:countdown", () => {
 	renderTimer();
-})
+});
 
 nameFormElement.addEventListener("submit", (e) => {
 	e.preventDefault();
