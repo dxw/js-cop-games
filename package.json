@@ -15,7 +15,8 @@
 		"typecheck": "bun run tsc",
 		"test:unit": "bun test server",
 		"test:integration:cli": "bunx playwright test",
-		"test:integration:ui": "bunx playwright test --ui"
+		"test:integration:ui": "bunx playwright test --ui",
+		"test:integration:trace": "bunx playwright test --project=chromium --trace=on"
 	},
 	"dependencies": {
 		"serve-handler": "^6.1.3",
