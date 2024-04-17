@@ -8,7 +8,7 @@ import { machineLogger } from "../utils/loggingUtils";
 class Round {
 	machine: Actor<typeof roundMachine>;
 	server: SocketServer;
-	turnMachine: Actor<typeof turnMachine> | undefined;
+	turnMachine?: Actor<typeof turnMachine>;
 
 	constructor(server: SocketServer) {
 		this.server = server;
@@ -42,6 +42,11 @@ class Round {
 				selectedQuestion: this.machine.getSnapshot().context
 					.selectedQuestion as Question,
 			},
+		});
+		this.turnMachine.subscribe((state) => {
+			if (state.value === "finished") {
+				this.machine.send({ type: "turnEnd", answers: state.context.answers });
+			}
 		});
 		this.turnMachine.start();
 	}
