@@ -49,7 +49,7 @@ export class SocketServer {
 	}
 
 	onRoundStarted() {
-		this.round = new Round(this);
+		this.round ||= new Round(this);
 	}
 
 	onShowStartButton() {
