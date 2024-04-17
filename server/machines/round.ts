@@ -1,6 +1,7 @@
 import { assign, createMachine } from "xstate";
 import type { Answer } from "../@types/entities";
 import questions from "../data/questions.json";
+import { timerMachine } from "./timer";
 
 type Question = {
 	answer: string[];
@@ -41,9 +42,13 @@ const roundMachine = createMachine(
 				on: {
 					playerSubmitsAnswer: { actions: "addAnswer" },
 				},
-				after: {
-					[15000]: { target: "finished" },
-				},
+				invoke: {
+					id: 'timer',
+					src: timerMachine,
+					onDone: {
+						target: 'finished',
+					}
+				}
 			},
 			finished: {
 				type: "final",

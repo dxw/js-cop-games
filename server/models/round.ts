@@ -15,6 +15,7 @@ class Round {
 				machine: "round",
 				context: state.context,
 				state: state.value,
+				timerValue: state.children.timer?.getSnapshot().context.elapsed,
 			});
 
 			switch (state.value) {
@@ -30,6 +31,14 @@ class Round {
 				}
 				default:
 					break;
+			}
+
+			if (state.children.timer) {
+				state.children.timer.subscribe(_ => {
+					console.info({
+						timerValue: state.children.timer?.getSnapshot().context.elapsed
+					})
+				})
 			}
 		});
 		this.machine.start();
