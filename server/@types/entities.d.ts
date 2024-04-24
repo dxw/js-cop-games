@@ -24,7 +24,7 @@ type Player = {
 };
 
 type Question = {
-	answer: string[];
+	answer: Colour[];
 	number: number;
 	question: string;
 };
