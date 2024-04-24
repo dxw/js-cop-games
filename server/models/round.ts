@@ -18,7 +18,7 @@ class Round {
 			});
 
 			switch (state.value) {
-				case "roundStart": {
+				case "turn": {
 					this.server.onQuestionSet(
 						this.machine.getSnapshot().context.selectedQuestion as Question,
 					);

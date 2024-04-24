@@ -1,68 +1,14 @@
-import { assign, createMachine, setup } from "xstate";
-import type { Answer } from "../@types/entities";
+import { assign, createMachine } from "xstate";
+import type { Question } from "../@types/entities";
+import questions from "../data/questions.json";
+import { turnMachine } from "./turn";
 
-type Question = {
-	answer: string[];
-	number: number;
-	question: string;
-};
-
-const turnContext = {
-	answers: [] as Answer[],
+const context = {
+	questions: questions as Question[],
 	selectedQuestion: {} as Question | undefined,
 };
 
-const roundContext = {
-	questions: [] as Question[],
-	selectedQuestion: {} as Question | undefined,
-};
-
-type TurnContext = typeof turnContext;
-type RoundContext = typeof roundContext;
-
-type Event = {
-	type: "playerSubmitsAnswer";
-	answer: Answer;
-};
-
-const turnMachine = createMachine(
-	{
-		context: turnContext,
-		id: "turn",
-		initial: "turnStart",
-		types: {
-			context: {} as TurnContext,
-			events: {} as Event,
-			typegen: {} as import("./round.typegen").Typegen0,
-		},
-		states: {
-			turnStart: {
-				entry: ["setQuestion"],
-				on: {
-					playerSubmitsAnswer: { actions: "addAnswer", target: "countdown" },
-				},
-			},
-			countdown: {
-				on: {
-					playerSubmitsAnswer: { actions: "addAnswer" },
-				},
-				after: {
-					[15000]: { target: "finished" },
-				},
-			},
-			finished: {
-				type: "final",
-			},
-		},
-	},
-	{
-		actions: {
-			addAnswer: assign({
-				answers: (args) => [...args.context.answers, args.event.answer],
-			}),
-		},
-	},
-);
+type Context = typeof context;
 
 // players are awarded one point for each person who guesses wrong plus any points from the bonus round
 // show what answers every gave
@@ -75,46 +21,31 @@ const turnMachine = createMachine(
 // if all answers are correct ++bonus points -> check win conditions -> next question
 // if there are some correct and some incorrect answers add the number of incorrect answers (+ any bonus points - then reset bonus points) to the scores of the players with correct answers -> check win conditions -> next question
 
-const roundMachine = setup({
-	actors: {
-		turn: turnMachine,
-	},
-}).createMachine(
+const roundMachine = createMachine(
 	{
-		context: roundContext,
+		context: context,
 		id: "round",
-		initial: "roundStart",
+		initial: "turn",
 		types: {
-			context: {} as RoundContext,
+			context: {} as Context,
 			events: {} as Event,
-			typegen: {} as import("./round.typegen").Typegen0,
+			// typegen: {} as import("./round.typegen").Typegen0,
 		},
 		states: {
-			roundStart: {
-				entry: ["setQuestion"],
+			turn: {
+				entry: ["setQuestion"], // keep track of which questions have been asked in round and/or entire game/lobby
 				invoke: {
 					id: "turn",
-					src: "turn",
+					src: turnMachine,
 					input: ({ context }) => ({
 						selectedQuestion: context.selectedQuestion,
 					}),
 					onDone: {
-						target: "success",
-						actions: assign({ user: ({ event }) => event.output }),
-					},
-					onError: {
-						target: "failure",
-						actions: assign({ error: ({ event }) => event.error }),
+						target: "turn",
+						actions: "processTurn", // need to receive answers from turn machine
 					},
 				},
-			},
-			countdown: {
-				on: {
-					playerSubmitsAnswer: { actions: "addAnswer" },
-				},
-				after: {
-					[15000]: { target: "finished" },
-				},
+				// guard: if win conditions, finished
 			},
 			finished: {
 				type: "final",
@@ -128,11 +59,13 @@ const roundMachine = setup({
 					const questionIndex = Math.floor(
 						Math.random() * (args.context.questions.length - 1),
 					);
+					// we can splice the selected question out of the questions array with args.context.questions.splice[questionIndex, 1]
 					return args.context.questions[questionIndex];
 				},
 			}),
+			processTurn: () => console.log("processing turn"),
 		},
 	},
 );
 
-export { turnContext as context, turnMachine as roundMachine };
+export { context, roundMachine };
