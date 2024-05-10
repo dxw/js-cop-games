@@ -1,6 +1,4 @@
-import type { EventObject } from "xstate";
-import { assign, createMachine } from "xstate";
-import type { GuardArgs } from "xstate/guards";
+import { assign, setup } from "xstate";
 import type { Player } from "../@types/entities";
 
 const context = {
@@ -14,80 +12,141 @@ type PlayerJoinsEvent = {
 	type: "playerJoins";
 };
 
+type PlayerLeavesEvent = {
+	socketId: Player["socketId"];
+	type: "playerLeaves";
+};
+
 type Events =
 	| PlayerJoinsEvent
-	| {
-			socketId: Player["socketId"];
-			type: "playerLeaves";
-	  }
+	| PlayerLeavesEvent
 	| {
 			type: "playerClicksStart";
 	  };
 
-const isNewPlayer = (args: GuardArgs<Context, PlayerJoinsEvent>) =>
-	args.context.players.find(
-		(player) => player.socketId === args.event.player.socketId,
-	) === undefined;
-
-const isOnlyPlayer = (args: GuardArgs<Context, EventObject>) =>
-	args.context.players.length === 1;
-
-const lobbyMachine = createMachine(
-	{
+const dynamicParamFuncs = {
+	addPlayer: ({
 		context,
-		id: "lobby",
-		initial: "empty",
-		types: {
-			context: {} as Context,
-			events: {} as Events,
-			typegen: {} as import("./lobby.typegen").Typegen0,
-		},
-		states: {
-			empty: {
-				on: { playerJoins: { actions: "addPlayer", target: "onePlayer" } },
-			},
-			multiplePlayers: {
-				always: {
-					guard: "isOnlyPlayer",
+		event,
+	}: { context: Context; event: PlayerJoinsEvent }) => {
+		return { players: context.players, player: event.player };
+	},
+	removePlayer: ({
+		context,
+		event,
+	}: { context: Context; event: PlayerLeavesEvent }) => {
+		return { players: context.players, playerSocketIdToRemove: event.socketId };
+	},
+	isNewPlayer: ({
+		context,
+		event,
+	}: { context: Context; event: PlayerJoinsEvent }) => {
+		return {
+			players: context.players,
+			maybeNewPlayerSocketId: event.player.socketId,
+		};
+	},
+	isOnlyPlayer: ({ context }: { context: Context }) => {
+		return { players: context.players };
+	},
+};
+
+const lobbyMachine = setup({
+	types: {} as {
+		context: Context;
+		events: Events;
+	},
+
+	actions: {
+		addPlayer: assign({
+			players: (_, params: ReturnType<typeof dynamicParamFuncs.addPlayer>) => [
+				...params.players,
+				params.player,
+			],
+		}),
+		removePlayer: assign({
+			players: (_, params: ReturnType<typeof dynamicParamFuncs.removePlayer>) =>
+				params.players.filter(
+					(player: Player) => player.socketId !== params.playerSocketIdToRemove,
+				),
+		}),
+	},
+	guards: {
+		isNewPlayer: (
+			_,
+			params: ReturnType<typeof dynamicParamFuncs.isNewPlayer>,
+		) =>
+			params.players.find(
+				(player) => player.socketId === params.maybeNewPlayerSocketId,
+			) === undefined,
+		isOnlyPlayer: (
+			_,
+			params: ReturnType<typeof dynamicParamFuncs.isOnlyPlayer>,
+		) => params.players.length === 1,
+	},
+}).createMachine({
+	context,
+	id: "lobby",
+	initial: "empty",
+	states: {
+		empty: {
+			on: {
+				playerJoins: {
+					actions: {
+						type: "addPlayer",
+						params: dynamicParamFuncs.addPlayer,
+					},
 					target: "onePlayer",
 				},
-				on: {
-					playerJoins: { actions: "addPlayer" },
-					playerLeaves: { actions: "removePlayer" },
-				},
-			},
-			onePlayer: {
-				on: {
-					playerJoins: {
-						actions: "addPlayer",
-						guard: "isNewPlayer",
-						target: "multiplePlayers",
-					},
-					playerLeaves: {
-						actions: "removePlayer",
-						target: "empty",
-					},
-				},
 			},
 		},
-	},
-	{
-		actions: {
-			addPlayer: assign({
-				players: (args) => [...args.context.players, args.event.player],
-			}),
-			removePlayer: assign({
-				players: (args) =>
-					args.context.players.filter(
-						(player) => player.socketId !== args.event.socketId,
-					),
-			}),
-		},
-		guards: {
-			isNewPlayer,
-			isOnlyPlayer,
-		},
-	},
-);
 
-export { context, isNewPlayer, isOnlyPlayer, lobbyMachine };
+		multiplePlayers: {
+			always: {
+				guard: {
+					type: "isOnlyPlayer",
+					params: dynamicParamFuncs.isOnlyPlayer,
+				},
+				target: "onePlayer",
+			},
+			on: {
+				playerJoins: {
+					actions: {
+						type: "addPlayer",
+						params: dynamicParamFuncs.addPlayer,
+					},
+				},
+				playerLeaves: {
+					actions: {
+						type: "removePlayer",
+						params: dynamicParamFuncs.removePlayer,
+					},
+				},
+			},
+		},
+		onePlayer: {
+			on: {
+				playerJoins: {
+					actions: {
+						type: "addPlayer",
+						params: dynamicParamFuncs.addPlayer,
+					},
+					guard: {
+						type: "isNewPlayer",
+						params: dynamicParamFuncs.isNewPlayer,
+					},
+					target: "multiplePlayers",
+				},
+				playerLeaves: {
+					actions: {
+						type: "removePlayer",
+						params: dynamicParamFuncs.removePlayer,
+					},
+					target: "empty",
+				},
+			},
+		},
+	},
+});
+
+export { context, lobbyMachine };
