@@ -34,3 +34,5 @@ A list of recommended extensions to help with the developer experience can be fo
 ## Architecture
 
 This repo uses ADRs, head to [the ADR directory](./doc/architecture/decisions/) to read them.
+
+Architecture diagrams are available in [the diagrams directory](./doc/architecture/diagrams/).
