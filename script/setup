@@ -1,0 +1,15 @@
+#!/bin/sh
+set -e
+
+echo '==> Installing bun'
+brew tap oven-sh/bun
+brew install bun
+
+echo '==> Installing packages'
+bun install
+
+echo '==> Installing ngrok'
+brew install ngrok/ngrok/ngrok
+
+echo '==> Installing playwright'
+bunx playwright install

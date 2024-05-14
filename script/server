@@ -1,3 +1,4 @@
-echo "==> Starting the server in watch mode..."
+#!/bin/sh
+echo "==> Starting the server"
 
-bun run start:watch
+bun run start
