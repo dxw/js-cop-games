@@ -1,7 +1,8 @@
-import { type Actor, createActor } from "xstate";
+import { type Actor, type InspectionEvent, createActor } from "xstate";
 import type { Answer, Question } from "../@types/entities";
 import { context, roundMachine } from "../machines/round";
 import type { SocketServer } from "../socketServer";
+import { machineLogger } from "../utils/machineLogger";
 
 class Round {
 	machine: Actor<typeof roundMachine>;
@@ -9,7 +10,12 @@ class Round {
 
 	constructor(server: SocketServer) {
 		this.server = server;
-		this.machine = createActor(roundMachine, { ...context });
+		this.machine = createActor(roundMachine, {
+			...context,
+			inspect: (inspectionEvent: InspectionEvent) => {
+				machineLogger(inspectionEvent);
+			},
+		});
 		this.machine.subscribe((state) => {
 			console.info({
 				machine: "round",
