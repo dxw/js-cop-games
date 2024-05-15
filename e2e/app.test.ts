@@ -1,13 +1,14 @@
 import { type Browser, type Page, expect, test } from "@playwright/test";
-import type { Player } from "../server/@types/entities";
+import type { Colour, Player } from "../server/@types/entities";
 
 const joinedPlayerNames: Player["name"][] = [];
 
-test("players can join the game", async ({ browser }) => {
+test("players can join and start the game", async ({ browser }) => {
 	const playersPages = await Promise.all([
 		createPage(browser),
 		createPage(browser),
 	]);
+	const player1Page = playersPages[0];
 
 	await Promise.all(
 		playersPages.map(async (playerPage, playerPageIndex) => {
@@ -29,6 +30,34 @@ test("players can join the game", async ({ browser }) => {
 				playerPage.getByRole("listitem").getByText(joinedPlayerName),
 			).toBeVisible();
 		}
+	}
+
+	//   Start game
+	await startGame(player1Page);
+
+	//  Verify game has started
+	for (const playerPage of playersPages) {
+		await expect(playerPage.getByText("Choose your colour")).toBeVisible();
+	}
+
+	const playerColours: Colour[][] = [
+		["red", "blue"],
+		["green", "yellow"],
+	];
+
+	// Select colours
+	await Promise.all(
+		playersPages.map(async (playerPage, index) => {
+			await selectColours(playerPage, playerColours[index]);
+		}),
+	);
+
+	// Verify colours are visible
+	for (const [index, playerPage] of playersPages.entries()) {
+		const colours = playerColours[index];
+		await expect(
+			playerPage.getByText(`You picked: ${colours.sort().join(", ")}`),
+		).toBeVisible();
 	}
 });
 
@@ -57,4 +86,17 @@ const addName = async (page: Page, name: Player["name"]) => {
 	const joinButton = page.getByRole("button", { name: "Join game" });
 	await joinButton.click();
 	joinedPlayerNames.push(name);
+};
+
+const startGame = async (page: Page) => {
+	const startButton = page.getByRole("button", { name: "Start game!" });
+	await startButton.click();
+};
+
+const selectColours = async (page: Page, colours: Colour[]) => {
+	for (const colour of colours) {
+		await page.getByRole("checkbox", { name: colour }).check();
+	}
+
+	await page.getByRole("button", { name: "Submit" }).click();
 };
