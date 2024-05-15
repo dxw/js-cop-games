@@ -24,6 +24,10 @@ class Round {
 					);
 					break;
 				}
+				case "countdown": {
+					this.server.onCountdown()
+					break;
+				}
 				default:
 					break;
 			}

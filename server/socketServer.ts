@@ -55,4 +55,8 @@ export class SocketServer {
 	onShowStartButton() {
 		this.server.emit("round:startable");
 	}
+
+	onCountdown() {
+		this.server.emit("round:countdown")
+	}
 }

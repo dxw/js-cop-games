@@ -93,6 +93,37 @@ const nameFormElement = getElementById("name-form") as NameFormElement;
 const playerListElement = getElementById("player-list");
 const playerNameElement = getElementById("player-name");
 
+const renderTimer = (): void => {
+	const timerSectionElement = getElementById("timer-section");
+	renderInitialTimer(timerSectionElement);
+	renderCountdown(timerSectionElement);
+};
+
+const renderInitialTimer = (timerElement: HTMLElement): void => {
+	const secondsUntilRoundEnd = document.createElement("p");
+	secondsUntilRoundEnd.innerText = "15";
+	timerElement.appendChild(secondsUntilRoundEnd);
+	appendTimerSuffix(secondsUntilRoundEnd);
+};
+
+const renderCountdown = (timerElement: HTMLElement) => {
+	let secondsElapsed = 0;
+	const updateTimer = setInterval(() => {
+		secondsElapsed++;
+		timerElement.innerText = (15 - secondsElapsed).toString();
+		appendTimerSuffix(timerElement);
+		if (secondsElapsed === 15) {
+			clearInterval(updateTimer);
+		}
+	}, 1000);
+};
+
+const appendTimerSuffix = (timerElement: HTMLElement) => {
+	const description = document.createElement("span");
+	description.innerText = " seconds left";
+	timerElement.appendChild(description);
+};
+
 let currentPlayer: Player;
 let playerNames: Player["name"][] = [];
 
@@ -128,6 +159,10 @@ socket.on("question:get", (question) => {
 
 socket.on("round:startable", () => {
 	showStartButton();
+});
+
+socket.on("round:countdown", () => {
+	renderTimer();
 });
 
 nameFormElement.addEventListener("submit", (e) => {
