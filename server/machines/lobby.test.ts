@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from "bun:test";
 import type { Actor } from "xstate";
 import { createActor, getNextSnapshot } from "xstate";
-import { context, isNewPlayer, lobbyMachine } from "./lobby";
+import { context, lobbyMachine } from "./lobby";
 
 describe("lobbyMachine states", () => {
 	const player1 = { name: "a name", socketId: "id" };
@@ -145,30 +145,5 @@ describe("lobbyMachine states", () => {
 
 			expect(actor.getSnapshot().context.players).toEqual([player2]);
 		});
-	});
-});
-
-describe("isNewPlayer", () => {
-	it("returns true if the player is not present in the players array", () => {
-		const player = { name: "a name", socketId: "id" };
-		const contextWithNoPlayers = { players: [] };
-		expect(
-			isNewPlayer({
-				context: contextWithNoPlayers,
-				event: { player, type: "playerJoins" },
-			}),
-		).toBe(true);
-	});
-
-	it("returns false if the player is present in the players array", () => {
-		const player = { name: "a name", socketId: "id" };
-		const contextWithPlayer = { players: [player] };
-
-		expect(
-			isNewPlayer({
-				context: contextWithPlayer,
-				event: { player, type: "playerJoins" },
-			}),
-		).toBe(false);
 	});
 });
