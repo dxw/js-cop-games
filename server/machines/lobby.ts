@@ -100,7 +100,6 @@ const lobbyMachine = setup({
 				},
 			},
 		},
-
 		multiplePlayers: {
 			always: {
 				guard: {
