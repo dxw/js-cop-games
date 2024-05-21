@@ -42,7 +42,7 @@ test("players can join and start the game", async ({ browser }) => {
 
 	const playerColours: Colour[][] = [
 		["red", "blue"],
-		["green", "yellow"],
+		["yellow", "green"],
 	];
 
 	// Select colours
@@ -56,7 +56,7 @@ test("players can join and start the game", async ({ browser }) => {
 	for (const [index, playerPage] of playersPages.entries()) {
 		const colours = playerColours[index];
 		await expect(
-			playerPage.getByText(`You picked: ${colours.sort().join(", ")}`),
+			playerPage.getByText(`You picked: ${colours.join(", ")}`),
 		).toBeVisible();
 	}
 });

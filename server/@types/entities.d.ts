@@ -7,16 +7,16 @@ type Answer = {
 
 type Colour =
 	| "black"
-	| "blue"
-	| "brown"
-	| "green"
 	| "grey"
-	| "orange"
-	| "pink"
-	| "purple"
-	| "red"
 	| "white"
-	| "yellow";
+	| "red"
+	| "orange"
+	| "yellow"
+	| "green"
+	| "blue"
+	| "purple"
+	| "pink"
+	| "brown";
 
 type Player = {
 	name: string;

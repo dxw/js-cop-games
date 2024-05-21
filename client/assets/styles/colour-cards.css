@@ -1,15 +1,15 @@
 .colour-cards {
   --black: #22181c;
-  --blue: #1778b5;
-  --brown: #a33b20;
-  --green: #8ac926;
   --grey: #707070;
-  --orange: #ff924c;
-  --pink: #ff8cc6;
-  --purple: #6a4c93;
-  --red: #e60008;
   --white: #fafafa;
+  --red: #e60008;
+  --orange: #ff924c;
   --yellow: #ffca3a;
+  --green: #8ac926;
+  --blue: #1778b5;
+  --purple: #6a4c93;
+  --pink: #ff8cc6;
+  --brown: #a33b20;
   --selected: #52a675;
 
   display: flex;

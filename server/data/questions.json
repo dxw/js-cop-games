@@ -1,16 +1,16 @@
 [
 	{
-		"answer": ["black", "orange", "yellow", "white"],
+		"answer": ["black", "white", "orange", "yellow"],
 		"number": 4,
 		"question": "duxw"
 	},
 	{
-		"answer": ["green", "red", "white"],
+		"answer": ["white", "red", "green"],
 		"number": 3,
 		"question": "Caprese salad"
 	},
 	{
-		"answer": ["blue", "red", "yellow"],
+		"answer": ["red", "yellow", "blue"],
 		"number": 3,
 		"question": "Moldovan flag"
 	}
