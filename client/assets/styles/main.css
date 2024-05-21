@@ -1,14 +1,18 @@
 @import url("https://fonts.googleapis.com/css?family=Poppins:600&display=swap");
-@import url("https://fonts.googleapis.com/css?family=Cardo:400,700&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Merriweather:300&display=swap");
+@import url("colour-cards.css");
+
 
 body {
+  --dxw-white: #f9f8f5;
+
   padding: 1rem;
 
-  font-family: Cardo, serif;
-  font-weight: 400;
+  font-family: Merriweather, serif;
+  font-weight: 300;
   color: #243746;
 
-  background-color: #f9f8f5;
+  background-color: var(--dxw-white);
 }
 
 h1,
@@ -40,4 +44,12 @@ h1 {
 #player-list {
   padding-inline-start: 0;
   list-style: none;
+}
+
+.answer-form fieldset {
+  display: inline-block;
+}
+
+.answer-form button {
+  display: block;
 }

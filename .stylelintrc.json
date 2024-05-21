@@ -1,3 +1,10 @@
 {
-	"extends": ["stylelint-config-standard", "stylelint-config-clean-order"]
+	"extends": ["stylelint-config-standard", "stylelint-config-clean-order"],
+	"plugins": ["stylelint-selector-bem-pattern"],
+	"rules": {
+		"plugin/selector-bem-pattern": {
+			"preset": "bem"
+		},
+		"selector-class-pattern": null
+	}
 }
