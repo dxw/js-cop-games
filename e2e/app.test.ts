@@ -95,7 +95,7 @@ const startGame = async (page: Page) => {
 
 const selectColours = async (page: Page, colours: Colour[]) => {
 	for (const colour of colours) {
-		await page.getByRole("checkbox", { name: colour }).check();
+		await page.locator(`label[for="${colour}"]`).click();
 	}
 
 	await page.getByRole("button", { name: "Submit" }).click();
