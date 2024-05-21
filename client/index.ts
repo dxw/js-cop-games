@@ -88,6 +88,13 @@ const derenderColorCheckboxes = (): void => {
 	getElementById("checkbox-form").remove();
 };
 
+const showUnjoinableMessage = (): void => {
+	const nameForm = document.querySelector("#name-form");
+	const unjoinableMessage = document.createElement("p");
+	unjoinableMessage.innerText = "Round in progress. Try again later";
+	nameForm?.replaceWith(unjoinableMessage);
+};
+
 const connectionStatusIconElement = getElementById("connection-status-icon");
 const nameFormElement = getElementById("name-form") as NameFormElement;
 const playerListElement = getElementById("player-list");
@@ -128,6 +135,10 @@ socket.on("question:get", (question) => {
 
 socket.on("round:startable", () => {
 	showStartButton();
+});
+
+socket.on("lobby:unjoinable", () => {
+	showUnjoinableMessage();
 });
 
 nameFormElement.addEventListener("submit", (e) => {

@@ -1,6 +1,7 @@
 import type { Colour, Player, Question } from "./entities";
 
 export interface ClientboundSocketServerEvents {
+	"lobby:unjoinable": () => void;
 	"round:startable": () => void;
 	"round:start": () => void;
 	"player:set": (player: Player) => void;

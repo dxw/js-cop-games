@@ -24,6 +24,10 @@ export class SocketServer {
 		this.server.on("connection", (socket) => {
 			console.info(`connected: ${socket.id}`);
 
+			if (this.round) {
+				socket.emit("lobby:unjoinable");
+			}
+
 			socket.emit("players:get", this.lobby.playerNames());
 			socket.on("players:post", (name: Player["name"]) => {
 				const player = this.lobby.addPlayer(name, socket.id);
