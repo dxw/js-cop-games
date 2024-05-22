@@ -24,6 +24,10 @@ export class SocketServer {
 		this.server.on("connection", (socket) => {
 			console.info(`connected: ${socket.id}`);
 
+			if (this.round) {
+				socket.emit("lobby:unjoinable");
+			}
+
 			socket.emit("players:get", this.lobby.playerNames());
 			socket.on("players:post", (name: Player["name"]) => {
 				const player = this.lobby.addPlayer(name, socket.id);
@@ -38,6 +42,9 @@ export class SocketServer {
 			socket.on("round:start", () => {
 				this.onRoundStarted();
 			});
+			socket.on("round:reset", () => {
+				this.onRoundReset();
+			});
 			socket.on("answers:post", (colours: Colour[]) =>
 				this.round?.addAnswer({ colours: colours, socketId: socket.id }),
 			);
@@ -50,6 +57,12 @@ export class SocketServer {
 
 	onRoundStarted() {
 		this.round ||= new Round(this);
+		this.server.emit("round:start");
+	}
+
+	onRoundReset() {
+		this.round = undefined;
+		this.server.emit("round:reset");
 	}
 
 	onShowStartButton() {
