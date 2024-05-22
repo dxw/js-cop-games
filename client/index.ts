@@ -59,17 +59,30 @@ const derenderNameForm = (): void => {
 };
 
 const startButton = getElementById("start-button");
+const roundResetButton = getElementById("round-reset-button");
 
 const showStartButton = (): void => {
 	startButton.style.display = "block";
+};
+
+const showRoundResetButton = (): void => {
+	roundResetButton.style.display = "block";
 };
 
 startButton.addEventListener("click", () => {
 	socket.emit("round:start");
 });
 
-const derenderStartButton = (): void => {
-	startButton.remove();
+roundResetButton.addEventListener("click", () => {
+	socket.emit("round:reset");
+});
+
+const hideStartButton = (): void => {
+	startButton.style.display = "none";
+};
+
+const hideRoundResetButton = (): void => {
+	roundResetButton.style.display = "none";
 };
 
 const submitAnswers = async (form: HTMLFormElement): Promise<void> => {
@@ -128,7 +141,6 @@ socket.on("player:set", (player) => {
 });
 
 socket.on("question:get", (question) => {
-	derenderStartButton();
 	askAQuestion(question);
 	renderColourCheckboxes();
 });
@@ -137,8 +149,24 @@ socket.on("round:startable", () => {
 	showStartButton();
 });
 
+socket.on("round:start", () => {
+	hideStartButton();
+	showRoundResetButton();
+});
+
 socket.on("lobby:unjoinable", () => {
 	showUnjoinableMessage();
+});
+
+socket.on("round:reset", () => {
+	getElementById("question").innerText = "";
+	getElementById("number").innerText = "";
+	getElementById("colour-section").innerHTML = "";
+	hideRoundResetButton();
+
+	if (playerNames.length > 1) {
+		showStartButton();
+	}
 });
 
 nameFormElement.addEventListener("submit", (e) => {

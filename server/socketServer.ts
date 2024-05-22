@@ -42,6 +42,9 @@ export class SocketServer {
 			socket.on("round:start", () => {
 				this.onRoundStarted();
 			});
+			socket.on("round:reset", () => {
+				this.onRoundReset();
+			});
 			socket.on("answers:post", (colours: Colour[]) =>
 				this.round?.addAnswer({ colours: colours, socketId: socket.id }),
 			);
@@ -54,6 +57,12 @@ export class SocketServer {
 
 	onRoundStarted() {
 		this.round ||= new Round(this);
+		this.server.emit("round:start");
+	}
+
+	onRoundReset() {
+		this.round = undefined;
+		this.server.emit("round:reset");
 	}
 
 	onShowStartButton() {
