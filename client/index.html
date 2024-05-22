@@ -18,30 +18,33 @@
     <meta name="theme-color" content="#f9f8f5">
   </head>
   <body>
-    <div id="connection-status-icon">Not connected 🔴</div>
-    <div id="player-name"></div>
+    <header>
+      <div id="connection-status-icon">Not connected 🔴</div>
+      <div id="player-name"></div>
+      <h1>Colour Me Knowledgeable!</h1>
+    </header>
 
-    <h1>Colour Me Knowledgeable!</h1>
-
-    <form id="name-form">
-      <input id="name" type="text" />
-      <label for="name">Display name</label>
-
-      <button type="submit">Join game</button>
-    </form>
-
-    <h2>Players</h2>
-
-    <ul id="player-list"></ul>
-
-    <button id="start-button" style="display: none">Start game!</button>
-
-    <section>
-      <p id="question"></p>
-      <p id="number"></p>
-    </section>
-
-    <section id="colour-section"></section>
+    <main>  
+      <form id="name-form">
+        <input id="name" type="text" />
+        <label for="name">Display name</label>
+  
+        <button type="submit">Join game</button>
+      </form>
+  
+      <h2>Players</h2>
+  
+      <ul id="player-list"></ul>
+  
+      <button id="start-button" style="display: none">Start game!</button>
+  
+      <section>
+        <p id="question"></p>
+        <p id="number"></p>
+      </section>
+  
+      <section id="colour-section"></section>
+    </main>
 
     <template id="checkbox-template">
       <form id="checkbox-form" class="answer-form">
