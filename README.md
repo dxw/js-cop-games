@@ -25,7 +25,7 @@ To allow other people to join the game running locally you'll need to share your
 1. Use [`ngrok`](https://ngrok.com/docs/getting-started/) - installed with the setup script. You'll need to create an account with Ngrok for this.
 2. Use VS Code's terminal port sharing - we've had some issues with this not working very well locally, but you may have more luck!
 
-If you're developing solo, you can simulate the game being played by multiple players by opening localhost in a different browser or private browsing tab.
+If you're developing solo, you can simulate the game being played by multiple players by opening the game in multiple tabs.
 
 ### Extensions
 
