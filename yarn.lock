@@ -934,7 +934,7 @@ ms@2.1.2:
 
 nanoid@^3.3.7:
   version "3.3.7"
-  resolved "https://registry.npmjs.org/nanoid/-/nanoid-3.3.7.tgz"
+  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.3.7.tgz#d0c301a691bc8d54efa0a2226ccf3fe2fd656bd8"
   integrity sha512-eSRppjcPIatRIMC1U6UngP8XFcz8MQWGQdt1MTBQ7NaAmvXDfvNxbvWV3x2y6CdEUciCSsDHDQZbhYaB8QEo2g==
 
 negotiator@0.6.3:
@@ -998,9 +998,9 @@ path-type@^4.0.0:
   integrity sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==
 
 picocolors@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.npmjs.org/picocolors/-/picocolors-1.0.0.tgz"
-  integrity sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/picocolors/-/picocolors-1.0.1.tgz#a8ad579b571952f0e5d25892de5445bcfe25aaa1"
+  integrity sha512-anP1Z8qwhkbmu7MFP5iTt+wQKXgwzf7zTyGlcdzabySa9vd0Xt392U0rVmz9poOaBj0uHJKyyo9/upk0HrEQew==
 
 picomatch@^2.3.1:
   version "2.3.1"
@@ -1049,7 +1049,7 @@ postcss-selector-parser@^6.0.15:
 
 postcss-sorting@^8.0.2:
   version "8.0.2"
-  resolved "https://registry.npmjs.org/postcss-sorting/-/postcss-sorting-8.0.2.tgz"
+  resolved "https://registry.yarnpkg.com/postcss-sorting/-/postcss-sorting-8.0.2.tgz#6393385ece272baf74bee9820fb1b58098e4eeca"
   integrity sha512-M9dkSrmU00t/jK7rF6BZSZauA5MAaBW4i5EnJXspMwt4iqTh/L9j6fgMnbElEOfyRyfLfVbIHj/R52zHzAPe1Q==
 
 postcss-value-parser@^4.2.0:
@@ -1057,7 +1057,7 @@ postcss-value-parser@^4.2.0:
   resolved "https://registry.npmjs.org/postcss-value-parser/-/postcss-value-parser-4.2.0.tgz"
   integrity sha512-1NNCs6uurfkVbeXG4S8JFT9t19m45ICnif8zWLd5oPSZ50QnwMfK+H3jv408d4jw/7Bttv5axS5IiHoLaVNHeQ==
 
-postcss@^8.4.24, postcss@^8.4.32, postcss@^8.4.33:
+postcss@^8.4.24, postcss@^8.4.33:
   version "8.4.35"
   resolved "https://registry.npmjs.org/postcss/-/postcss-8.4.35.tgz"
   integrity sha512-u5U8qYpBCpN13BsiEB0CbR1Hhh4Gc0zLFuedrHJKMctHCHAGrMdG0PRM/KErzAL3CU6/eckEtmHNB3x6e3c0vA==
@@ -1065,6 +1065,15 @@ postcss@^8.4.24, postcss@^8.4.32, postcss@^8.4.33:
     nanoid "^3.3.7"
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
+
+postcss@^8.4.32:
+  version "8.4.38"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.38.tgz#b387d533baf2054288e337066d81c6bee9db9e0e"
+  integrity sha512-Wglpdk03BSfXkHoQa3b/oulrotAkwrlLDRSOb9D0bN86FdRyE9lppSp33aHNPgBa0JKCoB+drFLZkQoRRYae5A==
+  dependencies:
+    nanoid "^3.3.7"
+    picocolors "^1.0.0"
+    source-map-js "^1.2.0"
 
 punycode@^1.3.2:
   version "1.4.1"
@@ -1208,10 +1217,15 @@ socket.io@^4.1.3:
     socket.io-adapter "~2.5.2"
     socket.io-parser "~4.2.4"
 
-source-map-js@^1.0.1, source-map-js@^1.0.2:
+source-map-js@^1.0.1:
   version "1.0.2"
   resolved "https://registry.npmjs.org/source-map-js/-/source-map-js-1.0.2.tgz"
   integrity sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw==
+
+source-map-js@^1.0.2, source-map-js@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/source-map-js/-/source-map-js-1.2.0.tgz#16b809c162517b5b8c3e7dcd315a2a5c2612b2af"
+  integrity sha512-itJW8lvSA0TXEphiRoawsCksnlf8SyvmFzIhltqAHluXd88pkCd+cXJVHTDwdCr0IzwptSm035IHQktUu1QUMg==
 
 "string-width-cjs@npm:string-width@^4.2.0":
   version "4.2.3"
@@ -1262,9 +1276,9 @@ strip-ansi@^7.0.1, strip-ansi@^7.1.0:
     ansi-regex "^6.0.1"
 
 stylelint-config-clean-order@^5.2.0:
-  version "5.4.1"
-  resolved "https://registry.npmjs.org/stylelint-config-clean-order/-/stylelint-config-clean-order-5.4.1.tgz"
-  integrity sha512-C9E94vFk7QKqPshXik3iNU5cYz7vm0Up4/wu1biRjThWLWJ3gYRdXfyV/1fFU7u4ThfSIf2/ijNhk0pf0ErPWQ==
+  version "5.4.2"
+  resolved "https://registry.yarnpkg.com/stylelint-config-clean-order/-/stylelint-config-clean-order-5.4.2.tgz#b2f2e487ea8d4b8cf3dd4ac5c1a9346328d91560"
+  integrity sha512-lhPnDUL1gQbZYqG9kQx5dfEfiD/EpyVbb6jOiR7YfKzkIVv7Rw4jSKzvxr4v5PZqmRyCSzM3goc93jqfF+OZbA==
   dependencies:
     stylelint-order "^6.0.4"
 
@@ -1282,7 +1296,7 @@ stylelint-config-standard@^36.0.0:
 
 stylelint-order@^6.0.4:
   version "6.0.4"
-  resolved "https://registry.npmjs.org/stylelint-order/-/stylelint-order-6.0.4.tgz"
+  resolved "https://registry.yarnpkg.com/stylelint-order/-/stylelint-order-6.0.4.tgz#3e80d876c61a98d2640de181433686f24284748b"
   integrity sha512-0UuKo4+s1hgQ/uAxlYU4h0o0HS4NiQDud0NAUNI0aa8FJdmYHA5ZZTFHiV5FpmE3071e9pZx5j0QpVJW5zOCUA==
   dependencies:
     postcss "^8.4.32"
