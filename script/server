@@ -1,4 +1,4 @@
 #!/bin/sh
 echo "==> Starting the server"
 
-bun run start
+bun run start:watch
