@@ -29,6 +29,13 @@ h1 {
   text-align: center;
 }
 
+h1::before {
+  content: url("/assets/images/favicon/favicon-32x32.png");
+  height: 2rem;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+}
+
 #connection-status-icon {
   position: absolute;
   top: 1.5rem;
