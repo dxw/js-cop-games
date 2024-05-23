@@ -1,8 +1,6 @@
 import { assign, createMachine } from "xstate";
 import type { Question } from "../@types/entities";
 import questions from "../data/questions.json";
-import { turnMachine } from "./turn";
-
 const context = {
 	questions: questions as Question[],
 	selectedQuestion: {} as Question | undefined,
@@ -32,18 +30,21 @@ const roundMachine = createMachine(
 		},
 		states: {
 			turn: {
-				entry: ["setQuestion"], // keep track of which questions have been asked in round and/or entire game/lobby
-				invoke: {
-					id: "turn",
-					src: turnMachine,
-					input: ({ context }) => ({
-						selectedQuestion: context.selectedQuestion,
-					}),
-					onDone: {
-						target: "turn",
-						actions: "processTurn", // need to receive answers from turn machine
-					},
+				entry: ["setQuestion"], // keep track of which questions have been asked in round and/or entire game/lobby]
+				on: {
+					turnEnd: { target: "finished", actions: ["processTurn"] },
 				},
+				// invoke: {
+				// 	id: "turn",
+				// 	src: turnMachine,
+				// 	input: ({ context }) => ({
+				// 		selectedQuestion: context.selectedQuestion,
+				// 	}),
+				// 	onDone: {
+				// 		target: "finished",
+				// 		actions: "processTurn", // need to receive answers from turn machine
+				// 	},
+				// },
 				// guard: if win conditions, finished
 			},
 			finished: {
