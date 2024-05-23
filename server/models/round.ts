@@ -13,7 +13,7 @@ class Round {
 		this.machine = createActor(roundMachine, {
 			...context,
 			inspect: (inspectionEvent: InspectionEvent) => {
-				machineLogger(inspectionEvent);
+				machineLogger(inspectionEvent, 'round');
 			},
 		});
 		this.machine.subscribe((state) => {

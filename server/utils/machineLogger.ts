@@ -5,6 +5,9 @@ export const machineLogger = (
 	machine: "turn" | "round",
 ) => {
 	if (inspectionEvent.type === "@xstate.event") {
-		console.info(inspectionEvent.event);
+		console.info(inspectionEvent.event, `machine: ${machine}`);
+	}
+	if (inspectionEvent.type === "@xstate.snapshot") {
+		console.info(inspectionEvent.snapshot, `machine: ${machine}`);
 	}
 };
