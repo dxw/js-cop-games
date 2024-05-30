@@ -15,7 +15,7 @@ class Round {
 		this.machine = createActor(roundMachine, {
 			...context,
 			inspect: (inspectionEvent: InspectionEvent) => {
-				machineLogger(inspectionEvent, 'round');
+				machineLogger(inspectionEvent, "round");
 			},
 		});
 		this.machine.subscribe((state) => {
@@ -31,7 +31,7 @@ class Round {
 						this.machine.getSnapshot().context.selectedQuestion as Question,
 					);
 
-					this.initialiseTurnMachine()
+					this.initialiseTurnMachine();
 					break;
 				}
 				default:
@@ -39,7 +39,6 @@ class Round {
 			}
 		});
 		this.machine.start();
-
 	}
 
 	initialiseTurnMachine() {
@@ -49,15 +48,15 @@ class Round {
 			},
 		});
 		this.turnMachine.subscribe((state) => {
-		// if state.value === "finished"
-		// pass answer back to round and kill this instance of the turn machine
-		})
+			if (state.value === "finished") {
+				this.machine.send({ type: "turnEnd", answers: state.context.answers });
+			}
+		});
 		this.turnMachine.start();
 	}
 
 	addAnswer(answer: Answer) {
-
-		this.turnMachine?.send({ type: "playerSubmitsAnswer", answer})
+		this.turnMachine?.send({ type: "playerSubmitsAnswer", answer });
 	}
 }
 

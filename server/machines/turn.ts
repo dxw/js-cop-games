@@ -21,7 +21,6 @@ const turnMachine = createMachine(
 		types: {
 			context: {} as Context,
 			events: {} as Event,
-			typegen: {} as import("./round.typegen").Typegen0,
 		},
 		states: {
 			turnStart: {
