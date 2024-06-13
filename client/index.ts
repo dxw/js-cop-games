@@ -92,9 +92,18 @@ const submitAnswers = async (form: HTMLFormElement): Promise<void> => {
 	);
 	socket.emit("answers:post", colours);
 	derenderColorCheckboxes();
-	getElementById("colour-section").innerText = `You picked: ${colours.join(
-		", ",
-	)}`;
+	const answeredColourCards = colours.map(
+		(colour) =>
+			`<div class="colour-cards__card colour-cards__card--${colour}">
+				<p>${colour[0].toUpperCase()}${colour.slice(1)}</p>
+			</div>`,
+	);
+	getElementById("colour-section").innerHTML = `
+		<h2>Your selection</h2>
+		<div class="colour-cards">
+			${answeredColourCards.join("")}
+		</div>
+	`;
 };
 
 const derenderColorCheckboxes = (): void => {
