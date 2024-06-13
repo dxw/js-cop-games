@@ -1,16 +1,17 @@
-@import url("https://fonts.googleapis.com/css?family=Poppins:600&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Poppins:400,600&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Merriweather:300&display=swap");
 @import url("colour-cards.css");
 
 
 body {
   --dxw-white: #f9f8f5;
+  --dxw-black: #243746;
 
   padding: 1rem;
 
   font-family: Merriweather, serif;
   font-weight: 300;
-  color: #243746;
+  color: var(--dxw-black);
 
   background-color: var(--dxw-white);
 }

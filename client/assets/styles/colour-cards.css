@@ -15,6 +15,9 @@
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
+
+  font-family: Poppins, sans-serif;
+  font-weight: 400;
 }
 
 .colour-cards input {
@@ -22,17 +25,13 @@
 }
 
 .colour-cards__card {
-  order: 2;
-
   height: 6rem;
   padding: 1rem;
-
-  border: var(--black) solid 0.2rem;
+  border: var(--dxw-black) solid 0.2rem;
   border-radius: 0.5rem;
 }
 
 .colour-cards input:checked + .colour-cards__card {
-  order: 1;
   outline: var(--selected) solid 0.2rem;
 }
 
