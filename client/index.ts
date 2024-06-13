@@ -34,9 +34,11 @@ const renderPlayerName = (): void => {
 
 // biome-ignore lint/style/useNamingConvention: the issue here is the consecutive upper case characters, but given it's due to using a single-character word, this doesn't feel invalid
 const askAQuestion = (data: Question): void => {
-	const { question, number } = data;
 	const questionHtml = getElementById("question");
-	questionHtml.innerText = question;
+	questionHtml.style.display = "block";
+	const { question, number } = data;
+	const thingHtml = getElementById("thing");
+	thingHtml.innerText = question;
 	const numberHtml = getElementById("number");
 	numberHtml.innerText = number.toString();
 };
@@ -168,7 +170,8 @@ socket.on("lobby:unjoinable", () => {
 });
 
 socket.on("round:reset", () => {
-	getElementById("question").innerText = "";
+	getElementById("question").style.display = "none";
+	getElementById("thing").innerText = "";
 	getElementById("number").innerText = "";
 	getElementById("colour-section").innerHTML = "";
 	hideRoundResetButton();
