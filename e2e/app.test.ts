@@ -55,9 +55,10 @@ test("players can join and start the game", async ({ browser }) => {
 	// Verify colours are visible
 	for (const [index, playerPage] of playersPages.entries()) {
 		const colours = playerColours[index];
-		await expect(
-			playerPage.getByText(`You picked: ${colours.join(", ")}`),
-		).toBeVisible();
+		await expect(playerPage.getByText("Your selection")).toBeVisible();
+		await expect(playerPage.locator(".colour-cards__card p")).toHaveText(
+			colours.map((colour) => colour[0].toUpperCase() + colour.slice(1)),
+		);
 	}
 });
 

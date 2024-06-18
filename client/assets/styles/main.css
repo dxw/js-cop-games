@@ -55,6 +55,10 @@ h1::before {
   list-style: none;
 }
 
+#question {
+  display: none;
+}
+
 .answer-form fieldset {
   display: inline-block;
 }
