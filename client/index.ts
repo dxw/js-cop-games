@@ -11,6 +11,7 @@ import {
 	renderColourCheckboxes,
 	renderPlayerList,
 	renderPlayerName,
+	renderRoundResetButton,
 	renderStartButton,
 } from "./utils/domManipulationUtils";
 import { getElementById } from "./utils/getElementById";
@@ -31,10 +32,6 @@ const emitAnswersPost = (colours: Answer["colours"]): void => {
 
 const startButton = getElementById("start-button");
 const roundResetButton = getElementById("round-reset-button");
-
-const showRoundResetButton = (): void => {
-	roundResetButton.style.display = "block";
-};
 
 startButton.addEventListener("click", () => {
 	socket.emit("round:start");
@@ -100,7 +97,7 @@ socket.on("round:startable", () => {
 
 socket.on("round:start", () => {
 	hideStartButton();
-	showRoundResetButton();
+	renderRoundResetButton();
 });
 
 socket.on("lobby:unjoinable", () => {
