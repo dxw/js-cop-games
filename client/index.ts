@@ -11,6 +11,7 @@ import {
 	renderColourCheckboxes,
 	renderPlayerList,
 	renderPlayerName,
+	renderStartButton,
 } from "./utils/domManipulationUtils";
 import { getElementById } from "./utils/getElementById";
 
@@ -30,10 +31,6 @@ const emitAnswersPost = (colours: Answer["colours"]): void => {
 
 const startButton = getElementById("start-button");
 const roundResetButton = getElementById("round-reset-button");
-
-const showStartButton = (): void => {
-	startButton.style.display = "block";
-};
 
 const showRoundResetButton = (): void => {
 	roundResetButton.style.display = "block";
@@ -98,7 +95,7 @@ socket.on("question:get", (question) => {
 });
 
 socket.on("round:startable", () => {
-	showStartButton();
+	renderStartButton();
 });
 
 socket.on("round:start", () => {
@@ -118,7 +115,7 @@ socket.on("round:reset", () => {
 	hideRoundResetButton();
 
 	if (playerNames.length > 1) {
-		showStartButton();
+		renderStartButton();
 	}
 });
 

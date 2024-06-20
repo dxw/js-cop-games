@@ -15,6 +15,7 @@ let questionThingElement: HTMLElement | undefined;
 let playerListElement: HTMLUListElement | undefined;
 let playerNameElement: HTMLElement | undefined;
 let playerNameFormElement: HTMLFormElement | undefined;
+let startButtonElement: HTMLButtonElement | undefined;
 
 // biome-ignore lint/style/useNamingConvention: the issue here is the consecutive upper case characters, but given it's due to using a single-character word, this doesn't feel invalid
 const askAQuestion = (question: Question): void => {
@@ -76,6 +77,12 @@ const renderPlayerName = (currentPlayer: Player): void => {
 	playerNameElement.innerText = targetText;
 };
 
+const renderStartButton = (): void => {
+	startButtonElement ||= getElementById<HTMLButtonElement>("start-button");
+
+	startButtonElement.style.display = "block";
+};
+
 const submitAnswer = async (
 	emitAnswersPost: (colours: Answer["colours"]) => void,
 ): Promise<void> => {
@@ -113,5 +120,6 @@ export {
 	renderColourCheckboxes,
 	renderPlayerList,
 	renderPlayerName,
+	renderStartButton,
 	submitAnswer,
 };
