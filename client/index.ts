@@ -17,6 +17,7 @@ import {
 	renderRoundResetButton,
 	renderStartButton,
 	renderUnjoinableMessage,
+	resetPlayerNameFormValue,
 	resetRound,
 } from "./utils/domManipulationUtils";
 import { getElementById } from "./utils/getElementById";
@@ -89,7 +90,7 @@ const startButtonElement = getElementById<HTMLButtonElement>("start-button");
 nameFormElement.addEventListener("submit", (e) => {
 	e.preventDefault();
 	addPlayer(socket, nameFormElement.elements.name.value);
-	nameFormElement.elements.name.value = "";
+	resetPlayerNameFormValue();
 });
 
 startButtonElement.addEventListener("click", () => {

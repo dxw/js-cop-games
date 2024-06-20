@@ -131,6 +131,12 @@ const renderUnjoinableMessage = (): void => {
 	playerNameFormElement?.replaceWith(unjoinableMessage);
 };
 
+const resetPlayerNameFormValue = (): void => {
+	playerNameFormElement ||= getElementById<NameFormElement>("name-form");
+
+	playerNameFormElement.elements.name.value = "";
+};
+
 const resetRound = (playerNames: Player["name"][]): void => {
 	colourSectionElement ||= getElementById("colour-section");
 	questionElement ||= getElementById("question");
@@ -192,6 +198,7 @@ export {
 	renderRoundResetButton,
 	renderStartButton,
 	renderUnjoinableMessage,
+	resetPlayerNameFormValue,
 	resetRound,
 	submitAnswer,
 };
