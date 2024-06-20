@@ -4,6 +4,7 @@ import type {
 	Player,
 	Question,
 } from "../../server/@types/entities";
+import type { NameFormElement } from "../../server/@types/ui";
 import { getElementById } from "./getElementById";
 
 let checkboxFormElement: HTMLFormElement | undefined;
@@ -14,7 +15,7 @@ let questionNumberElement: HTMLElement | undefined;
 let questionThingElement: HTMLElement | undefined;
 let playerListElement: HTMLUListElement | undefined;
 let playerNameElement: HTMLElement | undefined;
-let playerNameFormElement: HTMLFormElement | undefined;
+let playerNameFormElement: NameFormElement | undefined;
 let roundResetButtonElement: HTMLButtonElement | undefined;
 let startButtonElement: HTMLButtonElement | undefined;
 
@@ -37,7 +38,7 @@ const derenderColourCheckboxes = (): void => {
 };
 
 const derenderPlayerNameForm = (): void => {
-	playerNameFormElement ||= getElementById<HTMLFormElement>("name-form");
+	playerNameFormElement ||= getElementById<NameFormElement>("name-form");
 
 	playerNameFormElement.remove();
 	playerNameFormElement = undefined;
@@ -105,7 +106,7 @@ const renderStartButton = (): void => {
 };
 
 const renderUnjoinableMessage = (): void => {
-	playerNameFormElement ||= getElementById<HTMLFormElement>("name-form");
+	playerNameFormElement ||= getElementById<NameFormElement>("name-form");
 
 	const unjoinableMessage = document.createElement("p");
 	unjoinableMessage.innerText = "Round in progress. Try again later";

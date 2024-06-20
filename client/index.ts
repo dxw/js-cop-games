@@ -45,7 +45,7 @@ roundResetButton.addEventListener("click", () => {
 });
 
 const connectionStatusIconElement = getElementById("connection-status-icon");
-const nameFormElement = getElementById("name-form") as NameFormElement;
+const nameFormElement = getElementById<NameFormElement>("name-form");
 
 let currentPlayer: Player;
 let playerNames: Player["name"][] = [];
