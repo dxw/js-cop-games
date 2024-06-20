@@ -18,6 +18,7 @@ import {
 	renderUnjoinableMessage,
 } from "./utils/domManipulationUtils";
 import { getElementById } from "./utils/getElementById";
+import { addPlayer, emitAnswersPost } from "./utils/socketUtils";
 
 const connectionStatusIconElement = getElementById<HTMLDivElement>(
 	"connection-status-icon",
@@ -27,18 +28,10 @@ const roundResetButtonElement =
 	getElementById<HTMLButtonElement>("round-reset-button");
 const startButtonElement = getElementById<HTMLButtonElement>("start-button");
 
-const addPlayer = (name: string): void => {
-	socket.emit("players:post", name);
-};
-
 const generateSocketUrl = (): string => {
 	const location = window.location;
 
 	return `//${location.host}${location.pathname}`;
-};
-
-const emitAnswersPost = (colours: Answer["colours"]): void => {
-	socket.emit("answers:post", colours);
 };
 
 startButtonElement.addEventListener("click", () => {
@@ -78,7 +71,9 @@ socket.on("player:set", (player) => {
 
 socket.on("question:get", (question) => {
 	askAQuestion(question);
-	renderColourCheckboxes(emitAnswersPost);
+	renderColourCheckboxes((colours: Answer["colours"]) =>
+		emitAnswersPost(socket, colours),
+	);
 });
 
 socket.on("round:startable", () => {
@@ -108,6 +103,6 @@ socket.on("round:reset", () => {
 
 nameFormElement.addEventListener("submit", (e) => {
 	e.preventDefault();
-	addPlayer(nameFormElement.elements.name.value);
+	addPlayer(socket, nameFormElement.elements.name.value);
 	nameFormElement.elements.name.value = "";
 });

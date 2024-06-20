@@ -58,7 +58,7 @@ const derenderStartButton = (): void => {
 };
 
 const renderColourCheckboxes = (
-	emitAnswersPost: (colours: Answer["colours"]) => void,
+	emitAnswersPostWrapper: (colours: Answer["colours"]) => void,
 ): void => {
 	colourSectionElement ||= getElementById("colour-section");
 	checkboxTemplateElement ||=
@@ -74,7 +74,7 @@ const renderColourCheckboxes = (
 
 	checkboxFormElement.addEventListener("submit", (e) => {
 		e.preventDefault();
-		submitAnswer(emitAnswersPost);
+		submitAnswer(emitAnswersPostWrapper);
 	});
 };
 
@@ -115,7 +115,7 @@ const renderUnjoinableMessage = (): void => {
 };
 
 const submitAnswer = async (
-	emitAnswersPost: (colours: Answer["colours"]) => void,
+	emitAnswersPostWrapper: (colours: Answer["colours"]) => void,
 ): Promise<void> => {
 	checkboxFormElement ||= getElementById<HTMLFormElement>("checkbox-form");
 
@@ -126,7 +126,7 @@ const submitAnswer = async (
 		(checkedElement) => checkedElement.id as Colour,
 	);
 
-	emitAnswersPost(colours);
+	emitAnswersPostWrapper(colours);
 	derenderColourCheckboxes();
 
 	const answeredColourCards = colours.map(
