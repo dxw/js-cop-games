@@ -10,6 +10,7 @@ import type {
 	ServerboundSocketServerEvents,
 } from "../server/@types/events";
 import type { NameFormElement } from "../server/@types/ui";
+import { renderPlayerList } from "./utils/domManipulationUtils";
 import { getElementById } from "./utils/getElementById";
 
 const addPlayer = (name: string): void => {
@@ -20,11 +21,6 @@ const generateSocketUrl = (): string => {
 	const location = window.location;
 
 	return `//${location.host}${location.pathname}`;
-};
-
-const renderPlayerList = (): void => {
-	const html = playerNames.map((name) => `<li>${name}</li>`);
-	playerListElement.innerHTML = html.join("\n");
 };
 
 const renderPlayerName = (): void => {
@@ -121,7 +117,7 @@ const showUnjoinableMessage = (): void => {
 
 const connectionStatusIconElement = getElementById("connection-status-icon");
 const nameFormElement = getElementById("name-form") as NameFormElement;
-const playerListElement = getElementById("player-list");
+const playerListElement = getElementById<HTMLUListElement>("player-list");
 const playerNameElement = getElementById("player-name");
 
 let currentPlayer: Player;
@@ -142,7 +138,7 @@ socket.on("disconnect", () => {
 
 socket.on("players:get", (newPlayers) => {
 	playerNames = newPlayers;
-	renderPlayerList();
+	renderPlayerList(playerNames, playerListElement);
 });
 
 socket.on("player:set", (player) => {
