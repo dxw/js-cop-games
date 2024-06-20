@@ -24,9 +24,8 @@ type Player = {
 };
 
 type Question = {
-	answer: string[];
-	number: number;
-	question: string;
+	colours: Colour[];
+	subject: string;
 };
 
 export type { Answer, Colour, Player, Question };

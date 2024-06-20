@@ -27,14 +27,13 @@ const generateSocketUrl = (): string => {
 };
 
 // biome-ignore lint/style/useNamingConvention: the issue here is the consecutive upper case characters, but given it's due to using a single-character word, this doesn't feel invalid
-const askAQuestion = (data: Question): void => {
+const askAQuestion = (question: Question): void => {
 	const questionHtml = getElementById("question");
 	questionHtml.style.display = "block";
-	const { question, number } = data;
 	const thingHtml = getElementById("thing");
-	thingHtml.innerText = question;
+	thingHtml.innerText = question.subject;
 	const numberHtml = getElementById("number");
-	numberHtml.innerText = number.toString();
+	numberHtml.innerText = question.colours.length.toString();
 };
 
 const renderColourCheckboxes = (): void => {

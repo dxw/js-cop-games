@@ -1,17 +1,14 @@
 [
 	{
-		"answer": ["black", "white", "orange", "yellow"],
-		"number": 4,
-		"question": "duxw"
+		"colours": ["black", "white", "orange", "yellow"],
+		"subject": "duxw"
 	},
 	{
-		"answer": ["white", "red", "green"],
-		"number": 3,
-		"question": "Caprese salad"
+		"colours": ["white", "red", "green"],
+		"subject": "Caprese salad"
 	},
 	{
-		"answer": ["red", "yellow", "blue"],
-		"number": 3,
-		"question": "Moldovan flag"
+		"colours": ["red", "yellow", "blue"],
+		"subject": "Moldovan flag"
 	}
 ]
