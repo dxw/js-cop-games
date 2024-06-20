@@ -8,6 +8,7 @@ import type { NameFormElement } from "../server/@types/ui";
 import {
 	askAQuestion,
 	derenderPlayerNameForm,
+	derenderStartButton,
 	renderColourCheckboxes,
 	renderPlayerList,
 	renderPlayerName,
@@ -40,10 +41,6 @@ startButton.addEventListener("click", () => {
 roundResetButton.addEventListener("click", () => {
 	socket.emit("round:reset");
 });
-
-const hideStartButton = (): void => {
-	startButton.style.display = "none";
-};
 
 const hideRoundResetButton = (): void => {
 	roundResetButton.style.display = "none";
@@ -96,7 +93,7 @@ socket.on("round:startable", () => {
 });
 
 socket.on("round:start", () => {
-	hideStartButton();
+	derenderStartButton();
 	renderRoundResetButton();
 });
 

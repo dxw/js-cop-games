@@ -43,6 +43,12 @@ const derenderPlayerNameForm = (): void => {
 	playerNameFormElement = undefined;
 };
 
+const derenderStartButton = (): void => {
+	startButtonElement ||= getElementById<HTMLButtonElement>("start-button");
+
+	startButtonElement.style.display = "none";
+};
+
 const renderColourCheckboxes = (
 	emitAnswersPost: (colours: Answer["colours"]) => void,
 ): void => {
@@ -125,6 +131,7 @@ export {
 	askAQuestion,
 	derenderColourCheckboxes,
 	derenderPlayerNameForm,
+	derenderStartButton,
 	renderColourCheckboxes,
 	renderPlayerList,
 	renderPlayerName,
