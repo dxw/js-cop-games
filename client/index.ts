@@ -114,8 +114,6 @@ const showUnjoinableMessage = (): void => {
 
 const connectionStatusIconElement = getElementById("connection-status-icon");
 const nameFormElement = getElementById("name-form") as NameFormElement;
-const playerListElement = getElementById<HTMLUListElement>("player-list");
-const playerNameElement = getElementById<HTMLDivElement>("player-name");
 
 let currentPlayer: Player;
 let playerNames: Player["name"][] = [];
@@ -135,12 +133,12 @@ socket.on("disconnect", () => {
 
 socket.on("players:get", (newPlayers) => {
 	playerNames = newPlayers;
-	renderPlayerList(playerNames, playerListElement);
+	renderPlayerList(playerNames);
 });
 
 socket.on("player:set", (player) => {
 	currentPlayer = player;
-	renderPlayerName(currentPlayer, playerNameElement);
+	renderPlayerName(currentPlayer);
 	derenderNameForm();
 });
 
