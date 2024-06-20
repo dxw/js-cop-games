@@ -10,7 +10,10 @@ import type {
 	ServerboundSocketServerEvents,
 } from "../server/@types/events";
 import type { NameFormElement } from "../server/@types/ui";
-import { renderPlayerList } from "./utils/domManipulationUtils";
+import {
+	renderPlayerList,
+	renderPlayerName,
+} from "./utils/domManipulationUtils";
 import { getElementById } from "./utils/getElementById";
 
 const addPlayer = (name: string): void => {
@@ -21,11 +24,6 @@ const generateSocketUrl = (): string => {
 	const location = window.location;
 
 	return `//${location.host}${location.pathname}`;
-};
-
-const renderPlayerName = (): void => {
-	const text = `Name: ${currentPlayer.name}`;
-	playerNameElement.innerText = text;
 };
 
 // biome-ignore lint/style/useNamingConvention: the issue here is the consecutive upper case characters, but given it's due to using a single-character word, this doesn't feel invalid
@@ -118,7 +116,7 @@ const showUnjoinableMessage = (): void => {
 const connectionStatusIconElement = getElementById("connection-status-icon");
 const nameFormElement = getElementById("name-form") as NameFormElement;
 const playerListElement = getElementById<HTMLUListElement>("player-list");
-const playerNameElement = getElementById("player-name");
+const playerNameElement = getElementById<HTMLDivElement>("player-name");
 
 let currentPlayer: Player;
 let playerNames: Player["name"][] = [];
@@ -143,7 +141,7 @@ socket.on("players:get", (newPlayers) => {
 
 socket.on("player:set", (player) => {
 	currentPlayer = player;
-	renderPlayerName();
+	renderPlayerName(currentPlayer, playerNameElement);
 	derenderNameForm();
 });
 

@@ -8,4 +8,12 @@ const renderPlayerList = (
 	playerListElement.innerHTML = html.join("\n");
 };
 
-export { renderPlayerList };
+const renderPlayerName = (
+	currentPlayer: Player,
+	playerNameElement: HTMLDivElement,
+): void => {
+	const text = `Name: ${currentPlayer.name}`;
+	playerNameElement.innerText = text;
+};
+
+export { renderPlayerList, renderPlayerName };
