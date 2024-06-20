@@ -20,35 +20,19 @@ import {
 import { getElementById } from "./utils/getElementById";
 import { addPlayer, emitAnswersPost } from "./utils/socketUtils";
 
-const connectionStatusIconElement = getElementById<HTMLDivElement>(
-	"connection-status-icon",
-);
-const nameFormElement = getElementById<NameFormElement>("name-form");
-const roundResetButtonElement =
-	getElementById<HTMLButtonElement>("round-reset-button");
-const startButtonElement = getElementById<HTMLButtonElement>("start-button");
-
 const generateSocketUrl = (): string => {
 	const location = window.location;
 
 	return `//${location.host}${location.pathname}`;
 };
 
-startButtonElement.addEventListener("click", () => {
-	socket.emit("round:start");
-});
-
-roundResetButtonElement.addEventListener("click", () => {
-	socket.emit("round:reset");
-});
-
-let currentPlayer: Player; // TODO: account for this being undefined?
-let playerNames: Player["name"][] = [];
-
 const socket: Socket<
 	ClientboundSocketServerEvents,
 	ServerboundSocketServerEvents
 > = io(generateSocketUrl());
+
+let currentPlayer: Player; // TODO: account for this being undefined?
+let playerNames: Player["name"][] = [];
 
 socket.on("connect", () => {
 	connectionStatusIconElement.innerText = "Connected 🟢";
@@ -56,6 +40,10 @@ socket.on("connect", () => {
 
 socket.on("disconnect", () => {
 	connectionStatusIconElement.innerText = "Disconnected 🔴";
+});
+
+socket.on("lobby:unjoinable", () => {
+	renderUnjoinableMessage();
 });
 
 socket.on("players:get", (newPlayers) => {
@@ -76,19 +64,6 @@ socket.on("question:get", (question) => {
 	);
 });
 
-socket.on("round:startable", () => {
-	renderStartButton();
-});
-
-socket.on("round:start", () => {
-	derenderStartButton();
-	renderRoundResetButton();
-});
-
-socket.on("lobby:unjoinable", () => {
-	renderUnjoinableMessage();
-});
-
 socket.on("round:reset", () => {
 	getElementById("question").style.display = "none";
 	getElementById("thing").innerText = "";
@@ -101,8 +76,36 @@ socket.on("round:reset", () => {
 	}
 });
 
+socket.on("round:start", () => {
+	derenderStartButton();
+	renderRoundResetButton();
+});
+
+socket.on("round:startable", () => {
+	renderStartButton();
+});
+
+const connectionStatusIconElement = getElementById<HTMLDivElement>(
+	"connection-status-icon",
+);
+
+const nameFormElement = getElementById<NameFormElement>("name-form");
+
+const roundResetButtonElement =
+	getElementById<HTMLButtonElement>("round-reset-button");
+
+const startButtonElement = getElementById<HTMLButtonElement>("start-button");
+
 nameFormElement.addEventListener("submit", (e) => {
 	e.preventDefault();
 	addPlayer(socket, nameFormElement.elements.name.value);
 	nameFormElement.elements.name.value = "";
+});
+
+startButtonElement.addEventListener("click", () => {
+	socket.emit("round:start");
+});
+
+roundResetButtonElement.addEventListener("click", () => {
+	socket.emit("round:reset");
 });
