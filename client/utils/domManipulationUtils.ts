@@ -1,6 +1,7 @@
 import type { Player, Question } from "../../server/@types/entities";
 import { getElementById } from "./getElementById";
 
+let checkboxFormElement: HTMLFormElement | undefined;
 let questionElement: HTMLElement | undefined;
 let questionNumberElement: HTMLElement | undefined;
 let questionThingElement: HTMLElement | undefined;
@@ -18,6 +19,13 @@ const askAQuestion = (question: Question): void => {
 	questionNumberElement.innerText = question.colours.length.toString();
 };
 
+const derenderColourCheckboxes = (): void => {
+	checkboxFormElement ||= getElementById<HTMLFormElement>("checkbox-form");
+
+	checkboxFormElement.remove();
+	checkboxFormElement = undefined;
+};
+
 const renderPlayerList = (playerNames: Player["name"][]): void => {
 	playerListElement ||= getElementById<HTMLUListElement>("player-list");
 
@@ -32,4 +40,9 @@ const renderPlayerName = (currentPlayer: Player): void => {
 	playerNameElement.innerText = targetText;
 };
 
-export { askAQuestion, renderPlayerList, renderPlayerName };
+export {
+	askAQuestion,
+	derenderColourCheckboxes,
+	renderPlayerList,
+	renderPlayerName,
+};

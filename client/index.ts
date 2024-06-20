@@ -7,6 +7,7 @@ import type {
 import type { NameFormElement } from "../server/@types/ui";
 import {
 	askAQuestion,
+	derenderColourCheckboxes,
 	renderPlayerList,
 	renderPlayerName,
 } from "./utils/domManipulationUtils";
@@ -72,7 +73,7 @@ const submitAnswers = async (form: HTMLFormElement): Promise<void> => {
 		(checked) => checked.id as Colour,
 	);
 	socket.emit("answers:post", colours);
-	derenderColorCheckboxes();
+	derenderColourCheckboxes();
 	const answeredColourCards = colours.map(
 		(colour) =>
 			`<div class="colour-cards__card colour-cards__card--${colour}">
@@ -85,10 +86,6 @@ const submitAnswers = async (form: HTMLFormElement): Promise<void> => {
 			${answeredColourCards.join("")}
 		</div>
 	`;
-};
-
-const derenderColorCheckboxes = (): void => {
-	getElementById("checkbox-form").remove();
 };
 
 const showUnjoinableMessage = (): void => {
