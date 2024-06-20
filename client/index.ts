@@ -1,16 +1,12 @@
 import { type Socket, io } from "socket.io-client";
-import type {
-	Answer,
-	Colour,
-	Player,
-	Question,
-} from "../server/@types/entities";
+import type { Answer, Colour, Player } from "../server/@types/entities";
 import type {
 	ClientboundSocketServerEvents,
 	ServerboundSocketServerEvents,
 } from "../server/@types/events";
 import type { NameFormElement } from "../server/@types/ui";
 import {
+	askAQuestion,
 	renderPlayerList,
 	renderPlayerName,
 } from "./utils/domManipulationUtils";
@@ -24,16 +20,6 @@ const generateSocketUrl = (): string => {
 	const location = window.location;
 
 	return `//${location.host}${location.pathname}`;
-};
-
-// biome-ignore lint/style/useNamingConvention: the issue here is the consecutive upper case characters, but given it's due to using a single-character word, this doesn't feel invalid
-const askAQuestion = (question: Question): void => {
-	const questionHtml = getElementById("question");
-	questionHtml.style.display = "block";
-	const thingHtml = getElementById("thing");
-	thingHtml.innerText = question.subject;
-	const numberHtml = getElementById("number");
-	numberHtml.innerText = question.colours.length.toString();
 };
 
 const renderColourCheckboxes = (): void => {
