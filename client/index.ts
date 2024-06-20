@@ -19,6 +19,14 @@ import {
 } from "./utils/domManipulationUtils";
 import { getElementById } from "./utils/getElementById";
 
+const connectionStatusIconElement = getElementById<HTMLDivElement>(
+	"connection-status-icon",
+);
+const nameFormElement = getElementById<NameFormElement>("name-form");
+const roundResetButtonElement =
+	getElementById<HTMLButtonElement>("round-reset-button");
+const startButtonElement = getElementById<HTMLButtonElement>("start-button");
+
 const addPlayer = (name: string): void => {
 	socket.emit("players:post", name);
 };
@@ -33,19 +41,13 @@ const emitAnswersPost = (colours: Answer["colours"]): void => {
 	socket.emit("answers:post", colours);
 };
 
-const startButton = getElementById("start-button");
-const roundResetButton = getElementById("round-reset-button");
-
-startButton.addEventListener("click", () => {
+startButtonElement.addEventListener("click", () => {
 	socket.emit("round:start");
 });
 
-roundResetButton.addEventListener("click", () => {
+roundResetButtonElement.addEventListener("click", () => {
 	socket.emit("round:reset");
 });
-
-const connectionStatusIconElement = getElementById("connection-status-icon");
-const nameFormElement = getElementById<NameFormElement>("name-form");
 
 let currentPlayer: Player; // TODO: account for this being undefined?
 let playerNames: Player["name"][] = [];
