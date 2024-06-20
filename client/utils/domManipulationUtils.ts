@@ -7,6 +7,8 @@ import type {
 import { getElementById } from "./getElementById";
 
 let checkboxFormElement: HTMLFormElement | undefined;
+let checkboxTemplateElement: HTMLTemplateElement | undefined;
+let colourSectionElement: HTMLElement | undefined;
 let questionElement: HTMLElement | undefined;
 let questionNumberElement: HTMLElement | undefined;
 let questionThingElement: HTMLElement | undefined;
@@ -29,6 +31,27 @@ const derenderColourCheckboxes = (): void => {
 
 	checkboxFormElement.remove();
 	checkboxFormElement = undefined;
+};
+
+const renderColourCheckboxes = (
+	emitAnswersPost: (colours: Answer["colours"]) => void,
+): void => {
+	colourSectionElement ||= getElementById("colour-section");
+	checkboxTemplateElement ||=
+		getElementById<HTMLTemplateElement>("checkbox-template");
+
+	const clone = checkboxTemplateElement.content.cloneNode(
+		true,
+	) as DocumentFragment;
+
+	colourSectionElement.appendChild(clone);
+
+	checkboxFormElement ||= getElementById<HTMLFormElement>("checkbox-form");
+
+	checkboxFormElement.addEventListener("submit", (e) => {
+		e.preventDefault();
+		submitAnswer(emitAnswersPost);
+	});
 };
 
 const renderPlayerList = (playerNames: Player["name"][]): void => {
@@ -80,5 +103,6 @@ export {
 	derenderColourCheckboxes,
 	submitAnswer,
 	renderPlayerList,
+	renderColourCheckboxes,
 	renderPlayerName,
 };

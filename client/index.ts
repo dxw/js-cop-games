@@ -7,9 +7,9 @@ import type {
 import type { NameFormElement } from "../server/@types/ui";
 import {
 	askAQuestion,
+	renderColourCheckboxes,
 	renderPlayerList,
 	renderPlayerName,
-	submitAnswer,
 } from "./utils/domManipulationUtils";
 import { getElementById } from "./utils/getElementById";
 
@@ -25,19 +25,6 @@ const generateSocketUrl = (): string => {
 
 const emitAnswersPost = (colours: Answer["colours"]): void => {
 	socket.emit("answers:post", colours);
-};
-
-const renderColourCheckboxes = (): void => {
-	const colourSection = getElementById("colour-section");
-	const template = getElementById<HTMLTemplateElement>("checkbox-template");
-	const clone = template.content.cloneNode(true) as DocumentFragment;
-	colourSection.appendChild(clone);
-
-	const colourForm = getElementById<HTMLFormElement>("checkbox-form");
-	colourForm.addEventListener("submit", (e) => {
-		e.preventDefault();
-		submitAnswer(emitAnswersPost);
-	});
 };
 
 const derenderNameForm = (): void => {
@@ -110,7 +97,7 @@ socket.on("player:set", (player) => {
 
 socket.on("question:get", (question) => {
 	askAQuestion(question);
-	renderColourCheckboxes();
+	renderColourCheckboxes(emitAnswersPost);
 });
 
 socket.on("round:startable", () => {
