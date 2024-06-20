@@ -15,6 +15,7 @@ import {
 	renderPlayerName,
 	renderRoundResetButton,
 	renderStartButton,
+	renderUnjoinableMessage,
 } from "./utils/domManipulationUtils";
 import { getElementById } from "./utils/getElementById";
 
@@ -42,13 +43,6 @@ startButton.addEventListener("click", () => {
 roundResetButton.addEventListener("click", () => {
 	socket.emit("round:reset");
 });
-
-const showUnjoinableMessage = (): void => {
-	const nameForm = document.querySelector("#name-form");
-	const unjoinableMessage = document.createElement("p");
-	unjoinableMessage.innerText = "Round in progress. Try again later";
-	nameForm?.replaceWith(unjoinableMessage);
-};
 
 const connectionStatusIconElement = getElementById("connection-status-icon");
 const nameFormElement = getElementById("name-form") as NameFormElement;
@@ -95,7 +89,7 @@ socket.on("round:start", () => {
 });
 
 socket.on("lobby:unjoinable", () => {
-	showUnjoinableMessage();
+	renderUnjoinableMessage();
 });
 
 socket.on("round:reset", () => {

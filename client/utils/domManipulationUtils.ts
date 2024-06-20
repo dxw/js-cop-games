@@ -104,6 +104,15 @@ const renderStartButton = (): void => {
 	startButtonElement.style.display = "block";
 };
 
+const renderUnjoinableMessage = (): void => {
+	playerNameFormElement ||= getElementById<HTMLFormElement>("name-form");
+
+	const unjoinableMessage = document.createElement("p");
+	unjoinableMessage.innerText = "Round in progress. Try again later";
+
+	playerNameFormElement?.replaceWith(unjoinableMessage);
+};
+
 const submitAnswer = async (
 	emitAnswersPost: (colours: Answer["colours"]) => void,
 ): Promise<void> => {
@@ -145,5 +154,6 @@ export {
 	renderPlayerName,
 	renderRoundResetButton,
 	renderStartButton,
+	renderUnjoinableMessage,
 	submitAnswer,
 };
