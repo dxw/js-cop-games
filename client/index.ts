@@ -8,6 +8,7 @@ import type { NameFormElement } from "../server/@types/ui";
 import {
 	askAQuestion,
 	derenderPlayerNameForm,
+	derenderRoundResetButton,
 	derenderStartButton,
 	renderColourCheckboxes,
 	renderPlayerList,
@@ -41,10 +42,6 @@ startButton.addEventListener("click", () => {
 roundResetButton.addEventListener("click", () => {
 	socket.emit("round:reset");
 });
-
-const hideRoundResetButton = (): void => {
-	roundResetButton.style.display = "none";
-};
 
 const showUnjoinableMessage = (): void => {
 	const nameForm = document.querySelector("#name-form");
@@ -106,7 +103,7 @@ socket.on("round:reset", () => {
 	getElementById("thing").innerText = "";
 	getElementById("number").innerText = "";
 	getElementById("colour-section").innerHTML = "";
-	hideRoundResetButton();
+	derenderRoundResetButton();
 
 	if (playerNames.length > 1) {
 		renderStartButton();

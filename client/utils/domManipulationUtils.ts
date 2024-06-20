@@ -43,6 +43,13 @@ const derenderPlayerNameForm = (): void => {
 	playerNameFormElement = undefined;
 };
 
+const derenderRoundResetButton = (): void => {
+	roundResetButtonElement ||=
+		getElementById<HTMLButtonElement>("round-reset-button");
+
+	roundResetButtonElement.style.display = "none";
+};
+
 const derenderStartButton = (): void => {
 	startButtonElement ||= getElementById<HTMLButtonElement>("start-button");
 
@@ -131,6 +138,7 @@ export {
 	askAQuestion,
 	derenderColourCheckboxes,
 	derenderPlayerNameForm,
+	derenderRoundResetButton,
 	derenderStartButton,
 	renderColourCheckboxes,
 	renderPlayerList,
