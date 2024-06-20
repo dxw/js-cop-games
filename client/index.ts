@@ -1,5 +1,5 @@
 import { type Socket, io } from "socket.io-client";
-import type { Answer, Colour, Player } from "../server/@types/entities";
+import type { Answer, Player } from "../server/@types/entities";
 import type {
 	ClientboundSocketServerEvents,
 	ServerboundSocketServerEvents,
@@ -7,9 +7,9 @@ import type {
 import type { NameFormElement } from "../server/@types/ui";
 import {
 	askAQuestion,
-	derenderColourCheckboxes,
 	renderPlayerList,
 	renderPlayerName,
+	submitAnswer,
 } from "./utils/domManipulationUtils";
 import { getElementById } from "./utils/getElementById";
 
@@ -23,6 +23,10 @@ const generateSocketUrl = (): string => {
 	return `//${location.host}${location.pathname}`;
 };
 
+const emitAnswersPost = (colours: Answer["colours"]): void => {
+	socket.emit("answers:post", colours);
+};
+
 const renderColourCheckboxes = (): void => {
 	const colourSection = getElementById("colour-section");
 	const template = getElementById<HTMLTemplateElement>("checkbox-template");
@@ -32,7 +36,7 @@ const renderColourCheckboxes = (): void => {
 	const colourForm = getElementById<HTMLFormElement>("checkbox-form");
 	colourForm.addEventListener("submit", (e) => {
 		e.preventDefault();
-		submitAnswers(colourForm);
+		submitAnswer(emitAnswersPost);
 	});
 };
 
@@ -65,27 +69,6 @@ const hideStartButton = (): void => {
 
 const hideRoundResetButton = (): void => {
 	roundResetButton.style.display = "none";
-};
-
-const submitAnswers = async (form: HTMLFormElement): Promise<void> => {
-	const checked = form.querySelectorAll('input[type="checkbox"]:checked');
-	const colours: Answer["colours"] = Array.from(checked).map(
-		(checked) => checked.id as Colour,
-	);
-	socket.emit("answers:post", colours);
-	derenderColourCheckboxes();
-	const answeredColourCards = colours.map(
-		(colour) =>
-			`<div class="colour-cards__card colour-cards__card--${colour}">
-				<p>${colour[0].toUpperCase()}${colour.slice(1)}</p>
-			</div>`,
-	);
-	getElementById("colour-section").innerHTML = `
-		<h2>Your selection</h2>
-		<div class="colour-cards">
-			${answeredColourCards.join("")}
-		</div>
-	`;
 };
 
 const showUnjoinableMessage = (): void => {

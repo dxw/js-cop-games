@@ -1,4 +1,9 @@
-import type { Player, Question } from "../../server/@types/entities";
+import type {
+	Answer,
+	Colour,
+	Player,
+	Question,
+} from "../../server/@types/entities";
 import { getElementById } from "./getElementById";
 
 let checkboxFormElement: HTMLFormElement | undefined;
@@ -40,9 +45,40 @@ const renderPlayerName = (currentPlayer: Player): void => {
 	playerNameElement.innerText = targetText;
 };
 
+const submitAnswer = async (
+	emitAnswersPost: (colours: Answer["colours"]) => void,
+): Promise<void> => {
+	checkboxFormElement ||= getElementById<HTMLFormElement>("checkbox-form");
+
+	const checkedElements = checkboxFormElement.querySelectorAll(
+		'input[type="checkbox"]:checked',
+	);
+	const colours: Answer["colours"] = Array.from(checkedElements).map(
+		(checkedElement) => checkedElement.id as Colour,
+	);
+
+	emitAnswersPost(colours);
+	derenderColourCheckboxes();
+
+	const answeredColourCards = colours.map(
+		(colour) =>
+			`<div class="colour-cards__card colour-cards__card--${colour}">
+				<p>${colour[0].toUpperCase()}${colour.slice(1)}</p>
+			</div>`,
+	);
+
+	getElementById("colour-section").innerHTML = `
+		<h2>Your selection</h2>
+		<div class="colour-cards">
+			${answeredColourCards.join("")}
+		</div>
+	`;
+};
+
 export {
 	askAQuestion,
 	derenderColourCheckboxes,
+	submitAnswer,
 	renderPlayerList,
 	renderPlayerName,
 };
