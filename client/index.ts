@@ -7,6 +7,7 @@ import type {
 import type { NameFormElement } from "../server/@types/ui";
 import {
 	askAQuestion,
+	derenderPlayerNameForm,
 	renderColourCheckboxes,
 	renderPlayerList,
 	renderPlayerName,
@@ -25,10 +26,6 @@ const generateSocketUrl = (): string => {
 
 const emitAnswersPost = (colours: Answer["colours"]): void => {
 	socket.emit("answers:post", colours);
-};
-
-const derenderNameForm = (): void => {
-	getElementById("name-form").remove();
 };
 
 const startButton = getElementById("start-button");
@@ -92,7 +89,7 @@ socket.on("players:get", (newPlayers) => {
 socket.on("player:set", (player) => {
 	currentPlayer = player;
 	renderPlayerName(currentPlayer);
-	derenderNameForm();
+	derenderPlayerNameForm();
 });
 
 socket.on("question:get", (question) => {

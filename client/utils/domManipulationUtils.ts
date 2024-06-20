@@ -14,6 +14,7 @@ let questionNumberElement: HTMLElement | undefined;
 let questionThingElement: HTMLElement | undefined;
 let playerListElement: HTMLUListElement | undefined;
 let playerNameElement: HTMLElement | undefined;
+let playerNameFormElement: HTMLFormElement | undefined;
 
 // biome-ignore lint/style/useNamingConvention: the issue here is the consecutive upper case characters, but given it's due to using a single-character word, this doesn't feel invalid
 const askAQuestion = (question: Question): void => {
@@ -31,6 +32,13 @@ const derenderColourCheckboxes = (): void => {
 
 	checkboxFormElement.remove();
 	checkboxFormElement = undefined;
+};
+
+const derenderPlayerNameForm = (): void => {
+	playerNameFormElement ||= getElementById<HTMLFormElement>("name-form");
+
+	playerNameFormElement.remove();
+	playerNameFormElement = undefined;
 };
 
 const renderColourCheckboxes = (
@@ -101,8 +109,9 @@ const submitAnswer = async (
 export {
 	askAQuestion,
 	derenderColourCheckboxes,
-	submitAnswer,
-	renderPlayerList,
+	derenderPlayerNameForm,
 	renderColourCheckboxes,
+	renderPlayerList,
 	renderPlayerName,
+	submitAnswer,
 };
