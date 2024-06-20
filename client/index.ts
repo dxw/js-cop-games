@@ -47,7 +47,7 @@ roundResetButton.addEventListener("click", () => {
 const connectionStatusIconElement = getElementById("connection-status-icon");
 const nameFormElement = getElementById<NameFormElement>("name-form");
 
-let currentPlayer: Player;
+let currentPlayer: Player; // TODO: account for this being undefined?
 let playerNames: Player["name"][] = [];
 
 const socket: Socket<
