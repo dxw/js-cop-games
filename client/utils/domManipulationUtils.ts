@@ -131,6 +131,23 @@ const renderUnjoinableMessage = (): void => {
 	playerNameFormElement?.replaceWith(unjoinableMessage);
 };
 
+const resetRound = (playerNames: Player["name"][]): void => {
+	colourSectionElement ||= getElementById("colour-section");
+	questionElement ||= getElementById("question");
+	questionThingElement ||= getElementById("thing");
+	questionNumberElement ||= getElementById("number");
+
+	questionElement.style.display = "none";
+	questionThingElement.innerText = "";
+	questionNumberElement.innerText = "";
+	colourSectionElement.innerHTML = "";
+	derenderRoundResetButton();
+
+	if (playerNames.length > 1) {
+		renderStartButton();
+	}
+};
+
 const submitAnswer = async (
 	emitAnswersPostWrapper: (colours: Answer["colours"]) => void,
 ): Promise<void> => {
@@ -175,5 +192,6 @@ export {
 	renderRoundResetButton,
 	renderStartButton,
 	renderUnjoinableMessage,
+	resetRound,
 	submitAnswer,
 };

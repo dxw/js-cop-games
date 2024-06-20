@@ -8,7 +8,6 @@ import type { NameFormElement } from "../server/@types/ui";
 import {
 	askAQuestion,
 	derenderPlayerNameForm,
-	derenderRoundResetButton,
 	derenderStartButton,
 	indicateConnected,
 	indicateDisconnected,
@@ -18,6 +17,7 @@ import {
 	renderRoundResetButton,
 	renderStartButton,
 	renderUnjoinableMessage,
+	resetRound,
 } from "./utils/domManipulationUtils";
 import { getElementById } from "./utils/getElementById";
 import { addPlayer, emitAnswersPost } from "./utils/socketUtils";
@@ -67,15 +67,7 @@ socket.on("question:get", (question) => {
 });
 
 socket.on("round:reset", () => {
-	getElementById("question").style.display = "none";
-	getElementById("thing").innerText = "";
-	getElementById("number").innerText = "";
-	getElementById("colour-section").innerHTML = "";
-	derenderRoundResetButton();
-
-	if (playerNames.length > 1) {
-		renderStartButton();
-	}
+	resetRound(playerNames);
 });
 
 socket.on("round:start", () => {
