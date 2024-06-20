@@ -10,6 +10,7 @@ import { getElementById } from "./getElementById";
 let checkboxFormElement: HTMLFormElement | undefined;
 let checkboxTemplateElement: HTMLTemplateElement | undefined;
 let colourSectionElement: HTMLElement | undefined;
+let connectionStatusIconElement: HTMLDivElement | undefined;
 let questionElement: HTMLElement | undefined;
 let questionNumberElement: HTMLElement | undefined;
 let questionThingElement: HTMLElement | undefined;
@@ -55,6 +56,22 @@ const derenderStartButton = (): void => {
 	startButtonElement ||= getElementById<HTMLButtonElement>("start-button");
 
 	startButtonElement.style.display = "none";
+};
+
+const indicateConnected = (): void => {
+	connectionStatusIconElement ||= getElementById<HTMLDivElement>(
+		"connection-status-icon",
+	);
+
+	connectionStatusIconElement.innerText = "Connected 🟢";
+};
+
+const indicateDisconnected = (): void => {
+	connectionStatusIconElement ||= getElementById<HTMLDivElement>(
+		"connection-status-icon",
+	);
+
+	connectionStatusIconElement.innerText = "Disconnected 🔴";
 };
 
 const renderColourCheckboxes = (
@@ -150,6 +167,8 @@ export {
 	derenderPlayerNameForm,
 	derenderRoundResetButton,
 	derenderStartButton,
+	indicateConnected,
+	indicateDisconnected,
 	renderColourCheckboxes,
 	renderPlayerList,
 	renderPlayerName,

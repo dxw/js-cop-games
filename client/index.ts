@@ -10,6 +10,8 @@ import {
 	derenderPlayerNameForm,
 	derenderRoundResetButton,
 	derenderStartButton,
+	indicateConnected,
+	indicateDisconnected,
 	renderColourCheckboxes,
 	renderPlayerList,
 	renderPlayerName,
@@ -35,11 +37,11 @@ let currentPlayer: Player; // TODO: account for this being undefined?
 let playerNames: Player["name"][] = [];
 
 socket.on("connect", () => {
-	connectionStatusIconElement.innerText = "Connected 🟢";
+	indicateConnected();
 });
 
 socket.on("disconnect", () => {
-	connectionStatusIconElement.innerText = "Disconnected 🔴";
+	indicateDisconnected();
 });
 
 socket.on("lobby:unjoinable", () => {
@@ -84,10 +86,6 @@ socket.on("round:start", () => {
 socket.on("round:startable", () => {
 	renderStartButton();
 });
-
-const connectionStatusIconElement = getElementById<HTMLDivElement>(
-	"connection-status-icon",
-);
 
 const nameFormElement = getElementById<NameFormElement>("name-form");
 
