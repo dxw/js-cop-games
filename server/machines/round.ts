@@ -1,12 +1,6 @@
 import { assign, createMachine } from "xstate";
-import type { Answer } from "../@types/entities";
+import type { Answer, Question } from "../@types/entities";
 import questions from "../data/questions.json";
-
-type Question = {
-	answer: string[];
-	number: number;
-	question: string;
-};
 
 const context = {
 	answers: [] as Answer[],
