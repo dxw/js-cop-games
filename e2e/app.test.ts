@@ -17,6 +17,10 @@ test.beforeEach(async ({ browser }) => {
 
 test.afterEach(async () => {
 	await playersPages[0].getByRole("button", { name: "Reset round" }).click();
+
+	for (const context of contexts) {
+		await context.close();
+	}
 });
 
 test("players can join and start the game", async () => {
