@@ -1,13 +1,25 @@
-import { type Browser, type Page, expect, test } from "@playwright/test";
+import { type BrowserContext, type Page, expect, test } from "@playwright/test";
 import type { Colour, Player } from "../server/@types/entities";
 
 const joinedPlayerNames: Player["name"][] = [];
+let playersPages: Page[] = [];
+let contexts: BrowserContext[];
 
-test("players can join and start the game", async ({ browser }) => {
-	const playersPages = await Promise.all([
-		createPage(browser),
-		createPage(browser),
+test.beforeEach(async ({ browser }) => {
+	contexts = await Promise.all([
+		await browser.newContext(),
+		await browser.newContext(),
 	]);
+	playersPages = await Promise.all(
+		contexts.map(async (context) => await context.newPage()),
+	);
+});
+
+test.afterEach(async () => {
+	await playersPages[0].getByRole("button", { name: "Reset round" }).click();
+});
+
+test("players can join and start the game", async () => {
 	const player1Page = playersPages[0];
 
 	await Promise.all(
@@ -61,12 +73,6 @@ test("players can join and start the game", async ({ browser }) => {
 		);
 	}
 });
-
-const createPage = async (browser: Browser) => {
-	const context = await browser.newContext();
-	const page = await context.newPage();
-	return page;
-};
 
 const connect = async (page: Page) => {
 	await page.goto("/");
