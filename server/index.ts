@@ -15,5 +15,5 @@ new SocketServer(httpServer as any);
 const port = process.env.PORT || 8080;
 
 httpServer.listen(port, () =>
-	console.info(`Server running at http://localhost:${port}`),
+	console.info(`\nServer running at http://localhost:${port}`),
 );
