@@ -32,7 +32,7 @@ export const machineLogger = (
 				"\nXState snapshot",
 				consoleColourCodes.reset,
 				`\nMachine: ${machine}`,
-				`\nState: ${inspectionEvent.snapshot.status}`,
+				`\nState: ${inspectionEvent.actorRef.getSnapshot().value}`,
 			].join(""),
 		);
 	}
