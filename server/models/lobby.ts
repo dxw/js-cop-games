@@ -3,6 +3,7 @@ import { type Actor, createActor } from "xstate";
 import type { Player } from "../@types/entities";
 import { context, lobbyMachine } from "../machines/lobby";
 import type { SocketServer } from "../socketServer";
+import { machineLogger } from "../utils/machineLogger";
 
 class Lobby {
 	machine: Actor<typeof lobbyMachine>;
@@ -10,14 +11,11 @@ class Lobby {
 
 	constructor(server: SocketServer) {
 		this.server = server;
-		this.machine = createActor(lobbyMachine, { ...context });
+		this.machine = createActor(lobbyMachine, {
+			...context,
+			inspect: (event) => machineLogger(event, "lobby"),
+		});
 		this.machine.subscribe((state) => {
-			console.info({
-				machine: "lobby",
-				context: state.context,
-				state: state.value,
-			});
-
 			switch (state.value) {
 				case "multiplePlayers": {
 					this.emitShowStartButton();
