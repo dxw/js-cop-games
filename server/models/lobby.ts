@@ -3,7 +3,7 @@ import { type Actor, createActor } from "xstate";
 import type { Player } from "../@types/entities";
 import { context, lobbyMachine } from "../machines/lobby";
 import type { SocketServer } from "../socketServer";
-import { machineLogger } from "../utils/machineLogger";
+import { machineLogger } from "../utils/loggingUtils";
 
 class Lobby {
 	machine: Actor<typeof lobbyMachine>;

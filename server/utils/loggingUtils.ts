@@ -8,15 +8,16 @@ const consoleColourCodes = {
 	reset: "\x1b[0m",
 };
 
-export const machineLogger = (
+const machineLogger = (
 	inspectionEvent: InspectionEvent,
 	machine: AnyStateMachine["id"],
 ) => {
 	if (inspectionEvent.type === "@xstate.event") {
 		console.info(
 			[
+				`\n${currentTime()} `,
 				consoleColourCodes.text.green,
-				"\nXState event",
+				"XState event",
 				consoleColourCodes.reset,
 				`\nMachine: ${machine}`,
 			].join(""),
@@ -28,8 +29,9 @@ export const machineLogger = (
 	if (inspectionEvent.type === "@xstate.snapshot") {
 		console.info(
 			[
+				`\n${currentTime()} `,
 				consoleColourCodes.text.yellow,
-				"\nXState snapshot",
+				"XState snapshot",
 				consoleColourCodes.reset,
 				`\nMachine: ${machine}`,
 				`\nState: ${inspectionEvent.actorRef.getSnapshot().value}`,
@@ -37,3 +39,9 @@ export const machineLogger = (
 		);
 	}
 };
+
+const currentTime = () => {
+	return new Date().toLocaleTimeString("en-GB");
+};
+
+export { currentTime, machineLogger };

@@ -1,6 +1,7 @@
 import http from "node:http";
 import handler from "serve-handler";
 import { SocketServer } from "./socketServer";
+import { currentTime } from "./utils/loggingUtils";
 
 const httpServer = http.createServer((request, response) => {
 	// biome-ignore lint/suspicious/noExplicitAny: we don't have a fix for this yet
@@ -15,5 +16,5 @@ new SocketServer(httpServer as any);
 const port = process.env.PORT || 8080;
 
 httpServer.listen(port, () =>
-	console.info(`\nServer running at http://localhost:${port}`),
+	console.info(`\n${currentTime()} Server running at http://localhost:${port}`),
 );
