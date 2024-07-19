@@ -1,4 +1,4 @@
-import type { AnyStateMachine, InspectionEvent } from "xstate";
+import type { InspectionEvent } from "xstate";
 
 const consoleColourCodes = {
 	text: {
@@ -8,10 +8,11 @@ const consoleColourCodes = {
 	reset: "\x1b[0m",
 };
 
-const machineLogger = (
-	inspectionEvent: InspectionEvent,
-	machine: AnyStateMachine["id"],
-) => {
+const getMachineId = (inspectionEvent: InspectionEvent) => {
+	return inspectionEvent.actorRef.getSnapshot().machine.id;
+};
+
+const machineLogger = (inspectionEvent: InspectionEvent) => {
 	if (inspectionEvent.type === "@xstate.event") {
 		console.info(
 			[
@@ -19,7 +20,7 @@ const machineLogger = (
 				consoleColourCodes.text.green,
 				"XState event",
 				consoleColourCodes.reset,
-				`\nMachine: ${machine}`,
+				`\nMachine: ${getMachineId(inspectionEvent)}`,
 			].join(""),
 		);
 
@@ -33,7 +34,7 @@ const machineLogger = (
 				consoleColourCodes.text.yellow,
 				"XState snapshot",
 				consoleColourCodes.reset,
-				`\nMachine: ${machine}`,
+				`\nMachine: ${getMachineId(inspectionEvent)}`,
 				`\nState: ${inspectionEvent.actorRef.getSnapshot().value}`,
 				"\nContext:",
 			].join(""),

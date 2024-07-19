@@ -13,7 +13,7 @@ class Lobby {
 		this.server = server;
 		this.machine = createActor(lobbyMachine, {
 			...context,
-			inspect: (event) => machineLogger(event, "lobby"),
+			inspect: machineLogger,
 		});
 		this.machine.subscribe((state) => {
 			switch (state.value) {
