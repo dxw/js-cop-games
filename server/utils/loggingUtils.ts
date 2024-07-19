@@ -8,43 +8,59 @@ const consoleColourCodes = {
 	reset: "\x1b[0m",
 };
 
+const colouredConsoleString = (
+	unformattedString: string,
+	textColour: keyof (typeof consoleColourCodes)["text"],
+) => {
+	return [
+		consoleColourCodes.text[textColour],
+		unformattedString,
+		consoleColourCodes.reset,
+	].join("");
+};
+
 const getMachineId = (inspectionEvent: InspectionEvent) => {
 	return inspectionEvent.actorRef.getSnapshot().machine.id;
 };
 
+const logWithTime = (
+	inlineString: string,
+	subsequentLinesString?: string,
+	additionalLogCallback?: () => void,
+) => {
+	const currentTime = new Date().toLocaleTimeString("en-GB");
+
+	console.info(
+		[`\n${currentTime} ${inlineString}`, subsequentLinesString]
+			.filter((string) => string)
+			.join("\n"),
+	);
+
+	if (additionalLogCallback) {
+		additionalLogCallback();
+	}
+};
+
 const machineLogger = (inspectionEvent: InspectionEvent) => {
 	if (inspectionEvent.type === "@xstate.event") {
-		console.info(
-			[
-				`\n${currentTime()} `,
-				consoleColourCodes.text.green,
-				"XState event",
-				consoleColourCodes.reset,
-				`\nMachine: ${getMachineId(inspectionEvent)}`,
-			].join(""),
+		logWithTime(
+			colouredConsoleString("XState event", "green"),
+			`Machine: ${getMachineId(inspectionEvent)}`,
+			() => console.table(inspectionEvent.event),
 		);
-
-		console.table(inspectionEvent.event);
 	}
 
 	if (inspectionEvent.type === "@xstate.snapshot") {
-		console.info(
+		logWithTime(
+			colouredConsoleString("XState snapshot", "yellow"),
 			[
-				`\n${currentTime()} `,
-				consoleColourCodes.text.yellow,
-				"XState snapshot",
-				consoleColourCodes.reset,
-				`\nMachine: ${getMachineId(inspectionEvent)}`,
-				`\nState: ${inspectionEvent.actorRef.getSnapshot().value}`,
-				"\nContext:",
-			].join(""),
+				`Machine: ${getMachineId(inspectionEvent)}`,
+				`State: ${inspectionEvent.actorRef.getSnapshot().value}`,
+				"Context:",
+			].join("\n"),
+			() => console.info(inspectionEvent.actorRef.getSnapshot().context),
 		);
-		console.info(inspectionEvent.actorRef.getSnapshot().context);
 	}
 };
 
-const currentTime = () => {
-	return new Date().toLocaleTimeString("en-GB");
-};
-
-export { currentTime, machineLogger };
+export { logWithTime, machineLogger };
