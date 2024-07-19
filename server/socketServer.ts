@@ -22,7 +22,7 @@ export class SocketServer {
 
 	onCreated() {
 		this.server.on("connection", (socket) => {
-			console.info(`connected: ${socket.id}`);
+			console.info(`\nSocket connected: ${socket.id}`);
 
 			if (this.round) {
 				socket.emit("lobby:unjoinable");
@@ -35,7 +35,7 @@ export class SocketServer {
 				this.server.emit("players:get", this.lobby.playerNames());
 			});
 			socket.on("disconnect", () => {
-				console.info(`disconnected: ${socket.id}`);
+				console.info(`\nSocket disconnected: ${socket.id}`);
 				this.lobby.removePlayer(socket.id);
 				this.server.emit("players:get", this.lobby.playerNames());
 			});
