@@ -35,8 +35,10 @@ const machineLogger = (
 				consoleColourCodes.reset,
 				`\nMachine: ${machine}`,
 				`\nState: ${inspectionEvent.actorRef.getSnapshot().value}`,
+				"\nContext:",
 			].join(""),
 		);
+		console.info(inspectionEvent.actorRef.getSnapshot().context);
 	}
 };
 
