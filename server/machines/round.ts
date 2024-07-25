@@ -1,4 +1,4 @@
-import { assign, createMachine } from "xstate";
+import { assign, setup } from "xstate";
 import type { Answer, Question } from "../@types/entities";
 import questions from "../data/questions.json";
 
@@ -10,55 +10,75 @@ const context = {
 
 type Context = typeof context;
 
-type Event = {
+type PlayerSubmitsAnswerEvent = {
 	type: "playerSubmitsAnswer";
 	answer: Answer;
 };
 
-const roundMachine = createMachine(
-	{
+type Events = PlayerSubmitsAnswerEvent;
+
+const dynamicParamFuncs = {
+	addAnswer: ({
 		context,
-		id: "round",
-		initial: "roundStart",
-		types: {
-			context: {} as Context,
-			events: {} as Event,
-		},
-		states: {
-			roundStart: {
-				entry: ["setQuestion"],
-				on: {
-					playerSubmitsAnswer: { actions: "addAnswer", target: "countdown" },
-				},
-			},
-			countdown: {
-				on: {
-					playerSubmitsAnswer: { actions: "addAnswer" },
-				},
-				after: {
-					[15000]: { target: "finished" },
-				},
-			},
-			finished: {
-				type: "final",
-			},
-		},
+		event,
+	}: { context: Context; event: PlayerSubmitsAnswerEvent }) => {
+		return { currentAnswers: context.answers, newAnswer: event.answer };
 	},
-	{
-		actions: {
-			addAnswer: assign({
-				answers: (args) => [...args.context.answers, args.event.answer],
-			}),
-			setQuestion: assign({
-				selectedQuestion: (args) => {
-					const questionIndex = Math.floor(
-						Math.random() * (args.context.questions.length - 1),
-					);
-					return args.context.questions[questionIndex];
-				},
-			}),
-		},
+	setQuestion: ({ context }: { context: Context }) => {
+		return { questions: context.questions };
 	},
-);
+};
+
+const roundMachine = setup({
+	types: {} as {
+		context: Context;
+		events: Events;
+	},
+
+	actions: {
+		// add this one to dynamicParamFuncs
+		addAnswer: assign({
+			answers: (_, params: ReturnType<typeof dynamicParamFuncs.addAnswer>) => [
+				...params.currentAnswers,
+				params.newAnswer,
+			],
+		}),
+		setQuestion: assign({
+			selectedQuestion: (
+				_,
+				params: ReturnType<typeof dynamicParamFuncs.setQuestion>,
+			) => {
+				const questionIndex = Math.floor(
+					Math.random() * (params.questions.length - 1),
+				);
+				return params.questions[questionIndex];
+			},
+		}),
+	},
+}).createMachine({
+	context,
+	id: "round",
+	initial: "roundStart",
+	states: {
+		roundStart: {
+			entry: [{ type: "setQuestion", params: dynamicParamFuncs.setQuestion }],
+			on: {
+				playerSubmitsAnswer: {
+					actions: { type: "addAnswer", params: dynamicParamFuncs.addAnswer },
+					target: "countdown",
+				},
+			},
+		},
+		countdown: {
+			on: {
+				playerSubmitsAnswer: {
+					actions: { type: "addAnswer", params: dynamicParamFuncs.addAnswer },
+				},
+			},
+			after: { [15000]: { target: "finished" } },
+		},
+		finished: { type: "final" },
+	},
+});
 
 export { context, roundMachine };
