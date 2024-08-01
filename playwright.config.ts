@@ -26,8 +26,10 @@ export default defineConfig({
 		baseURL: "http://localhost:8080",
 
 		// Collect trace when retrying the failed test.
-		trace: "on-first-retry",
+		trace: "retain-on-failure",
+		video: "retain-on-failure",
 	},
+
 	// Configure projects for major browsers.
 	projects: [
 		{
