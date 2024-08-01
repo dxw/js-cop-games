@@ -7,6 +7,7 @@ import type {
 } from "./@types/events";
 import { Lobby } from "./models/lobby";
 import { Round } from "./models/round";
+import { logWithTime } from "./utils/loggingUtils";
 
 export class SocketServer {
 	lobby: Lobby;
@@ -22,7 +23,7 @@ export class SocketServer {
 
 	onCreated() {
 		this.server.on("connection", (socket) => {
-			console.info(`connected: ${socket.id}`);
+			logWithTime(`Socket connected: ${socket.id}`);
 
 			if (this.round) {
 				socket.emit("lobby:unjoinable");
@@ -35,7 +36,7 @@ export class SocketServer {
 				this.server.emit("players:get", this.lobby.playerNames());
 			});
 			socket.on("disconnect", () => {
-				console.info(`disconnected: ${socket.id}`);
+				logWithTime(`Socket disconnected: ${socket.id}`);
 				this.lobby.removePlayer(socket.id);
 				this.server.emit("players:get", this.lobby.playerNames());
 			});
