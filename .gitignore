@@ -53,3 +53,5 @@ package-lock.json
 
 # eslint
 .eslintcache
+
+test-results/**
