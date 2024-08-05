@@ -194,10 +194,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/web@^0.0.142":
-  version "0.0.142"
-  resolved "https://registry.npmjs.org/@types/web/-/web-0.0.142.tgz"
-  integrity sha512-QWDvMW+P3sdq8rhiw3dNyBR64O5adSY80gBjRd2xI3BADGsAFpAglblWucsGUjKVKyPm4EbYZkvFs7BRxPsBOg==
+"@types/web@^0.0.152":
+  version "0.0.152"
+  resolved "https://registry.yarnpkg.com/@types/web/-/web-0.0.152.tgz#75a17e79d8237da134c8ecd01d5880d328dda687"
+  integrity sha512-Iu1OJ3ahq6/mwSK6jRKj2revI+avfPRWZOADcKeuv1AGCtkwbDl12AkWAl4KjiW2l4s2rkST7WagdhWOVGx9qg==
 
 "@types/ws@~8.5.10":
   version "8.5.12"
