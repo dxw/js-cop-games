@@ -1,9 +1,10 @@
 import { assign, setup } from "xstate";
-import type { Answer, Question } from "../@types/entities";
+import type { Answer, Player, Question } from "../@types/entities";
 
 const context = {
 	answers: [] as Answer[],
-	selectedQuestion: {} as Question | undefined,
+	correctPlayerSocketIds: [] as Player["socketId"][],
+	selectedQuestion: {} as Question,
 };
 
 type Context = typeof context;
@@ -15,6 +16,8 @@ type PlayerSubmitsAnswerEvent = {
 
 type Events = PlayerSubmitsAnswerEvent;
 
+type Input = { selectedQuestion: Question };
+
 const dynamicParamFuncs = {
 	addAnswer: ({
 		context,
@@ -22,12 +25,17 @@ const dynamicParamFuncs = {
 	}: { context: Context; event: PlayerSubmitsAnswerEvent }) => {
 		return { currentAnswers: context.answers, newAnswer: event.answer };
 	},
+	recordCorrectPlayers: ({ context }: { context: Context }) => ({
+		finalAnswers: context.answers,
+		correctAnswer: context.selectedQuestion?.colours,
+	}),
 };
 
 const turnMachine = setup({
 	types: {} as {
 		context: Context;
 		events: Events;
+		input: Input;
 	},
 	actions: {
 		addAnswer: assign({
@@ -36,9 +44,27 @@ const turnMachine = setup({
 				params.newAnswer,
 			],
 		}),
+		recordCorrectPlayers: assign({
+			correctPlayerSocketIds: (
+				_,
+				params: ReturnType<typeof dynamicParamFuncs.recordCorrectPlayers>,
+			) => {
+				return params.finalAnswers
+					.filter((answer) => {
+						if (params.correctAnswer.length !== answer.colours.length) {
+							return false;
+						}
+
+						return params.correctAnswer.every((colour) =>
+							answer.colours.includes(colour),
+						);
+					})
+					.map((answer) => answer.socketId);
+			},
+		}),
 	},
 }).createMachine({
-	context,
+	context: ({ input }) => ({ ...context, ...input }),
 	id: "turn",
 	initial: "noAnswers",
 	states: {
@@ -58,7 +84,15 @@ const turnMachine = setup({
 			},
 			after: { [15000]: { target: "finished" } },
 		},
-		finished: { type: "final" },
+		finished: {
+			type: "final",
+			entry: [
+				{
+					type: "recordCorrectPlayers",
+					params: dynamicParamFuncs.recordCorrectPlayers,
+				},
+			],
+		},
 	},
 });
 
