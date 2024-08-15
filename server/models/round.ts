@@ -43,6 +43,19 @@ class Round {
 					.selectedQuestion as Question,
 			},
 		});
+		this.turnMachine.subscribe((state) => {
+			switch (state.value) {
+				case "finished": {
+					// TODO:
+					// - add logic for updating scores then checking if there's a clear winner in the round machine
+					// - delete the console.info below
+					console.info(
+						"turn machine finished with context:",
+						this.turnMachine?.getSnapshot().context,
+					);
+				}
+			}
+		});
 		this.turnMachine.start();
 	}
 
