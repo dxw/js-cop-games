@@ -28,4 +28,9 @@ type Question = {
 	subject: string;
 };
 
-export type { Answer, Colour, Player, Question };
+type PlayerScore = {
+	player: Player;
+	score: number;
+};
+
+export type { Answer, Colour, Player, PlayerScore, Question };

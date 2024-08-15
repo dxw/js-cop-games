@@ -1,10 +1,12 @@
 import { assign, setup } from "xstate";
-import type { Question } from "../@types/entities";
+import type { PlayerScore, Question } from "../@types/entities";
 import questions from "../data/questions.json";
 
 const context = {
 	questions: questions as Question[],
+	playerScores: [] as PlayerScore[],
 	selectedQuestion: {} as Question | undefined,
+	bonusPoints: 0,
 };
 
 type Context = typeof context;
