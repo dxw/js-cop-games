@@ -42,6 +42,17 @@ const roundMachine = setup({
 	states: {
 		turn: {
 			entry: [{ type: "setQuestion", params: dynamicParamFuncs.setQuestion }],
+			on: {
+				turnEnd: {
+					target: "roundEnd",
+					// guard: (_, __) => {
+					// 	check to see if round end conditions are met
+					// },
+				},
+			},
+		},
+		roundEnd: {
+			type: "final",
 		},
 	},
 });
