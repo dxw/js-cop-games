@@ -19,6 +19,8 @@ type Events = PlayerSubmitsAnswerEvent;
 
 type Input = { selectedQuestion: Question };
 
+type Output = { correctPlayerSocketIds: Player["socketId"][] };
+
 const dynamicParamFuncs = {
 	addAnswer: ({
 		context,
@@ -37,6 +39,7 @@ const turnMachine = setup({
 		context: Context;
 		events: Events;
 		input: Input;
+		output: Output;
 	},
 	actions: {
 		addAnswer: assign({
@@ -88,6 +91,9 @@ const turnMachine = setup({
 			],
 		},
 	},
+	output: ({ context }) => ({
+		correctPlayerSocketIds: context.correctPlayerSocketIds,
+	}),
 });
 
 export { turnMachine };
