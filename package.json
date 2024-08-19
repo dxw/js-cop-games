@@ -7,7 +7,7 @@
 	"scripts": {
 		"compile": "bun build ./client/index.ts --outdir ./client/assets/scripts",
 		"lint:ts": "bunx @biomejs/biome check .",
-		"lint:ts:fix": "bunx @biomejs/biome check --apply .",
+		"lint:ts:fix": "bunx @biomejs/biome check --write .",
 		"lint:css": "bunx stylelint \"client/assets/styles/*.css\"",
 		"lint:css:fix": "bunx stylelint \"client/assets/styles/*.css\" --fix",
 		"start": "bun run compile && bun server/index.ts",
