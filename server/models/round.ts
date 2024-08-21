@@ -4,6 +4,7 @@ import { context, roundMachine } from "../machines/round";
 import { turnMachine } from "../machines/turn";
 import type { SocketServer } from "../socketServer";
 import { machineLogger } from "../utils/loggingUtils";
+import { getUpdatedPlayerScoresAndBonusPoints } from "../utils/scoringUtils";
 
 class Round {
 	machine: Actor<typeof roundMachine>;
@@ -43,18 +44,20 @@ class Round {
 					.selectedQuestion as Question,
 			},
 		});
-		this.turnMachine.subscribe((state) => {
-			switch (state.value) {
-				case "finished": {
-					// TODO:
-					// - add logic for updating scores then checking if there's a clear winner in the round machine
-					// - delete the console.info below
-					console.info(
-						"turn machine finished with context:",
-						this.turnMachine?.getSnapshot().context,
-					);
-				}
-			}
+
+		this.turnMachine.subscribe({
+			complete: () => {
+				const roundMachineSnapshot = this.machine.getSnapshot();
+				this.machine.send({
+					type: "turnEnd",
+					scoresAndBonusPoints: getUpdatedPlayerScoresAndBonusPoints(
+						roundMachineSnapshot.context.bonusPoints,
+						roundMachineSnapshot.context.playerScores,
+						this.turnMachine?.getSnapshot()?.output?.correctPlayerSocketIds ||
+							[],
+					),
+				});
+			},
 		});
 		this.turnMachine.start();
 	}

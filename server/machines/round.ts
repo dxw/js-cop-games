@@ -1,10 +1,12 @@
 import { assign, setup } from "xstate";
-import type { Question } from "../@types/entities";
+import type { PlayerScore, Question } from "../@types/entities";
 import questions from "../data/questions.json";
 
 const context = {
 	questions: questions as Question[],
+	playerScores: [] as PlayerScore[],
 	selectedQuestion: {} as Question | undefined,
+	bonusPoints: 0,
 };
 
 type Context = typeof context;
@@ -40,6 +42,17 @@ const roundMachine = setup({
 	states: {
 		turn: {
 			entry: [{ type: "setQuestion", params: dynamicParamFuncs.setQuestion }],
+			on: {
+				turnEnd: {
+					target: "roundEnd",
+					// guard: (_, __) => {
+					// 	check to see if round end conditions are met
+					// },
+				},
+			},
+		},
+		roundEnd: {
+			type: "final",
 		},
 	},
 });
