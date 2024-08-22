@@ -34,13 +34,6 @@ const askAQuestion = (question: Question): void => {
 	elements.number.innerText = question.colours.length.toString();
 };
 
-const derenderColourCheckboxes = (): void => {
-	checkboxFormElement ||= getElementById<HTMLFormElement>("checkbox-form");
-
-	checkboxFormElement.remove();
-	checkboxFormElement = undefined;
-};
-
 const derenderPlayerNameForm = (): void => {
 	playerNameFormElement ||= getElementById<NameFormElement>("name-form");
 
@@ -170,7 +163,8 @@ const submitAnswer = async (
 	);
 
 	emitAnswersPostWrapper(colours);
-	derenderColourCheckboxes();
+
+	elements["checkbox-form"].style.display = "none";
 
 	const answeredColourCards = colours.map(
 		(colour) =>
