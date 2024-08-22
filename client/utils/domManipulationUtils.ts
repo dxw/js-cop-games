@@ -35,11 +35,7 @@ const askAQuestion = (question: Question): void => {
 };
 
 const indicateConnected = (): void => {
-	connectionStatusIconElement ||= getElementById<HTMLDivElement>(
-		"connection-status-icon",
-	);
-
-	connectionStatusIconElement.innerText = "Connected 🟢";
+	elements["connection-status-icon"].innerText = "Connected 🟢";
 };
 
 const indicateDisconnected = (): void => {
