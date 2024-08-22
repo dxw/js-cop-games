@@ -61,12 +61,10 @@ const renderPlayerName = (currentPlayer: Player): void => {
 };
 
 const renderUnjoinableMessage = (): void => {
-	playerNameFormElement ||= getElementById<NameFormElement>("name-form");
-
 	const unjoinableMessage = document.createElement("p");
 	unjoinableMessage.innerText = "Round in progress. Try again later";
 
-	playerNameFormElement?.replaceWith(unjoinableMessage);
+	elements["name-form"]?.replaceWith(unjoinableMessage);
 };
 
 const resetPlayerNameFormValue = (): void => {

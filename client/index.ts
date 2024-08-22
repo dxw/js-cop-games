@@ -11,6 +11,7 @@ import {
 	renderColourCheckboxes,
 	renderPlayerList,
 	renderPlayerName,
+	renderUnjoinableMessage,
 	resetPlayerNameFormValue,
 } from "./utils/domManipulationUtils";
 import { getElementById } from "./utils/getElementById";
@@ -92,7 +93,7 @@ socket.on("round:start", () => {
 });
 
 socket.on("round:startable", () => {
-elements["start-button"].style.display = "block";
+	elements["start-button"].style.display = "block";
 });
 
 const nameFormElement = getElementById<NameFormElement>("name-form");
