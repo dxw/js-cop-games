@@ -15,7 +15,6 @@ let questionElement: HTMLElement | undefined;
 let questionNumberElement: HTMLElement | undefined;
 let questionThingElement: HTMLElement | undefined;
 let playerNameFormElement: NameFormElement | undefined;
-let startButtonElement: HTMLButtonElement | undefined;
 
 export const populateElements = (elementNames: ElementNames) => {
 	for (const elementName of elementNames) {
@@ -61,12 +60,6 @@ const renderPlayerName = (currentPlayer: Player): void => {
 	elements["player-name"].innerText = targetText;
 };
 
-const renderStartButton = (): void => {
-	startButtonElement ||= getElementById<HTMLButtonElement>("start-button");
-
-	startButtonElement.style.display = "block";
-};
-
 const renderUnjoinableMessage = (): void => {
 	playerNameFormElement ||= getElementById<NameFormElement>("name-form");
 
@@ -96,7 +89,7 @@ const resetRound = (playerNames: Player["name"][]): void => {
 	elements["round-reset-button"].style.display = "none";
 
 	if (playerNames.length > 1) {
-		renderStartButton();
+		elements["start-button"].style.display = "block";
 	}
 };
 
@@ -136,7 +129,6 @@ export {
 	renderColourCheckboxes,
 	renderPlayerList,
 	renderPlayerName,
-	renderStartButton,
 	renderUnjoinableMessage,
 	resetPlayerNameFormValue,
 	resetRound,

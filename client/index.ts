@@ -11,10 +11,7 @@ import {
 	renderColourCheckboxes,
 	renderPlayerList,
 	renderPlayerName,
-	renderStartButton,
-	renderUnjoinableMessage,
 	resetPlayerNameFormValue,
-	resetRound,
 } from "./utils/domManipulationUtils";
 import { getElementById } from "./utils/getElementById";
 import { addPlayer, emitAnswersPost } from "./utils/socketUtils";
@@ -95,7 +92,7 @@ socket.on("round:start", () => {
 });
 
 socket.on("round:startable", () => {
-	renderStartButton();
+elements["start-button"].style.display = "block";
 });
 
 const nameFormElement = getElementById<NameFormElement>("name-form");
