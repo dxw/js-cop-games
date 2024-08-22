@@ -9,7 +9,6 @@ import type { NameFormElement } from "../../server/@types/ui";
 import { getElementById } from "./getElementById";
 
 let checkboxTemplateElement: HTMLTemplateElement | undefined;
-let colourSectionElement: HTMLElement | undefined;
 let playerNameFormElement: NameFormElement | undefined;
 
 export const populateElements = (elementNames: ElementNames) => {
@@ -28,7 +27,6 @@ const askAQuestion = (question: Question): void => {
 const renderColourCheckboxes = (
 	emitAnswersPostWrapper: (colours: Answer["colours"]) => void,
 ): void => {
-	colourSectionElement ||= getElementById("colour-section");
 	checkboxTemplateElement ||=
 		getElementById<HTMLTemplateElement>("checkbox-template");
 
@@ -36,7 +34,7 @@ const renderColourCheckboxes = (
 		true,
 	) as DocumentFragment;
 
-	colourSectionElement.appendChild(clone);
+	elements["colour-section"].appendChild(clone);
 
 	elements["checkbox-form"].addEventListener("submit", (e) => {
 		e.preventDefault();

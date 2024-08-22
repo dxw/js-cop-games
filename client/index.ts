@@ -45,6 +45,7 @@ const elementNames = [
 	"start-button",
 	"connection-status-icon",
 	"colour-section",
+	"checkbox-template",
 ] as const;
 
 export type ElementNames = typeof elementNames;
