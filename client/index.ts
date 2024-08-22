@@ -7,8 +7,6 @@ import type {
 import type { NameFormElement } from "../server/@types/ui";
 import {
 	askAQuestion,
-	derenderPlayerNameForm,
-	derenderStartButton,
 	indicateConnected,
 	indicateDisconnected,
 	populateElements,
@@ -80,7 +78,7 @@ socket.on("players:get", (newPlayers) => {
 socket.on("player:set", (player) => {
 	currentPlayer = player;
 	renderPlayerName(currentPlayer);
-	derenderPlayerNameForm();
+	elements["name-form"].style.display = "none";
 });
 
 socket.on("question:get", (question) => {

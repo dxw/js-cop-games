@@ -34,13 +34,6 @@ const askAQuestion = (question: Question): void => {
 	elements.number.innerText = question.colours.length.toString();
 };
 
-const derenderPlayerNameForm = (): void => {
-	playerNameFormElement ||= getElementById<NameFormElement>("name-form");
-
-	playerNameFormElement.remove();
-	playerNameFormElement = undefined;
-};
-
 const derenderRoundResetButton = (): void => {
 	roundResetButtonElement ||=
 		getElementById<HTMLButtonElement>("round-reset-button");
@@ -183,8 +176,6 @@ const submitAnswer = async (
 
 export {
 	askAQuestion,
-	derenderColourCheckboxes,
-	derenderPlayerNameForm,
 	derenderRoundResetButton,
 	derenderStartButton,
 	indicateConnected,
