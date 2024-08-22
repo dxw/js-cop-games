@@ -12,8 +12,6 @@ import {
 	renderPlayerList,
 	renderPlayerName,
 	renderUnjoinableMessage,
-	resetPlayerNameFormValue,
-	resetRound,
 } from "./utils/domManipulationUtils";
 import { getElementById } from "./utils/getElementById";
 import { addPlayer, emitAnswersPost } from "./utils/socketUtils";
@@ -50,9 +48,9 @@ const elementNames = [
 
 export type ElementNames = typeof elementNames;
 
-export const elements: {
+export let elements: {
 	[ElementName in ElementNames[number]]: HTMLElement;
-} & { "checkbox-template": HTMLTemplateElement } 
+} & { "checkbox-template": HTMLTemplateElement; "name-form": NameFormElement };
 
 document.addEventListener("DOMContentLoaded", () => {
 	populateElements(elementNames);
@@ -111,7 +109,7 @@ const startButtonElement = getElementById<HTMLButtonElement>("start-button");
 nameFormElement.addEventListener("submit", (e) => {
 	e.preventDefault();
 	addPlayer(socket, nameFormElement.elements.name.value);
-	resetPlayerNameFormValue();
+	elements["name-form"].elements.name.value = "";
 });
 
 startButtonElement.addEventListener("click", () => {

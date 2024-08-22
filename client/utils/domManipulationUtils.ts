@@ -5,10 +5,6 @@ import type {
 	Player,
 	Question,
 } from "../../server/@types/entities";
-import type { NameFormElement } from "../../server/@types/ui";
-import { getElementById } from "./getElementById";
-
-let playerNameFormElement: NameFormElement | undefined;
 
 export const populateElements = (elementNames: ElementNames) => {
 	for (const elementName of elementNames) {
@@ -53,12 +49,6 @@ const renderUnjoinableMessage = (): void => {
 	unjoinableMessage.innerText = "Round in progress. Try again later";
 
 	elements["name-form"]?.replaceWith(unjoinableMessage);
-};
-
-const resetPlayerNameFormValue = (): void => {
-	playerNameFormElement ||= getElementById<NameFormElement>("name-form");
-
-	playerNameFormElement.elements.name.value = "";
 };
 
 const resetRound = (playerNames: Player["name"][]): void => {
@@ -109,7 +99,6 @@ export {
 	renderPlayerList,
 	renderPlayerName,
 	renderUnjoinableMessage,
-	resetPlayerNameFormValue,
 	resetRound,
 	submitAnswer,
 };
