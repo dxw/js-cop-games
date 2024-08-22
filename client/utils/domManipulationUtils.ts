@@ -8,7 +8,6 @@ import type {
 import type { NameFormElement } from "../../server/@types/ui";
 import { getElementById } from "./getElementById";
 
-let checkboxFormElement: HTMLFormElement | undefined;
 let checkboxTemplateElement: HTMLTemplateElement | undefined;
 let colourSectionElement: HTMLElement | undefined;
 let playerNameFormElement: NameFormElement | undefined;
@@ -39,9 +38,7 @@ const renderColourCheckboxes = (
 
 	colourSectionElement.appendChild(clone);
 
-	checkboxFormElement ||= getElementById<HTMLFormElement>("checkbox-form");
-
-	checkboxFormElement.addEventListener("submit", (e) => {
+	elements["checkbox-form"].addEventListener("submit", (e) => {
 		e.preventDefault();
 		submitAnswer(emitAnswersPostWrapper);
 	});
@@ -86,9 +83,7 @@ const resetRound = (playerNames: Player["name"][]): void => {
 const submitAnswer = async (
 	emitAnswersPostWrapper: (colours: Answer["colours"]) => void,
 ): Promise<void> => {
-	checkboxFormElement ||= getElementById<HTMLFormElement>("checkbox-form");
-
-	const checkedElements = checkboxFormElement.querySelectorAll(
+	const checkedElements = elements["checkbox-form"].querySelectorAll(
 		'input[type="checkbox"]:checked',
 	);
 	const colours: Answer["colours"] = Array.from(checkedElements).map(
@@ -106,7 +101,7 @@ const submitAnswer = async (
 			</div>`,
 	);
 
-	getElementById("colour-section").innerHTML = `
+	elements["colour-section"].innerHTML = `
 		<h2>Your selection</h2>
 		<div class="colour-cards">
 			${answeredColourCards.join("")}
