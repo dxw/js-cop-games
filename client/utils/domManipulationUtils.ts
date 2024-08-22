@@ -11,9 +11,6 @@ import { getElementById } from "./getElementById";
 let checkboxFormElement: HTMLFormElement | undefined;
 let checkboxTemplateElement: HTMLTemplateElement | undefined;
 let colourSectionElement: HTMLElement | undefined;
-let questionElement: HTMLElement | undefined;
-let questionNumberElement: HTMLElement | undefined;
-let questionThingElement: HTMLElement | undefined;
 let playerNameFormElement: NameFormElement | undefined;
 
 export const populateElements = (elementNames: ElementNames) => {
@@ -74,15 +71,10 @@ const resetPlayerNameFormValue = (): void => {
 };
 
 const resetRound = (playerNames: Player["name"][]): void => {
-	colourSectionElement ||= getElementById("colour-section");
-	questionElement ||= getElementById("question");
-	questionThingElement ||= getElementById("thing");
-	questionNumberElement ||= getElementById("number");
-
-	questionElement.style.display = "none";
-	questionThingElement.innerText = "";
-	questionNumberElement.innerText = "";
-	colourSectionElement.innerHTML = "";
+	elements.question.style.display = "none";
+	elements.thing.innerText = "";
+	elements.number.innerText = "";
+	elements["colour-section"].innerHTML = "";
 
 	elements["round-reset-button"].style.display = "none";
 

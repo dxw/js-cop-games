@@ -13,6 +13,7 @@ import {
 	renderPlayerName,
 	renderUnjoinableMessage,
 	resetPlayerNameFormValue,
+	resetRound,
 } from "./utils/domManipulationUtils";
 import { getElementById } from "./utils/getElementById";
 import { addPlayer, emitAnswersPost } from "./utils/socketUtils";
@@ -43,6 +44,7 @@ const elementNames = [
 	"round-reset-button",
 	"start-button",
 	"connection-status-icon",
+	"colour-section",
 ] as const;
 
 export type ElementNames = typeof elementNames;
