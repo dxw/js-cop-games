@@ -29,13 +29,9 @@ export const populateElements = (elementNames: ElementNames) => {
 
 // biome-ignore lint/style/useNamingConvention: the issue here is the consecutive upper case characters, but given it's due to using a single-character word, this doesn't feel invalid
 const askAQuestion = (question: Question): void => {
-	questionElement ||= getElementById("question");
-	questionThingElement ||= getElementById("thing");
-	questionNumberElement ||= getElementById("number");
-
-	questionElement.style.display = "block";
-	questionThingElement.innerText = question.subject;
-	questionNumberElement.innerText = question.colours.length.toString();
+	elements.question.style.display = "block";
+	elements.thing.innerText = question.subject;
+	elements.number.innerText = question.colours.length.toString();
 };
 
 const derenderColourCheckboxes = (): void => {
