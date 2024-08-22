@@ -7,8 +7,6 @@ import type {
 import type { NameFormElement } from "../server/@types/ui";
 import {
 	askAQuestion,
-	indicateConnected,
-	indicateDisconnected,
 	populateElements,
 	renderColourCheckboxes,
 	renderPlayerList,
@@ -59,11 +57,11 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 socket.on("connect", () => {
-	indicateConnected();
+	elements["connection-status-icon"].innerText = "Connected 🟢";
 });
 
 socket.on("disconnect", () => {
-	indicateDisconnected();
+	elements["connection-status-icon"].innerText = "Disconnected 🔴";
 });
 
 socket.on("lobby:unjoinable", () => {
