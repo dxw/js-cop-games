@@ -14,7 +14,6 @@ let colourSectionElement: HTMLElement | undefined;
 let questionElement: HTMLElement | undefined;
 let questionNumberElement: HTMLElement | undefined;
 let questionThingElement: HTMLElement | undefined;
-let playerNameElement: HTMLElement | undefined;
 let playerNameFormElement: NameFormElement | undefined;
 let roundResetButtonElement: HTMLButtonElement | undefined;
 let startButtonElement: HTMLButtonElement | undefined;
@@ -59,10 +58,8 @@ const renderPlayerList = (playerNames: Player["name"][]): void => {
 };
 
 const renderPlayerName = (currentPlayer: Player): void => {
-	playerNameElement ||= getElementById<HTMLDivElement>("player-name");
-
 	const targetText = `Name: ${currentPlayer.name}`;
-	playerNameElement.innerText = targetText;
+	elements["player-name"].innerText = targetText;
 };
 
 const renderRoundResetButton = (): void => {
