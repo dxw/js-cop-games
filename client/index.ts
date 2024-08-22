@@ -11,7 +11,6 @@ import {
 	renderColourCheckboxes,
 	renderPlayerList,
 	renderPlayerName,
-	renderRoundResetButton,
 	renderStartButton,
 	renderUnjoinableMessage,
 	resetPlayerNameFormValue,
@@ -92,7 +91,7 @@ socket.on("round:reset", () => {
 
 socket.on("round:start", () => {
 	elements["start-button"].style.display = "none";
-	renderRoundResetButton();
+	elements["round-reset-button"].style.display = "block";
 });
 
 socket.on("round:startable", () => {

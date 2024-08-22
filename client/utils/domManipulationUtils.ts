@@ -15,7 +15,6 @@ let questionElement: HTMLElement | undefined;
 let questionNumberElement: HTMLElement | undefined;
 let questionThingElement: HTMLElement | undefined;
 let playerNameFormElement: NameFormElement | undefined;
-let roundResetButtonElement: HTMLButtonElement | undefined;
 let startButtonElement: HTMLButtonElement | undefined;
 
 export const populateElements = (elementNames: ElementNames) => {
@@ -60,13 +59,6 @@ const renderPlayerList = (playerNames: Player["name"][]): void => {
 const renderPlayerName = (currentPlayer: Player): void => {
 	const targetText = `Name: ${currentPlayer.name}`;
 	elements["player-name"].innerText = targetText;
-};
-
-const renderRoundResetButton = (): void => {
-	roundResetButtonElement ||=
-		getElementById<HTMLButtonElement>("round-reset-button");
-
-	roundResetButtonElement.style.display = "block";
 };
 
 const renderStartButton = (): void => {
@@ -144,7 +136,6 @@ export {
 	renderColourCheckboxes,
 	renderPlayerList,
 	renderPlayerName,
-	renderRoundResetButton,
 	renderStartButton,
 	renderUnjoinableMessage,
 	resetPlayerNameFormValue,
