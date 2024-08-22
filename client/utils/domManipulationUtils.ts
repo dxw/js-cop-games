@@ -34,12 +34,6 @@ const askAQuestion = (question: Question): void => {
 	elements.number.innerText = question.colours.length.toString();
 };
 
-const derenderStartButton = (): void => {
-	startButtonElement ||= getElementById<HTMLButtonElement>("start-button");
-
-	startButtonElement.style.display = "none";
-};
-
 const indicateConnected = (): void => {
 	connectionStatusIconElement ||= getElementById<HTMLDivElement>(
 		"connection-status-icon",
@@ -170,7 +164,6 @@ const submitAnswer = async (
 
 export {
 	askAQuestion,
-	derenderStartButton,
 	indicateConnected,
 	indicateDisconnected,
 	renderColourCheckboxes,

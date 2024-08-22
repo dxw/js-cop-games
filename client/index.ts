@@ -93,7 +93,7 @@ socket.on("round:reset", () => {
 });
 
 socket.on("round:start", () => {
-	derenderStartButton();
+	elements["start-button"].style.display = "none";
 	renderRoundResetButton();
 });
 
