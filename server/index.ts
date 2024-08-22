@@ -4,14 +4,12 @@ import { SocketServer } from "./socketServer";
 import { logWithTime } from "./utils/loggingUtils";
 
 const httpServer = http.createServer((request, response) => {
-	// biome-ignore lint/suspicious/noExplicitAny: we don't have a fix for this yet
-	return handler(request as any, response as any, {
+	return handler(request, response, {
 		public: "./client",
 	});
 });
 
-// biome-ignore lint/suspicious/noExplicitAny: we don't have a fix for this yet
-new SocketServer(httpServer as any);
+new SocketServer(httpServer);
 
 const port = process.env.PORT || 8080;
 
