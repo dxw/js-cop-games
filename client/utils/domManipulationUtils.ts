@@ -8,7 +8,6 @@ import type {
 import type { NameFormElement } from "../../server/@types/ui";
 import { getElementById } from "./getElementById";
 
-let checkboxTemplateElement: HTMLTemplateElement | undefined;
 let playerNameFormElement: NameFormElement | undefined;
 
 export const populateElements = (elementNames: ElementNames) => {
@@ -27,10 +26,7 @@ const askAQuestion = (question: Question): void => {
 const renderColourCheckboxes = (
 	emitAnswersPostWrapper: (colours: Answer["colours"]) => void,
 ): void => {
-	checkboxTemplateElement ||=
-		getElementById<HTMLTemplateElement>("checkbox-template");
-
-	const clone = checkboxTemplateElement.content.cloneNode(
+	const clone = elements["checkbox-template"].content.cloneNode(
 		true,
 	) as DocumentFragment;
 

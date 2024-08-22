@@ -50,7 +50,9 @@ const elementNames = [
 
 export type ElementNames = typeof elementNames;
 
-export let elements: { [ElementName in ElementNames[number]]: HTMLElement };
+export const elements: {
+	[ElementName in ElementNames[number]]: HTMLElement;
+} & { "checkbox-template": HTMLTemplateElement } 
 
 document.addEventListener("DOMContentLoaded", () => {
 	populateElements(elementNames);
