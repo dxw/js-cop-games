@@ -14,7 +14,6 @@ let colourSectionElement: HTMLElement | undefined;
 let questionElement: HTMLElement | undefined;
 let questionNumberElement: HTMLElement | undefined;
 let questionThingElement: HTMLElement | undefined;
-let playerListElement: HTMLUListElement | undefined;
 let playerNameElement: HTMLElement | undefined;
 let playerNameFormElement: NameFormElement | undefined;
 let roundResetButtonElement: HTMLButtonElement | undefined;
@@ -55,10 +54,8 @@ const renderColourCheckboxes = (
 };
 
 const renderPlayerList = (playerNames: Player["name"][]): void => {
-	playerListElement ||= getElementById<HTMLUListElement>("player-list");
-
 	const targetHtml = playerNames.map((name) => `<li>${name}</li>`).join("\n");
-	playerListElement.innerHTML = targetHtml;
+	elements["player-list"].innerHTML = targetHtml;
 };
 
 const renderPlayerName = (currentPlayer: Player): void => {
