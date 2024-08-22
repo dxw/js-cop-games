@@ -1,3 +1,4 @@
+import { type ElementNames, elements } from "..";
 import type {
 	Answer,
 	Colour,
@@ -19,6 +20,12 @@ let playerNameElement: HTMLElement | undefined;
 let playerNameFormElement: NameFormElement | undefined;
 let roundResetButtonElement: HTMLButtonElement | undefined;
 let startButtonElement: HTMLButtonElement | undefined;
+
+export const populateElements = (elementNames: ElementNames) => {
+	for (const elementName of elementNames) {
+		elements[elementName] ||= getElementById(elementName);
+	}
+};
 
 // biome-ignore lint/style/useNamingConvention: the issue here is the consecutive upper case characters, but given it's due to using a single-character word, this doesn't feel invalid
 const askAQuestion = (question: Question): void => {

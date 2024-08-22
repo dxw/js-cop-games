@@ -11,6 +11,7 @@ import {
 	derenderStartButton,
 	indicateConnected,
 	indicateDisconnected,
+	populateElements,
 	renderColourCheckboxes,
 	renderPlayerList,
 	renderPlayerName,
@@ -36,6 +37,28 @@ const socket: Socket<
 
 let currentPlayer: Player; // TODO: account for this being undefined?
 let playerNames: Player["name"][] = [];
+
+const elementNames = [
+	"question",
+	"thing",
+	"number",
+	"checkbox-id",
+	"checkbox-form",
+	"player-list",
+	"name-form",
+	"player-name",
+	"round-reset-button",
+	"start-button",
+	"connection-status-icon",
+] as const;
+
+export type ElementNames = typeof elementNames;
+
+export let elements: { [ElementName in ElementNames[number]]: HTMLElement };
+
+document.addEventListener("DOMContentLoaded", () => {
+	populateElements(elementNames);
+});
 
 socket.on("connect", () => {
 	indicateConnected();
