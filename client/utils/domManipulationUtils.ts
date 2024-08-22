@@ -34,13 +34,6 @@ const askAQuestion = (question: Question): void => {
 	elements.number.innerText = question.colours.length.toString();
 };
 
-const derenderRoundResetButton = (): void => {
-	roundResetButtonElement ||=
-		getElementById<HTMLButtonElement>("round-reset-button");
-
-	roundResetButtonElement.style.display = "none";
-};
-
 const derenderStartButton = (): void => {
 	startButtonElement ||= getElementById<HTMLButtonElement>("start-button");
 
@@ -136,7 +129,8 @@ const resetRound = (playerNames: Player["name"][]): void => {
 	questionThingElement.innerText = "";
 	questionNumberElement.innerText = "";
 	colourSectionElement.innerHTML = "";
-	derenderRoundResetButton();
+
+	elements["round-reset-button"].style.display = "none";
 
 	if (playerNames.length > 1) {
 		renderStartButton();
@@ -176,7 +170,6 @@ const submitAnswer = async (
 
 export {
 	askAQuestion,
-	derenderRoundResetButton,
 	derenderStartButton,
 	indicateConnected,
 	indicateDisconnected,
