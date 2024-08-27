@@ -46,6 +46,7 @@ class Round {
 				machineLogger(inspectionEvent);
 			},
 			input: {
+				playerCount: this.machine.getSnapshot().context.playerScores.length,
 				selectedQuestion: this.machine.getSnapshot().context
 					.selectedQuestion as Question,
 			},
