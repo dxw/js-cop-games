@@ -22,6 +22,9 @@ type Events = TurnEndEvent;
 type Input = { players: Player[] };
 
 const dynamicParamFuncs = {
+	clearWinner: ({ context }: { context: Context }) => {
+		return { playerScores: context.playerScores };
+	},
 	setQuestion: ({ context }: { context: Context }) => {
 		return { questions: context.questions };
 	},
@@ -36,7 +39,6 @@ const roundMachine = setup({
 		events: Events;
 		input: Input;
 	},
-
 	actions: {
 		setQuestion: assign({
 			selectedQuestion: (
@@ -60,6 +62,30 @@ const roundMachine = setup({
 			) => params.playerScores,
 		}),
 	},
+	guards: {
+		clearWinner: (
+			_,
+			params: ReturnType<typeof dynamicParamFuncs.clearWinner>,
+		) => {
+			const currentMaximumScore = { score: 0, playersWithScore: 0 };
+
+			for (const { score } of params.playerScores) {
+				if (score === currentMaximumScore.score) {
+					currentMaximumScore.playersWithScore++;
+				}
+
+				if (score > currentMaximumScore.score) {
+					currentMaximumScore.score = score;
+					currentMaximumScore.playersWithScore = 1;
+				}
+			}
+
+			return (
+				currentMaximumScore.score >= 10 &&
+				currentMaximumScore.playersWithScore === 1
+			);
+		},
+	},
 }).createMachine({
 	context: ({ input }) => ({
 		...context,
@@ -75,16 +101,25 @@ const roundMachine = setup({
 			entry: { type: "setQuestion", params: dynamicParamFuncs.setQuestion },
 			on: {
 				turnEnd: {
-					target: "roundEnd",
 					actions: {
 						type: "updateScores",
 						params: dynamicParamFuncs.updateScores,
 					},
-					// guard: (_, __) => {
-					// 	check to see if round end conditions are met
-					// },
+					target: "checkForWinner",
 				},
 			},
+		},
+		checkForWinner: {
+			always: [
+				{
+					guard: {
+						type: "clearWinner",
+						params: dynamicParamFuncs.clearWinner,
+					},
+					target: "roundEnd",
+				},
+				{ target: "turn" },
+			],
 		},
 		roundEnd: {
 			type: "final",
