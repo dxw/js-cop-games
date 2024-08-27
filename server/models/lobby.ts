@@ -28,6 +28,10 @@ class Lobby {
 		this.machine.start();
 	}
 
+	get players(): Player[] {
+		return this.machine.getSnapshot().context.players;
+	}
+
 	addPlayer = (name: Player["name"], socketId: Socket["id"]) => {
 		const player = { name, socketId };
 		this.machine.send({ player, type: "playerJoins" });

@@ -1,6 +1,6 @@
 import { type Actor, type InspectionEvent, createActor } from "xstate";
-import type { Answer, Question } from "../@types/entities";
-import { context, roundMachine } from "../machines/round";
+import type { Answer, Player, Question } from "../@types/entities";
+import { roundMachine } from "../machines/round";
 import { turnMachine } from "../machines/turn";
 import type { SocketServer } from "../socketServer";
 import { machineLogger } from "../utils/loggingUtils";
@@ -11,10 +11,10 @@ class Round {
 	server: SocketServer;
 	turnMachine: Actor<typeof turnMachine> | undefined;
 
-	constructor(server: SocketServer) {
+	constructor(server: SocketServer, players: Player[]) {
 		this.server = server;
 		this.machine = createActor(roundMachine, {
-			...context,
+			input: { players },
 			inspect: machineLogger,
 		});
 		this.machine.subscribe((state) => {
@@ -48,6 +48,7 @@ class Round {
 		this.turnMachine.subscribe({
 			complete: () => {
 				const roundMachineSnapshot = this.machine.getSnapshot();
+
 				this.machine.send({
 					type: "turnEnd",
 					scoresAndBonusPoints: getUpdatedPlayerScoresAndBonusPoints(

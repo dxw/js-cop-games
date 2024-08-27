@@ -1,5 +1,5 @@
 import { assign, setup } from "xstate";
-import type { PlayerScore, Question } from "../@types/entities";
+import type { Player, PlayerScore, Question } from "../@types/entities";
 import questions from "../data/questions.json";
 
 const context = {
@@ -10,6 +10,7 @@ const context = {
 };
 
 type Context = typeof context;
+type Input = { players: Player[] };
 
 const dynamicParamFuncs = {
 	setQuestion: ({ context }: { context: Context }) => {
@@ -20,6 +21,7 @@ const dynamicParamFuncs = {
 const roundMachine = setup({
 	types: {} as {
 		context: Context;
+		input: Input;
 	},
 
 	actions: {
@@ -36,7 +38,13 @@ const roundMachine = setup({
 		}),
 	},
 }).createMachine({
-	context,
+	context: ({ input }) => ({
+		...context,
+		playerScores: input.players.map((player) => ({
+			score: 0,
+			player,
+		})),
+	}),
 	id: "round",
 	initial: "turn",
 	states: {
@@ -57,4 +65,4 @@ const roundMachine = setup({
 	},
 });
 
-export { context, roundMachine };
+export { roundMachine };
