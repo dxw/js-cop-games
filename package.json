@@ -5,7 +5,7 @@
 	"repository": "git@github.com:dxw/js-cop-games.git",
 	"license": "MIT",
 	"scripts": {
-		"compile": "bun build ./client/index.ts --outdir ./client/assets/scripts",
+		"compile": "bun build ./client/index.ts --outdir ./client/assets/scripts --external 'socket.io-client'",
 		"lint:ts": "bunx @biomejs/biome check .",
 		"lint:ts:fix": "bunx @biomejs/biome check --write .",
 		"lint:css": "bunx stylelint \"client/assets/styles/*.css\"",
