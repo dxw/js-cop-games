@@ -10,5 +10,49 @@
 	{
 		"colours": ["red", "yellow", "blue"],
 		"subject": "Moldovan flag"
+	},
+	{
+		"colours": ["black"],
+		"subject": "Temporary (black)"
+	},
+	{
+		"colours": ["grey"],
+		"subject": "Temporary (grey)"
+	},
+	{
+		"colours": ["white"],
+		"subject": "Temporary (white)"
+	},
+	{
+		"colours": ["red"],
+		"subject": "Temporary (red)"
+	},
+	{
+		"colours": ["orange"],
+		"subject": "Temporary (orange)"
+	},
+	{
+		"colours": ["yellow"],
+		"subject": "Temporary (yellow)"
+	},
+	{
+		"colours": ["green"],
+		"subject": "Temporary (green)"
+	},
+	{
+		"colours": ["blue"],
+		"subject": "Temporary (blue)"
+	},
+	{
+		"colours": ["purple"],
+		"subject": "Temporary (purple)"
+	},
+	{
+		"colours": ["pink"],
+		"subject": "Temporary (pink)"
+	},
+	{
+		"colours": ["brown"],
+		"subject": "Temporary (brown)"
 	}
 ]
