@@ -83,12 +83,10 @@ const turnMachine = setup({
 		},
 		finished: {
 			type: "final",
-			entry: [
-				{
-					type: "recordCorrectPlayers",
-					params: dynamicParamFuncs.recordCorrectPlayers,
-				},
-			],
+			entry: {
+				type: "recordCorrectPlayers",
+				params: dynamicParamFuncs.recordCorrectPlayers,
+			},
 		},
 	},
 	output: ({ context }) => ({

@@ -72,7 +72,7 @@ const roundMachine = setup({
 	initial: "turn",
 	states: {
 		turn: {
-			entry: [{ type: "setQuestion", params: dynamicParamFuncs.setQuestion }],
+			entry: { type: "setQuestion", params: dynamicParamFuncs.setQuestion },
 			on: {
 				turnEnd: {
 					target: "roundEnd",
