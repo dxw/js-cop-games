@@ -85,7 +85,7 @@ const renderColourCheckboxes = (
 		true,
 	) as DocumentFragment;
 
-	colourSectionElement.appendChild(clone);
+	colourSectionElement.replaceChildren(clone);
 
 	checkboxFormElement ||= getElementById<HTMLFormElement>("checkbox-form");
 
