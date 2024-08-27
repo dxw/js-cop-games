@@ -1,6 +1,6 @@
 import type { Server as HttpServer } from "node:http";
 import { Server } from "socket.io";
-import type { Colour, Player, Question } from "./@types/entities";
+import type { Colour, Player, PlayerScore, Question } from "./@types/entities";
 import type {
 	ClientboundSocketServerEvents,
 	ServerboundSocketServerEvents,
@@ -65,6 +65,13 @@ export class SocketServer {
 	onRoundReset() {
 		this.round = undefined;
 		this.server.emit("round:reset");
+	}
+
+	onScoresAndBonusPointsUpdated(
+		playersScores: PlayerScore[],
+		bonusPoints: number,
+	) {
+		this.server.emit("scoresAndBonusPoints:get", playersScores, bonusPoints);
 	}
 
 	onShowStartButton() {

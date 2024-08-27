@@ -11,8 +11,10 @@ import {
 	derenderStartButton,
 	indicateConnected,
 	indicateDisconnected,
+	renderBonusPoints,
 	renderColourCheckboxes,
 	renderPlayerList,
+	renderPlayerListWithScores,
 	renderPlayerName,
 	renderRoundResetButton,
 	renderStartButton,
@@ -78,6 +80,11 @@ socket.on("round:start", () => {
 
 socket.on("round:startable", () => {
 	renderStartButton();
+});
+
+socket.on("scoresAndBonusPoints:get", (playerScores, bonusPoints) => {
+	renderPlayerListWithScores(playerScores);
+	renderBonusPoints(bonusPoints);
 });
 
 const nameFormElement = getElementById<NameFormElement>("name-form");

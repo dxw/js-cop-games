@@ -2,11 +2,13 @@ import type {
 	Answer,
 	Colour,
 	Player,
+	PlayerScore,
 	Question,
 } from "../../server/@types/entities";
 import type { NameFormElement } from "../../server/@types/ui";
 import { getElementById } from "./getElementById";
 
+let bonusPointsElement: HTMLParagraphElement | undefined;
 let checkboxFormElement: HTMLFormElement | undefined;
 let checkboxTemplateElement: HTMLTemplateElement | undefined;
 let colourSectionElement: HTMLElement | undefined;
@@ -74,6 +76,13 @@ const indicateDisconnected = (): void => {
 	connectionStatusIconElement.innerText = "Disconnected 🔴";
 };
 
+const renderBonusPoints = (bonusPoints: number): void => {
+	bonusPointsElement ||= getElementById<HTMLParagraphElement>("bonus-points");
+
+	bonusPointsElement.innerText = `Bonus points: ${bonusPoints}`;
+	bonusPointsElement.style.display = "block";
+};
+
 const renderColourCheckboxes = (
 	emitAnswersPostWrapper: (colours: Answer["colours"]) => void,
 ): void => {
@@ -99,6 +108,18 @@ const renderPlayerList = (playerNames: Player["name"][]): void => {
 	playerListElement ||= getElementById<HTMLUListElement>("player-list");
 
 	const targetHtml = playerNames.map((name) => `<li>${name}</li>`).join("\n");
+	playerListElement.innerHTML = targetHtml;
+};
+
+const renderPlayerListWithScores = (playerScores: PlayerScore[]): void => {
+	playerListElement ||= getElementById<HTMLUListElement>("player-list");
+
+	const targetHtml = playerScores
+		.map(
+			(playerScore) =>
+				`<li>${playerScore.player.name}: ${playerScore.score}</li>`,
+		)
+		.join("\n");
 	playerListElement.innerHTML = targetHtml;
 };
 
@@ -192,8 +213,10 @@ export {
 	derenderStartButton,
 	indicateConnected,
 	indicateDisconnected,
+	renderBonusPoints,
 	renderColourCheckboxes,
 	renderPlayerList,
+	renderPlayerListWithScores,
 	renderPlayerName,
 	renderRoundResetButton,
 	renderStartButton,

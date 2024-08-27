@@ -18,11 +18,17 @@ class Round {
 			inspect: machineLogger,
 		});
 		this.machine.subscribe((state) => {
+			const currentContext = this.machine.getSnapshot().context;
+			this.server.onScoresAndBonusPointsUpdated(
+				currentContext.playerScores,
+				currentContext.bonusPoints,
+			);
+
 			switch (state.value) {
 				case "turn": {
 					// maybe we should rename this as it's not listening...
 					this.server.onQuestionSet(
-						this.machine.getSnapshot().context.selectedQuestion as Question,
+						currentContext.selectedQuestion as Question,
 					);
 					this.initialiseTurnMachine();
 					break;

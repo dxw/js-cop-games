@@ -1,4 +1,4 @@
-import type { Colour, Player, Question } from "./entities";
+import type { Colour, Player, PlayerScore, Question } from "./entities";
 
 export interface ClientboundSocketServerEvents {
 	"answers:post": (playerId: string, colours: string[]) => void;
@@ -9,6 +9,10 @@ export interface ClientboundSocketServerEvents {
 	"round:reset": () => void;
 	"round:start": () => void;
 	"round:startable": () => void;
+	"scoresAndBonusPoints:get": (
+		playerScores: PlayerScore[],
+		bonusPoints: number,
+	) => void;
 }
 
 export interface ServerboundSocketServerEvents {
