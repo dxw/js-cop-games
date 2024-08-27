@@ -148,4 +148,4 @@ const lobbyMachine = setup({
 	},
 });
 
-export { context, lobbyMachine };
+export { lobbyMachine };
