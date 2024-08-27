@@ -28,7 +28,12 @@ const logWithTime = (
 	subsequentLinesString?: string,
 	additionalLogCallback?: () => void,
 ) => {
-	const currentTime = new Date().toLocaleTimeString("en-GB");
+	const currentTime = new Date().toLocaleTimeString("en-GB", {
+		hour: "2-digit",
+		minute: "2-digit",
+		second: "2-digit",
+		fractionalSecondDigits: 3,
+	});
 
 	console.info(
 		[`\n${currentTime} ${inlineString}`, subsequentLinesString]
