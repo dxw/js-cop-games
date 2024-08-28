@@ -57,8 +57,13 @@ export class SocketServer {
 	}
 
 	onRoundStarted() {
-		// Should we pass something other than `this` as the first arg to Round?
-		this.round ||= new Round(this, this.lobby.players);
+		this.round ||= new Round(
+			{
+				onQuestionSet: this.onQuestionSet,
+				onScoresAndBonusPointsUpdated: this.onScoresAndBonusPointsUpdated,
+			},
+			this.lobby.players,
+		);
 		this.server.emit("round:start");
 	}
 

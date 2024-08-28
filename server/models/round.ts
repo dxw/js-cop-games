@@ -8,18 +8,27 @@ import { getUpdatedPlayerScoresAndBonusPoints } from "../utils/scoringUtils";
 
 class Round {
 	machine: Actor<typeof roundMachine>;
-	server: SocketServer;
 	turnMachine: Actor<typeof turnMachine> | undefined;
 
-	constructor(server: SocketServer, players: Player[]) {
-		this.server = server;
+	constructor(
+		{
+			onQuestionSet,
+			onScoresAndBonusPointsUpdated,
+		}: {
+			onQuestionSet: InstanceType<typeof SocketServer>["onQuestionSet"];
+			onScoresAndBonusPointsUpdated: InstanceType<
+				typeof SocketServer
+			>["onScoresAndBonusPointsUpdated"];
+		},
+		players: Player[],
+	) {
 		this.machine = createActor(roundMachine, {
 			input: { players },
 			inspect: machineLogger,
 		});
 		this.machine.subscribe((state) => {
 			const currentContext = this.machine.getSnapshot().context;
-			this.server.onScoresAndBonusPointsUpdated(
+			onScoresAndBonusPointsUpdated(
 				currentContext.playerScores,
 				currentContext.bonusPoints,
 			);
@@ -27,9 +36,7 @@ class Round {
 			switch (state.value) {
 				case "turn": {
 					// maybe we should rename this as it's not listening...
-					this.server.onQuestionSet(
-						currentContext.selectedQuestion as Question,
-					);
+					onQuestionSet(currentContext.selectedQuestion as Question);
 					this.initialiseTurnMachine();
 					break;
 				}
