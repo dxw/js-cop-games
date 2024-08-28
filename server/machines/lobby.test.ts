@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from "bun:test";
 import type { Actor } from "xstate";
 import { createActor, getNextSnapshot } from "xstate";
-import { context, lobbyMachine } from "./lobby";
+import { lobbyMachine } from "./lobby";
 
 describe("lobbyMachine states", () => {
 	const player1 = { name: "a name", socketId: "id" };
@@ -45,10 +45,11 @@ describe("lobbyMachine states", () => {
 			});
 
 			expect(actor.getSnapshot().value).toBe("multiplePlayers");
-			expect(actor.getSnapshot().context).toEqual({
-				...context,
-				players: [player1, player2],
-			});
+			expect(actor.getSnapshot().context).toEqual(
+				expect.objectContaining({
+					players: [player1, player2],
+				}),
+			);
 		});
 
 		it("transitions from onePlayer to empty state when it receives player leaves event", () => {
@@ -108,10 +109,11 @@ describe("lobbyMachine states", () => {
 			});
 
 			expect(actor.getSnapshot().value).toBe("multiplePlayers");
-			expect(actor.getSnapshot().context).toEqual({
-				...context,
-				players: [player1, player2, player3],
-			});
+			expect(actor.getSnapshot().context).toEqual(
+				expect.objectContaining({
+					players: [player1, player2, player3],
+				}),
+			);
 		});
 
 		it("transitions to onePlayer if there is only one player left when playerLeaves", () => {

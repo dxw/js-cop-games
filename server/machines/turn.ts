@@ -5,6 +5,7 @@ import { getCorrectSocketIdsFromAnswers } from "../utils/scoringUtils";
 const context = {
 	answers: [] as Answer[],
 	correctPlayerSocketIds: [] as Player["socketId"][],
+	playerCount: 0,
 	selectedQuestion: {} as Question,
 };
 
@@ -17,7 +18,7 @@ type PlayerSubmitsAnswerEvent = {
 
 type Events = PlayerSubmitsAnswerEvent;
 
-type Input = { selectedQuestion: Question };
+type Input = { playerCount: number; selectedQuestion: Question };
 
 type Output = { correctPlayerSocketIds: Player["socketId"][] };
 
@@ -27,6 +28,12 @@ const dynamicParamFuncs = {
 		event,
 	}: { context: Context; event: PlayerSubmitsAnswerEvent }) => {
 		return { currentAnswers: context.answers, newAnswer: event.answer };
+	},
+	allPlayersAnswered: ({ context }: { context: Context }) => {
+		return {
+			answerCount: context.answers.length,
+			playerCount: context.playerCount,
+		};
 	},
 	recordCorrectPlayers: ({ context }: { context: Context }) => ({
 		finalAnswers: context.answers,
@@ -60,6 +67,14 @@ const turnMachine = setup({
 			},
 		}),
 	},
+	guards: {
+		allPlayersAnswered: (
+			_,
+			params: ReturnType<typeof dynamicParamFuncs.allPlayersAnswered>,
+		) => {
+			return params.answerCount === params.playerCount;
+		},
+	},
 }).createMachine({
 	context: ({ input }) => ({ ...context, ...input }),
 	id: "turn",
@@ -74,6 +89,13 @@ const turnMachine = setup({
 			},
 		},
 		answerSubmitted: {
+			always: {
+				guard: {
+					type: "allPlayersAnswered",
+					params: dynamicParamFuncs.allPlayersAnswered,
+				},
+				target: "finished",
+			},
 			on: {
 				playerSubmitsAnswer: {
 					actions: { type: "addAnswer", params: dynamicParamFuncs.addAnswer },
@@ -83,12 +105,10 @@ const turnMachine = setup({
 		},
 		finished: {
 			type: "final",
-			entry: [
-				{
-					type: "recordCorrectPlayers",
-					params: dynamicParamFuncs.recordCorrectPlayers,
-				},
-			],
+			entry: {
+				type: "recordCorrectPlayers",
+				params: dynamicParamFuncs.recordCorrectPlayers,
+			},
 		},
 	},
 	output: ({ context }) => ({

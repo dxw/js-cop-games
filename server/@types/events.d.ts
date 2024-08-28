@@ -1,20 +1,24 @@
-import type { Colour, Player, Question } from "./entities";
+import type { Colour, Player, PlayerScore, Question } from "./entities";
 
 export interface ClientboundSocketServerEvents {
+	"answers:post": (playerId: string, colours: string[]) => void;
 	"lobby:unjoinable": () => void;
-	"round:startable": () => void;
-	"round:start": () => void;
-	"round:reset": () => void;
 	"player:set": (player: Player) => void;
 	"players:get": (playerNames: Player["name"][]) => void;
 	"question:get": (question: Question) => void;
-	"answers:post": (playerId: string, colours: string[]) => void;
+	"round:reset": () => void;
+	"round:start": () => void;
+	"round:startable": () => void;
+	"scoresAndBonusPoints:get": (
+		playerScores: PlayerScore[],
+		bonusPoints: number,
+	) => void;
 }
 
 export interface ServerboundSocketServerEvents {
 	"answers:post": (colours: Colour[]) => void;
 	disconnect: () => void;
 	"players:post": (name: Player["name"]) => void;
-	"round:start": () => void;
 	"round:reset": () => void;
+	"round:start": () => void;
 }

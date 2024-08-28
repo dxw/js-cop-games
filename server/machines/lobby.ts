@@ -56,7 +56,6 @@ const lobbyMachine = setup({
 		context: Context;
 		events: Events;
 	},
-
 	actions: {
 		addPlayer: assign({
 			players: (_, params: ReturnType<typeof dynamicParamFuncs.addPlayer>) => [
@@ -148,4 +147,4 @@ const lobbyMachine = setup({
 	},
 });
 
-export { context, lobbyMachine };
+export { lobbyMachine };

@@ -55,6 +55,10 @@ h1::before {
   list-style: none;
 }
 
+#bonus-points {
+  display: none;
+}
+
 #question {
   display: none;
 }

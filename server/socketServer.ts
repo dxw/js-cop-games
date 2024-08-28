@@ -1,6 +1,6 @@
 import type { Server as HttpServer } from "node:http";
 import { Server } from "socket.io";
-import type { Colour, Player, Question } from "./@types/entities";
+import type { Colour, Player, PlayerScore, Question } from "./@types/entities";
 import type {
 	ClientboundSocketServerEvents,
 	ServerboundSocketServerEvents,
@@ -57,13 +57,21 @@ export class SocketServer {
 	}
 
 	onRoundStarted() {
-		this.round ||= new Round(this);
+		// Should we pass something other than `this` as the first arg to Round?
+		this.round ||= new Round(this, this.lobby.players);
 		this.server.emit("round:start");
 	}
 
 	onRoundReset() {
 		this.round = undefined;
 		this.server.emit("round:reset");
+	}
+
+	onScoresAndBonusPointsUpdated(
+		playersScores: PlayerScore[],
+		bonusPoints: number,
+	) {
+		this.server.emit("scoresAndBonusPoints:get", playersScores, bonusPoints);
 	}
 
 	onShowStartButton() {

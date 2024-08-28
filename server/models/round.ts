@@ -1,6 +1,6 @@
 import { type Actor, type InspectionEvent, createActor } from "xstate";
-import type { Answer, Question } from "../@types/entities";
-import { context, roundMachine } from "../machines/round";
+import type { Answer, Player, Question } from "../@types/entities";
+import { roundMachine } from "../machines/round";
 import { turnMachine } from "../machines/turn";
 import type { SocketServer } from "../socketServer";
 import { machineLogger } from "../utils/loggingUtils";
@@ -11,18 +11,24 @@ class Round {
 	server: SocketServer;
 	turnMachine: Actor<typeof turnMachine> | undefined;
 
-	constructor(server: SocketServer) {
+	constructor(server: SocketServer, players: Player[]) {
 		this.server = server;
 		this.machine = createActor(roundMachine, {
-			...context,
+			input: { players },
 			inspect: machineLogger,
 		});
 		this.machine.subscribe((state) => {
+			const currentContext = this.machine.getSnapshot().context;
+			this.server.onScoresAndBonusPointsUpdated(
+				currentContext.playerScores,
+				currentContext.bonusPoints,
+			);
+
 			switch (state.value) {
 				case "turn": {
 					// maybe we should rename this as it's not listening...
 					this.server.onQuestionSet(
-						this.machine.getSnapshot().context.selectedQuestion as Question,
+						currentContext.selectedQuestion as Question,
 					);
 					this.initialiseTurnMachine();
 					break;
@@ -40,6 +46,7 @@ class Round {
 				machineLogger(inspectionEvent);
 			},
 			input: {
+				playerCount: this.machine.getSnapshot().context.playerScores.length,
 				selectedQuestion: this.machine.getSnapshot().context
 					.selectedQuestion as Question,
 			},
@@ -48,6 +55,7 @@ class Round {
 		this.turnMachine.subscribe({
 			complete: () => {
 				const roundMachineSnapshot = this.machine.getSnapshot();
+
 				this.machine.send({
 					type: "turnEnd",
 					scoresAndBonusPoints: getUpdatedPlayerScoresAndBonusPoints(

@@ -1,7 +1,7 @@
 import type { Socket } from "socket.io";
 import { type Actor, createActor } from "xstate";
 import type { Player } from "../@types/entities";
-import { context, lobbyMachine } from "../machines/lobby";
+import { lobbyMachine } from "../machines/lobby";
 import type { SocketServer } from "../socketServer";
 import { machineLogger } from "../utils/loggingUtils";
 
@@ -12,7 +12,6 @@ class Lobby {
 	constructor(server: SocketServer) {
 		this.server = server;
 		this.machine = createActor(lobbyMachine, {
-			...context,
 			inspect: machineLogger,
 		});
 		this.machine.subscribe((state) => {
@@ -26,6 +25,10 @@ class Lobby {
 			}
 		});
 		this.machine.start();
+	}
+
+	get players(): Player[] {
+		return this.machine.getSnapshot().context.players;
 	}
 
 	addPlayer = (name: Player["name"], socketId: Socket["id"]) => {
