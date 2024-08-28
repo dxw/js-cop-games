@@ -118,8 +118,8 @@ const roundMachine = setup({
 					},
 					target: "roundEnd",
 				},
-				{ target: "turn" },
 			],
+			after: { [5000]: { target: "turn" } },
 		},
 		roundEnd: {
 			type: "final",
