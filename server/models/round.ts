@@ -19,10 +19,6 @@ class Round {
 		});
 		this.machine.subscribe((state) => {
 			const currentContext = this.machine.getSnapshot().context;
-			this.server.onScoresAndBonusPointsUpdated(
-				currentContext.playerScores,
-				currentContext.bonusPoints,
-			);
 
 			switch (state.value) {
 				case "turn": {
@@ -33,10 +29,30 @@ class Round {
 					this.initialiseTurnMachine();
 					break;
 				}
+				case "checkForWinner": {
+					this.server.onScoresAndBonusPointsUpdated(
+						currentContext.playerScores,
+						currentContext.bonusPoints,
+					);
+					break;
+				}
+				case "roundEnd": {
+					this.server.onScoresAndBonusPointsUpdated(
+						currentContext.playerScores,
+						currentContext.bonusPoints,
+					);
+					break;
+				}
 				default:
 					break;
 			}
 		});
+		const initialContext = this.machine.getSnapshot().context;
+
+		this.server.onScoresAndBonusPointsUpdated(
+			initialContext.playerScores,
+			initialContext.bonusPoints,
+		);
 		this.machine.start();
 	}
 
