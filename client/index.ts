@@ -18,6 +18,7 @@ import {
 	renderPlayerName,
 	renderRoundResetButton,
 	renderStartButton,
+	renderTimer,
 	renderUnjoinableMessage,
 	resetPlayerNameFormValue,
 	resetRound,
@@ -41,6 +42,10 @@ let playerNames: Player["name"][] = [];
 
 socket.on("connect", () => {
 	indicateConnected();
+});
+
+socket.on("countdown:start", (durationMs) => {
+	renderTimer(durationMs);
 });
 
 socket.on("disconnect", () => {
