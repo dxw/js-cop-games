@@ -41,6 +41,8 @@ const dynamicParamFuncs = {
 	}),
 };
 
+export const turnEndCountdownMs = 15000;
+
 const turnMachine = setup({
 	types: {} as {
 		context: Context;
@@ -101,7 +103,7 @@ const turnMachine = setup({
 					actions: { type: "addAnswer", params: dynamicParamFuncs.addAnswer },
 				},
 			},
-			after: { [15000]: { target: "finished" } },
+			after: { [turnEndCountdownMs]: { target: "finished" } },
 		},
 		finished: {
 			type: "final",
