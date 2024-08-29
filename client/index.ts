@@ -9,6 +9,7 @@ import {
 	askAQuestion,
 	derenderPlayerNameForm,
 	derenderStartButton,
+	derenderTimer,
 	indicateConnected,
 	indicateDisconnected,
 	renderBonusPoints,
@@ -46,6 +47,10 @@ socket.on("connect", () => {
 
 socket.on("countdown:start", (durationMs) => {
 	renderTimer(durationMs);
+});
+
+socket.on("countdown:stop", () => {
+	derenderTimer();
 });
 
 socket.on("disconnect", () => {

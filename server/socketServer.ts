@@ -81,4 +81,8 @@ export class SocketServer {
 	startCountdown = (durationMs: number) => {
 		this.server.emit("countdown:start", durationMs);
 	};
+
+	stopCountdown = () => {
+		this.server.emit("countdown:stop");
+	};
 }

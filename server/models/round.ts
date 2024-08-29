@@ -63,6 +63,7 @@ class Round {
 				actions: {
 					startTurnEndCountdown: () =>
 						this.server.startCountdown(turnEndCountdownMs),
+					stopTurnEndCountdown: () => this.server.stopCountdown(),
 				},
 			}),
 			{

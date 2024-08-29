@@ -71,6 +71,9 @@ const turnMachine = setup({
 		startTurnEndCountdown: () => {
 			// passed on instantiation of the machine
 		},
+		stopTurnEndCountdown: () => {
+			// passed on instantiation of the machine
+		},
 	},
 	guards: {
 		allPlayersAnswered: (
@@ -110,6 +113,7 @@ const turnMachine = setup({
 				},
 			},
 			after: { [turnEndCountdownMs]: { target: "finished" } },
+			exit: { type: "stopTurnEndCountdown" },
 		},
 		finished: {
 			type: "final",

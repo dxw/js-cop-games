@@ -202,6 +202,13 @@ export const renderTimer = (durationMs: number) => {
 	}, 1000);
 };
 
+export const derenderTimer = () => {
+	countdownTimerElement ||= getElementById("countdown-section");
+	countdownTimerElement.innerText = "";
+
+	clearInterval(window.timerIntervalId);
+};
+
 const submitAnswer = async (
 	emitAnswersPostWrapper: (colours: Answer["colours"]) => void,
 ): Promise<void> => {
