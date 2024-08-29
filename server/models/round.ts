@@ -2,6 +2,7 @@ import { type Actor, type InspectionEvent, createActor } from "xstate";
 import type { Answer, Player, Question } from "../@types/entities";
 import { roundMachine } from "../machines/round";
 import { turnMachine } from "../machines/turn";
+import { turnEndCountdownMs } from "../machines/turn";
 import type { SocketServer } from "../socketServer";
 import { machineLogger } from "../utils/loggingUtils";
 import { getUpdatedPlayerScoresAndBonusPoints } from "../utils/scoringUtils";
@@ -57,16 +58,24 @@ class Round {
 	}
 
 	initialiseTurnMachine() {
-		this.turnMachine = createActor(turnMachine, {
-			inspect: (inspectionEvent: InspectionEvent) => {
-				machineLogger(inspectionEvent);
+		this.turnMachine = createActor(
+			turnMachine.provide({
+				actions: {
+					startTurnEndCountdown: () =>
+						this.server.startCountdown(turnEndCountdownMs),
+				},
+			}),
+			{
+				inspect: (inspectionEvent: InspectionEvent) => {
+					machineLogger(inspectionEvent);
+				},
+				input: {
+					playerCount: this.machine.getSnapshot().context.playerScores.length,
+					selectedQuestion: this.machine.getSnapshot().context
+						.selectedQuestion as Question,
+				},
 			},
-			input: {
-				playerCount: this.machine.getSnapshot().context.playerScores.length,
-				selectedQuestion: this.machine.getSnapshot().context
-					.selectedQuestion as Question,
-			},
-		});
+		);
 
 		this.turnMachine.subscribe({
 			complete: () => {

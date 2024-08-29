@@ -68,6 +68,9 @@ const turnMachine = setup({
 				);
 			},
 		}),
+		startTurnEndCountdown: () => {
+			// passed on instantiation of the machine
+		},
 	},
 	guards: {
 		allPlayersAnswered: (
@@ -85,7 +88,10 @@ const turnMachine = setup({
 		noAnswers: {
 			on: {
 				playerSubmitsAnswer: {
-					actions: { type: "addAnswer", params: dynamicParamFuncs.addAnswer },
+					actions: [
+						{ type: "addAnswer", params: dynamicParamFuncs.addAnswer },
+						{ type: "startTurnEndCountdown" },
+					],
 					target: "answerSubmitted",
 				},
 			},
