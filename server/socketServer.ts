@@ -155,6 +155,6 @@ export class SocketServer {
 		state,
 		context,
 	}: { state: GameState; context: TopLevelContext }) {
-		this.server.emit("state:change", { state, context });
+		this.server?.emit("state:change", { state, context });
 	}
 }
