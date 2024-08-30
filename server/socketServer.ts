@@ -83,7 +83,7 @@ export class SocketServer {
 
 			logWithTime(`Socket connected: ${session.username}`);
 
-			if (this.round) {
+			if (this.lobby.machine.getSnapshot().value === "round") {
 				socket.emit("lobby:unjoinable");
 			}
 
