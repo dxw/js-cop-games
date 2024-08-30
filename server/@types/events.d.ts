@@ -15,7 +15,6 @@ export interface ClientboundSocketServerEvents {
 	"player:set": (player: Player) => void;
 	"question:get": (question: Question) => void;
 	"round:reset": () => void;
-	"round:start": () => void;
 	"round:startable": () => void;
 	"session:set": (session: Session) => void;
 	"scoresAndBonusPoints:get": (

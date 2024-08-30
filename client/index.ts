@@ -5,7 +5,6 @@ import type {
 	ServerboundSocketServerEvents,
 } from "../server/@types/events";
 import type { TopLevelState } from "../server/models/lobby";
-import { addAdminModeListener } from "./utils/adminUtils";
 import type { NameFormElement } from "./utils/domManipulationUtils";
 import { renderBonusPoints } from "./utils/domManipulationUtils/bonusPoints";
 import { renderColourCheckboxes } from "./utils/domManipulationUtils/colourCheckboxes";
@@ -60,7 +59,7 @@ socket.on("state:change", ({ state, context }) => {
 			switchLobbyStates(subState, context);
 			break;
 		case "roundMachine":
-			renderUnjoinableMessage();
+			roundEntryActions();
 			break;
 		default:
 			break;
@@ -88,6 +87,11 @@ const switchLobbyStates = (state: LobbyState, context: TopLevelContext) => {
 		default:
 			break;
 	}
+};
+
+const roundEntryActions = () => {
+	derenderStartButton();
+	renderRoundResetButton();
 };
 
 const multiplePlayersActions = (newPlayers: Player[]) => {
@@ -131,11 +135,6 @@ socket.on("question:get", (question) => {
 
 socket.on("round:reset", () => {
 	resetRound(playerNames);
-});
-
-socket.on("round:start", () => {
-	derenderStartButton();
-	addAdminModeListener();
 });
 
 socket.on("round:startable", () => {

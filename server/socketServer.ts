@@ -104,7 +104,7 @@ export class SocketServer {
 			});
 
 			socket.on("round:start", () => {
-				this.onRoundStarted();
+				this.lobby.startRound();
 			});
 
 			socket.on("round:reset", () => {
@@ -119,12 +119,6 @@ export class SocketServer {
 
 	onQuestionSet(question: Question) {
 		this.server.emit("question:get", question);
-	}
-
-	onRoundStarted() {
-		// Should we pass something other than `this` as the first arg to Round?
-		this.lobby.startRound();
-		this.server.emit("round:start");
 	}
 
 	onRoundReset() {
