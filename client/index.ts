@@ -56,10 +56,10 @@ socket.on("state:change", ({ state, context }) => {
 	const subState = state.split(":")[1];
 
 	switch (topLevelState) {
-		case "lobby":
+		case "lobbyMachine":
 			switchLobbyStates(subState, context);
 			break;
-		case "round":
+		case "roundMachine":
 			renderUnjoinableMessage();
 			break;
 		default:
