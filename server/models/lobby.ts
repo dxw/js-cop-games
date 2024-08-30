@@ -14,6 +14,7 @@ class Lobby {
 			inspect: machineLogger,
 		});
 		this.machine.subscribe((state) => {
+			this.emitStateChange();
 			switch (state.value) {
 				case "multiplePlayers": {
 					this.emitShowStartButton();
@@ -24,6 +25,11 @@ class Lobby {
 			}
 		});
 		this.machine.start();
+	emitStateChange() {
+		this.server.emitStateChange({
+			state: `${this.topLevelState}:${this.machine.getSnapshot().value}`,
+			context: this.machine.getSnapshot().context,
+		});
 	}
 
 	get players(): Player[] {

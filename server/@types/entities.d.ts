@@ -1,4 +1,5 @@
 import type { Socket } from "socket.io";
+import type { TopLevelState } from "../models/lobby";
 
 type Answer = {
 	colours: Colour[];
@@ -41,4 +42,14 @@ type Session = {
 
 type Id = string;
 
-export type { Answer, Colour, Player, PlayerScore, Question, Session };
+type GameState = `${TopLevelState}:${string}`;
+
+export type {
+	Answer,
+	Colour,
+	Player,
+	PlayerScore,
+	Question,
+	Session,
+	GameState,
+};

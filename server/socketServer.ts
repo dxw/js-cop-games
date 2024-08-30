@@ -4,6 +4,7 @@ import { Server, type Socket } from "socket.io";
 import type { CountdownOptions } from "../client/utils/domManipulationUtils/countdown";
 import type {
 	Colour,
+	GameState,
 	Player,
 	PlayerScore,
 	Question,
@@ -155,4 +156,8 @@ export class SocketServer {
 	stopCountdown = () => {
 		this.server.emit("countdown:stop");
 	};
+
+	emitStateChange({ state, context }: { state: GameState; context: any }) {
+		this.server.emit("state:change", { state, context });
+	}
 }

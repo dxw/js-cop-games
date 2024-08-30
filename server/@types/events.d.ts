@@ -23,6 +23,7 @@ export interface ClientboundSocketServerEvents {
 		playerScores: PlayerScore[],
 		bonusPoints: number,
 	) => void;
+	"state:change": ({ state: GameState, context: any }) => void;
 }
 
 export interface ServerboundSocketServerEvents {

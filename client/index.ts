@@ -4,6 +4,7 @@ import type {
 	ClientboundSocketServerEvents,
 	ServerboundSocketServerEvents,
 } from "../server/@types/events";
+import type { TopLevelState } from "../server/models/lobby";
 import { addAdminModeListener } from "./utils/adminUtils";
 import type { NameFormElement } from "./utils/domManipulationUtils";
 import { renderBonusPoints } from "./utils/domManipulationUtils/bonusPoints";
@@ -50,6 +51,36 @@ const socket: Socket<
 let currentPlayer: Player; // TODO: account for this being undefined?
 let playerNames: Player["name"][] = [];
 
+socket.on("state:change", ({ state, context }) => {
+	const topLevelState: TopLevelState = state.split(":")[0] as TopLevelState;
+	const subState = state.split(":")[1];
+
+	switch (topLevelState) {
+		case "lobby":
+			switchLobbyStates(subState, context);
+			break;
+		case "round":
+			renderUnjoinableMessage();
+			break;
+		default:
+			break;
+	}
+});
+
+type LobbyState = string;
+const switchLobbyStates = (state: LobbyState, context: any) => {
+	switch (state) {
+		case "multiplePlayers":
+			renderStartButton();
+			break;
+		case "round":
+			renderUnjoinableMessage();
+			break;
+		default:
+			break;
+	}
+};
+
 socket.on("connect", () => {
 	renderConnectedIndicator();
 });
@@ -64,10 +95,6 @@ socket.on("countdown:stop", () => {
 
 socket.on("disconnect", () => {
 	renderDisconnectedIndicator();
-});
-
-socket.on("lobby:unjoinable", () => {
-	renderUnjoinableMessage();
 });
 
 socket.on("players:get", (newPlayers) => {
