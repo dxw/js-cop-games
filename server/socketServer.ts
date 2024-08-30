@@ -1,15 +1,8 @@
 import crypto from "node:crypto";
 import type { Server as HttpServer } from "node:http";
-import { Server, type Socket } from "socket.io";
-import type { CountdownOptions } from "../client/utils/domManipulationUtils/countdown";
-import type {
-	Colour,
-	GameState,
-	Player,
-	PlayerScore,
-	Question,
-	Session,
-} from "./@types/entities";
+import type { Socket } from "socket.io";
+import { Server } from "socket.io";
+import type { Player, Session } from "./@types/entities";
 import type {
 	ClientboundSocketServerEvents,
 	ServerboundSocketServerEvents,
@@ -104,9 +97,10 @@ export class SocketServer {
 				this.sessionStore.saveSession(session);
 				logWithTime(`Socket disconnected: ${session.username}`);
 
-				this.lobby.removePlayer(session.id);
-
 				this.server.emit("players:get", this.lobby.playerNames());
+
+				logWithTime(`Socket disconnected: $socket.id`);
+				this.lobby.removePlayer(socket.id);
 			});
 
 			socket.on("round:start", () => {
@@ -157,7 +151,10 @@ export class SocketServer {
 		this.server.emit("countdown:stop");
 	};
 
-	emitStateChange({ state, context }: { state: GameState; context: any }) {
+	emitStateChange({
+		state,
+		context,
+	}: { state: GameState; context: TopLevelContext }) {
 		this.server.emit("state:change", { state, context });
 	}
 }

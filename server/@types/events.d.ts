@@ -13,7 +13,6 @@ export interface ClientboundSocketServerEvents {
 	"countdown:stop": () => void;
 	"lobby:unjoinable": () => void;
 	"player:set": (player: Player) => void;
-	"players:get": (playerNames: Player["name"][]) => void;
 	"question:get": (question: Question) => void;
 	"round:reset": () => void;
 	"round:start": () => void;
@@ -23,7 +22,7 @@ export interface ClientboundSocketServerEvents {
 		playerScores: PlayerScore[],
 		bonusPoints: number,
 	) => void;
-	"state:change": ({ state: GameState, context: any }) => void;
+	"state:change": ({ state: GameState, context: TopLevelContext }) => void;
 }
 
 export interface ServerboundSocketServerEvents {

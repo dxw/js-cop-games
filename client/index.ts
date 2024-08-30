@@ -68,10 +68,19 @@ socket.on("state:change", ({ state, context }) => {
 });
 
 type LobbyState = string;
-const switchLobbyStates = (state: LobbyState, context: any) => {
+// biome-ignore lint/suspicious/noExplicitAny: temporary
+export type TopLevelContext = any;
+
+const switchLobbyStates = (state: LobbyState, context: TopLevelContext) => {
 	switch (state) {
+		case "empty":
+			getPlayers(context.players);
+			break;
+		case "onePlayer":
+			getPlayers(context.players);
+			break;
 		case "multiplePlayers":
-			renderStartButton();
+			multiplePlayersActions(context.players);
 			break;
 		case "round":
 			renderUnjoinableMessage();
@@ -79,6 +88,11 @@ const switchLobbyStates = (state: LobbyState, context: any) => {
 		default:
 			break;
 	}
+};
+
+const multiplePlayersActions = (newPlayers: Player[]) => {
+	getPlayers(newPlayers);
+	renderStartButton();
 };
 
 socket.on("connect", () => {
@@ -97,10 +111,10 @@ socket.on("disconnect", () => {
 	renderDisconnectedIndicator();
 });
 
-socket.on("players:get", (newPlayers) => {
-	playerNames = newPlayers;
+const getPlayers = (newPlayers: Player[]) => {
+	playerNames = newPlayers.map((player) => player.name);
 	renderPlayerList(playerNames);
-});
+};
 
 socket.on("player:set", (player) => {
 	currentPlayer = player;
