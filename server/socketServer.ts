@@ -15,7 +15,7 @@ import type {
 } from "./@types/events";
 import { addPlayerHandler } from "./handlers";
 import { Lobby } from "./models/lobby";
-import { Round } from "./models/round";
+import type { Round } from "./models/round";
 import { SessionStore } from "./sessionStore";
 import { logWithTime } from "./utils/loggingUtils";
 
@@ -128,7 +128,7 @@ export class SocketServer {
 
 	onRoundStarted() {
 		// Should we pass something other than `this` as the first arg to Round?
-		this.round ||= new Round(this, this.lobby.players);
+		this.lobby.startRound();
 		this.server.emit("round:start");
 	}
 

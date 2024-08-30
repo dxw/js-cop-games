@@ -62,6 +62,10 @@ class Lobby {
 	removePlayer = (sessionId: Session["id"]): void => {
 		this.machine.send({ sessionId, type: "playerLeaves" });
 	};
+
+	startRound = () => {
+		this.machine.send({ type: "playerClicksStart" });
+	};
 }
 
 export { Lobby };
