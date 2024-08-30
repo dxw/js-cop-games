@@ -1,5 +1,6 @@
 import { assign, setup } from "xstate";
 import type { Player, Session } from "../@types/entities";
+import { roundMachine } from "./round";
 
 const context = {
 	players: [] as Player[],
@@ -87,6 +88,9 @@ const lobbyMachine = setup({
 			params: ReturnType<typeof dynamicParamFuncs.isOnlyPlayer>,
 		) => params.players.length === 1,
 	},
+	actors: {
+		roundMachine,
+	},
 }).createMachine({
 	context,
 	id: "lobby",
@@ -124,6 +128,9 @@ const lobbyMachine = setup({
 						params: dynamicParamFuncs.removePlayer,
 					},
 				},
+				playerClicksStart: {
+					target: "round",
+				},
 			},
 		},
 		onePlayer: {
@@ -146,6 +153,13 @@ const lobbyMachine = setup({
 					},
 					target: "empty",
 				},
+			},
+		},
+		round: {
+			invoke: {
+				id: "roundMachine",
+				src: "roundMachine",
+				input: (snapshot) => ({ players: snapshot.context.players }),
 			},
 		},
 	},
