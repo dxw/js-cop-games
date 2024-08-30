@@ -62,7 +62,10 @@ class Round {
 			turnMachine.provide({
 				actions: {
 					startTurnEndCountdown: () =>
-						this.server.startCountdown(turnEndCountdownMs),
+						this.server.startCountdown({
+							durationMs: turnEndCountdownMs,
+							description: "Time remaining: ",
+						}),
 					stopTurnEndCountdown: () => this.server.stopCountdown(),
 				},
 			}),

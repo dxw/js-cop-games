@@ -183,9 +183,16 @@ const resetRound = (playerNames: Player["name"][]): void => {
 	}
 };
 
-export const renderTimer = (durationMs: number) => {
+export type TimerDescription = "Time remaining: " | "Next turn starting in: ";
+export type TimerParams = {
+	durationMs: number;
+	description: TimerDescription;
+};
+
+export const renderTimer = ({ durationMs, description }: TimerParams) => {
 	countdownTimerElement ||= getElementById<HTMLElement>("countdown-section");
-	countdownTimerElement.innerText = "Time remaining:";
+
+	countdownTimerElement.innerText = description;
 	const timeElement = document.createElement("time");
 	countdownTimerElement.appendChild(timeElement);
 
