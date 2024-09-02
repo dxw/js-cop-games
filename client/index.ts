@@ -26,7 +26,6 @@ import {
 	renderPlayerName,
 	resetPlayerNameFormValue,
 } from "./utils/domManipulationUtils/playerName";
-import { renderQuestion } from "./utils/domManipulationUtils/question";
 import { resetRound } from "./utils/domManipulationUtils/roundReset";
 import {
 	derenderStartButton,
@@ -59,7 +58,7 @@ socket.on("state:change", ({ state, context }) => {
 			switchLobbyStates(subState, context);
 			break;
 		case "roundMachine":
-			roundEntryActions();
+			roundEntryActions(context);
 			break;
 		default:
 			break;
@@ -89,9 +88,13 @@ const switchLobbyStates = (state: LobbyState, context: TopLevelContext) => {
 	}
 };
 
-const roundEntryActions = () => {
+const roundEntryActions = (context: TopLevelContext) => {
 	derenderStartButton();
 	renderRoundResetButton();
+	askAQuestion(context.selectedQuestion);
+	renderColourCheckboxes((colours: Answer["colours"]) =>
+		emitAnswersPost(socket, colours),
+	);
 };
 
 const multiplePlayersActions = (newPlayers: Player[]) => {
@@ -124,13 +127,6 @@ socket.on("player:set", (player) => {
 	currentPlayer = player;
 	renderPlayerName(currentPlayer);
 	derenderPlayerNameForm();
-});
-
-socket.on("question:get", (question) => {
-	renderQuestion(question);
-	renderColourCheckboxes((colours: Answer["colours"]) =>
-		emitAnswersPost(socket, colours),
-	);
 });
 
 socket.on("round:reset", () => {
