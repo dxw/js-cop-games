@@ -18,6 +18,9 @@ class Lobby {
 		});
 
 		this.machine.subscribe((state) => {
+			if (state.children.roundMachine) {
+				this.topLevelState = "roundMachine";
+			}
 			this.emitStateChange();
 			switch (state.value) {
 				case "multiplePlayers": {
@@ -40,9 +43,16 @@ class Lobby {
 	}
 
 	emitStateChange() {
+		const snapshot = this.machine.getSnapshot();
+		let context = snapshot.context;
+
+		if (snapshot.children[this.topLevelState]) {
+			context = snapshot.children[this.topLevelState]?.getSnapshot().context;
+		}
+
 		this.server.emitStateChange({
-			state: `${this.topLevelState}:${this.machine.getSnapshot().value}`,
-			context: this.machine.getSnapshot().context,
+			state: `${this.topLevelState}:${snapshot.value}`,
+			context,
 		});
 	}
 
