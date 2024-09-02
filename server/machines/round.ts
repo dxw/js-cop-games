@@ -63,6 +63,12 @@ const roundMachine = setup({
 				params: ReturnType<typeof dynamicParamFuncs.updateScores>,
 			) => params.playerScores,
 		}),
+		startBetweenTurnsCountdown: () => {
+			// Implementation is passed in on instantiation
+		},
+		stopBetweenTurnsCountdown: () => {
+			// Implementation is passed in on instantiation
+		},
 	},
 	guards: {
 		clearWinner: (
@@ -121,6 +127,8 @@ const roundMachine = setup({
 					target: "roundEnd",
 				},
 			],
+			entry: { type: "startBetweenTurnsCountdown" },
+			exit: { type: "stopBetweenTurnsCountdown" },
 			after: { [betweenTurnsCountdownMs]: { target: "turn" } },
 		},
 		roundEnd: {
