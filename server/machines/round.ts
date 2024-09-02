@@ -21,6 +21,8 @@ type Events = TurnEndEvent;
 
 type Input = { players: Player[] };
 
+export const betweenTurnsCountdownMs = 5000;
+
 const dynamicParamFuncs = {
 	clearWinner: ({ context }: { context: Context }) => {
 		return { playerScores: context.playerScores };
@@ -119,7 +121,7 @@ const roundMachine = setup({
 					target: "roundEnd",
 				},
 			],
-			after: { [5000]: { target: "turn" } },
+			after: { [betweenTurnsCountdownMs]: { target: "turn" } },
 		},
 		roundEnd: {
 			type: "final",
