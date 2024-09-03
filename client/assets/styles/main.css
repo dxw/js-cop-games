@@ -136,6 +136,21 @@ main {
 
 #question {
   display: none;
+
+  h2 {
+    margin-bottom: var(--spacing-base);
+  }
+
+  dl {
+    display: grid;
+    grid: 1fr 1fr / 1fr 1fr;
+    width: calc(3 * var(--spacing-xx-large));
+    margin-bottom: var(--spacing-base);
+
+    dd {
+      font-weight: var(--bold);
+    }
+  }
 }
 
 .answer-form fieldset {
