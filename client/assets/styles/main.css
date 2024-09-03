@@ -78,7 +78,17 @@ h1::before {
   vertical-align: middle;
 }
 
-#connection-status {
+
+header {
+  height: var(--header-height);
+}
+
+main {
+  display: flex;
+  height: var(--main-height);
+}
+
+#connection-status-icon {
   position: absolute;
   top: var(--spacing-medium-small);
   right: var(--spacing-base);
