@@ -50,7 +50,7 @@ body {
   padding: var(--spacing-small);
   
   font-family: Merriweather, serif;
-  font-weight: 300;
+  font-weight: var(--regular);
   color: var(--dxw-black);
 
   background-color: var(--dxw-white);
@@ -63,31 +63,31 @@ h4,
 h5,
 h6 {
   font-family: Poppins, sans-serif;
-  font-weight: 600;
+  font-weight: var(--bold);
 }
 
 h1 {
-  margin-bottom: 1rem;
+  margin-bottom: var(--spacing-small);
   text-align: center;
 }
 
 h1::before {
   content: url("/assets/images/favicon/favicon-32x32.png");
-  height: 2rem;
-  margin-right: 0.5rem;
+  height: var(--spacing-base);
+  margin-right: var(--spacing-tiny);
   vertical-align: middle;
 }
 
 #connection-status {
   position: absolute;
-  top: 1.5rem;
-  right: 1rem;
+  top: var(--spacing-medium-small);
+  right: var(--spacing-base);
 }
 
 #player-name {
   position: absolute;
-  top: 1.5rem;
-  left: 1rem;
+  top: var(--spacing-medium-small);
+  left: var(--spacing-base);
 }
 
 #player-list {
