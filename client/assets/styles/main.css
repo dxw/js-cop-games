@@ -149,3 +149,8 @@ main {
 #countdown-section {
   display: none;
 }
+
+#start-button {
+  align-self: center;
+  width: var(--spacing-xx-large);
+}
