@@ -39,9 +39,7 @@ test("players can join and start the game", async () => {
 			await addName(playerPage, name);
 
 			//   Verify name is visible
-			await expect(
-				playerPage.getByText(`Name: ${name}`, { exact: true }),
-			).toBeVisible();
+			await expect(playerPage.getByText(name, { exact: true })).toBeVisible();
 		}),
 	);
 
