@@ -88,6 +88,36 @@ main {
   height: var(--main-height);
 }
 
+#gameplay-column{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
+  width: calc(calc(var(--body-width) / 3) * 2);
+
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+    label {
+      margin-bottom: var(--spacing-tiny);
+    }
+    
+    input {
+      margin-bottom: var(--spacing-small);
+    }
+  }
+}
+
+#players-and-scores-column{
+  display: flex;
+  flex-direction: column;
+  width: calc(var(--body-width) / 3);
+}
+
 #connection-status-icon {
   position: absolute;
   top: var(--spacing-medium-small);
