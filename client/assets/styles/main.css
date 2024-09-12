@@ -150,6 +150,12 @@ main {
   display: none;
 }
 
+#round-reset-button {
+  align-self: end;
+  width: var(--spacing-xx-large);
+  margin-top: auto;
+}
+
 #start-button {
   align-self: center;
   width: var(--spacing-xx-large);
