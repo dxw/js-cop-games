@@ -74,36 +74,48 @@ export class SocketServer {
 				return next(new Error("invalid username"));
 			}
 
-			socket.data.sessionId = randomId();
-			socket.data.userId = randomId();
-			socket.data.username = username;
+			socket.data.session = {
+				id: randomId(),
+				userId: randomId(),
+				username: username,
+			};
 			next();
 		});
 
 		this.server.on("connection", (socket) => {
-			logWithTime(`Socket connected: ${socket.handshake.auth.username}`);
+			const session: Session = socket.data.session;
+			this.sessionStore.saveSession(session);
+			this.server.emit("session:set", session);
+
+			logWithTime(`Socket connected: ${session.username}`);
 
 			if (this.round) {
 				socket.emit("lobby:unjoinable");
 			}
 
 			socket.emit("players:get", this.lobby.playerNames());
+
 			socket.on("players:post", (name: Player["name"]) => {
 				addPlayerHandler(this.server, socket, this.lobby, name, session.id);
 			});
 
 			socket.on("disconnect", () => {
 				this.sessionStore.saveSession(session);
-				logWithTime(`Socket disconnected: ${socket.id}`);
-				this.lobby.removePlayer(socket.id);
+				logWithTime(`Socket disconnected: ${session.username}`);
+
+				this.lobby.removePlayer(session.id);
+
 				this.server.emit("players:get", this.lobby.playerNames());
 			});
+
 			socket.on("round:start", () => {
 				this.onRoundStarted();
 			});
+
 			socket.on("round:reset", () => {
 				this.onRoundReset();
 			});
+
 			socket.on("answers:post", (colours: Colour[]) =>
 				this.round?.addAnswer({ colours: colours, socketId: socket.id }),
 			);
