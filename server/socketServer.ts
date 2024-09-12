@@ -1,7 +1,6 @@
 import crypto from "node:crypto";
 import type { Server as HttpServer } from "node:http";
 import { Server } from "socket.io";
-import type { CountdownOptions } from "../client/utils/domManipulationUtils/countdown";
 import type { Colour, Player, PlayerScore, Question } from "./@types/entities";
 import type {
 	ClientboundSocketServerEvents,
@@ -9,6 +8,7 @@ import type {
 } from "./@types/events";
 import { Lobby } from "./models/lobby";
 import { Round } from "./models/round";
+import { SessionStore } from "./sessionStore";
 import { logWithTime } from "./utils/loggingUtils";
 
 const randomId = () => crypto.randomBytes(8).toString("hex");
@@ -17,16 +17,27 @@ export class SocketServer {
 	lobby: Lobby;
 	round?: Round;
 	server: Server<ServerboundSocketServerEvents, ClientboundSocketServerEvents>;
+	sessionStore: SessionStore;
 
 	constructor(httpServer: HttpServer) {
 		this.lobby = new Lobby(this);
 		this.server = new Server(httpServer, {});
+		this.sessionStore = new SessionStore();
 
 		this.onCreated();
 	}
 
 	onCreated() {
 		this.server.use((socket, next) => {
+			const sessionId = socket.handshake.auth.sessionId;
+			if (sessionId) {
+				// find existing session
+				const session = this.sessionStore.findSession(sessionId);
+				if (session) {
+					socket.data.session = session;
+					return next();
+				}
+			}
 			const username = socket.handshake.auth.username;
 			if (!username) {
 				return next(new Error("invalid username"));
@@ -51,7 +62,9 @@ export class SocketServer {
 				socket.emit("player:set", player);
 				this.server.emit("players:get", this.lobby.playerNames());
 			});
+
 			socket.on("disconnect", () => {
+				this.sessionStore.saveSession(session);
 				logWithTime(`Socket disconnected: ${socket.id}`);
 				this.lobby.removePlayer(socket.id);
 				this.server.emit("players:get", this.lobby.playerNames());

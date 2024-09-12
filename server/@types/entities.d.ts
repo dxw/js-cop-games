@@ -33,4 +33,12 @@ type Question = {
 	subject: string;
 };
 
-export type { Answer, Colour, Player, PlayerScore, Question };
+type Session = {
+	id: Id;
+	userId: Id;
+	username: Player["name"];
+};
+
+type Id = string;
+
+export type { Answer, Colour, Player, PlayerScore, Question, Session };
