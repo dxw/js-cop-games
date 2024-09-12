@@ -79,18 +79,23 @@ export class SocketServer {
 		});
 
 		this.server.on("connection", (socket) => {
+			const session: Session = socket.data.session;
+			this.sessionStore.saveSession(session);
+			this.server.emit("session:set", session);
+
 			logWithTime(
 				"User connected",
-				[`Name: ${socket.data.playerName}`, `ID: ${socket.data.userId}`].join(
-					"\n",
-				),
+				[
+					`Name: ${socket.data.session.playerName}`,
+					`ID: ${socket.data.session.id}`,
+				].join("\n"),
 			);
-
 			if (this.round) {
 				socket.emit("lobby:unjoinable");
 			}
 
 			socket.emit("players:get", this.lobby.playerNames());
+
 			socket.on("players:post", (name: Player["name"]) => {
 				addPlayerHandler(this.server, socket, this.lobby, name, session.id);
 			});
@@ -110,12 +115,15 @@ export class SocketServer {
 
 				this.server.emit("players:get", this.lobby.playerNames());
 			});
+
 			socket.on("round:start", () => {
 				this.onRoundStarted();
 			});
+
 			socket.on("round:reset", () => {
 				this.onRoundReset();
 			});
+
 			socket.on("answers:post", (colours: Colour[]) =>
 				this.round?.addAnswer({ colours: colours, socketId: socket.id }),
 			);

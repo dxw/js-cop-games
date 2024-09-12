@@ -1,5 +1,5 @@
 import { assign, setup } from "xstate";
-import type { Player } from "../@types/entities";
+import type { Player, Session } from "../@types/entities";
 
 const context = {
 	players: [] as Player[],
@@ -13,7 +13,7 @@ type PlayerJoinsEvent = {
 };
 
 type PlayerLeavesEvent = {
-	socketId: Player["socketId"];
+	sessionId: Session["id"];
 	type: "playerLeaves";
 };
 
@@ -35,7 +35,10 @@ const dynamicParamFuncs = {
 		context,
 		event,
 	}: { context: Context; event: PlayerLeavesEvent }) => {
-		return { players: context.players, playerSocketIdToRemove: event.socketId };
+		return {
+			players: context.players,
+			playerSessionIdToRemove: event.sessionId,
+		};
 	},
 	isNewPlayer: ({
 		context,
@@ -43,7 +46,7 @@ const dynamicParamFuncs = {
 	}: { context: Context; event: PlayerJoinsEvent }) => {
 		return {
 			players: context.players,
-			maybeNewPlayerSocketId: event.player.socketId,
+			maybeNewPlayerSessionId: event.player.sessionId,
 		};
 	},
 	isOnlyPlayer: ({ context }: { context: Context }) => {
@@ -66,7 +69,8 @@ const lobbyMachine = setup({
 		removePlayer: assign({
 			players: (_, params: ReturnType<typeof dynamicParamFuncs.removePlayer>) =>
 				params.players.filter(
-					(player: Player) => player.socketId !== params.playerSocketIdToRemove,
+					(player: Player) =>
+						player.sessionId !== params.playerSessionIdToRemove,
 				),
 		}),
 	},
@@ -76,7 +80,7 @@ const lobbyMachine = setup({
 			params: ReturnType<typeof dynamicParamFuncs.isNewPlayer>,
 		) =>
 			params.players.find(
-				(player) => player.socketId === params.maybeNewPlayerSocketId,
+				(player) => player.sessionId === params.maybeNewPlayerSessionId,
 			) === undefined,
 		isOnlyPlayer: (
 			_,

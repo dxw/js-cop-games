@@ -4,9 +4,9 @@ import { createActor, getNextSnapshot } from "xstate";
 import { lobbyMachine } from "./lobby";
 
 describe("lobbyMachine states", () => {
-	const player1 = { name: "a name", socketId: "id" };
-	const player2 = { name: "a name 2", socketId: "id-2" };
-	const player3 = { name: "a name 3", socketId: "id-3" };
+	const player1 = { name: "a name", sessionId: "id" };
+	const player2 = { name: "a name 2", sessionId: "id-2" };
+	const player3 = { name: "a name 3", sessionId: "id-3" };
 
 	describe("empty", () => {
 		it("transitions to the onePlayer state when it receives the player joins event", () => {
@@ -60,14 +60,14 @@ describe("lobbyMachine states", () => {
 						value: "onePlayer",
 						context: { players: [player1] },
 					}),
-					{ type: "playerLeaves", socketId: player1.socketId },
+					{ type: "playerLeaves", sessionId: player1.sessionId },
 				).value,
 			).toBe("empty");
 		});
 
 		it("removes a player from the player list when it receives playerLeaves event", () => {
 			actor.send({
-				socketId: player1.socketId,
+				sessionId: player1.sessionId,
 				type: "playerLeaves",
 			});
 
@@ -95,7 +95,7 @@ describe("lobbyMachine states", () => {
 
 		it("transitions from the multiplePlayers state to the onePlayer state when it receives a playerLeaves event", () => {
 			actor.send({
-				socketId: player2.socketId,
+				sessionId: player2.sessionId,
 				type: "playerLeaves",
 			});
 
@@ -118,7 +118,7 @@ describe("lobbyMachine states", () => {
 
 		it("transitions to onePlayer if there is only one player left when playerLeaves", () => {
 			actor.send({
-				socketId: player1.socketId,
+				sessionId: player1.sessionId,
 				type: "playerLeaves",
 			});
 
@@ -132,7 +132,7 @@ describe("lobbyMachine states", () => {
 			});
 
 			actor.send({
-				socketId: player1.socketId,
+				sessionId: player1.sessionId,
 				type: "playerLeaves",
 			});
 
@@ -141,7 +141,7 @@ describe("lobbyMachine states", () => {
 
 		it("removes a player from the player list when it receives playerLeaves event", () => {
 			actor.send({
-				socketId: player1.socketId,
+				sessionId: player1.sessionId,
 				type: "playerLeaves",
 			});
 

@@ -20,7 +20,7 @@ type Colour =
 
 type Player = {
 	name: string;
-	socketId: Socket["id"];
+	sessionId: Session["id"];
 };
 
 type PlayerScore = {

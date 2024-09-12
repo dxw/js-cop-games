@@ -1,10 +1,10 @@
 import { assign, setup } from "xstate";
 import type { Answer, Player, Question } from "../@types/entities";
-import { getCorrectSocketIdsFromAnswers } from "../utils/scoringUtils";
+import { getCorrectSessionIdsFromAnswers } from "../utils/scoringUtils";
 
 const context = {
 	answers: [] as Answer[],
-	correctPlayerSocketIds: [] as Player["socketId"][],
+	correctPlayerSessionIds: [] as Player["sessionId"][],
 	playerCount: 0,
 	selectedQuestion: {} as Question,
 };
@@ -20,7 +20,7 @@ type Events = PlayerSubmitsAnswerEvent;
 
 type Input = { playerCount: number; selectedQuestion: Question };
 
-type Output = { correctPlayerSocketIds: Player["socketId"][] };
+type Output = { correctPlayerSessionIds: Player["sessionId"][] };
 
 const dynamicParamFuncs = {
 	addAnswer: ({
@@ -58,11 +58,11 @@ const turnMachine = setup({
 			],
 		}),
 		recordCorrectPlayers: assign({
-			correctPlayerSocketIds: (
+			correctPlayerSessionIds: (
 				_,
 				params: ReturnType<typeof dynamicParamFuncs.recordCorrectPlayers>,
 			) => {
-				return getCorrectSocketIdsFromAnswers(
+				return getCorrectSessionIdsFromAnswers(
 					params.finalAnswers,
 					params.correctAnswer,
 				);
@@ -124,7 +124,7 @@ const turnMachine = setup({
 		},
 	},
 	output: ({ context }) => ({
-		correctPlayerSocketIds: context.correctPlayerSocketIds,
+		correctPlayerSessionIds: context.correctPlayerSessionIds,
 	}),
 });
 
