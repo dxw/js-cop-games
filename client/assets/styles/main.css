@@ -70,3 +70,7 @@ h1::before {
 .answer-form button {
   display: block;
 }
+
+#countdown-section {
+  display: none;
+}

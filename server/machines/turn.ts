@@ -41,6 +41,8 @@ const dynamicParamFuncs = {
 	}),
 };
 
+export const turnEndCountdownMs = 15000;
+
 const turnMachine = setup({
 	types: {} as {
 		context: Context;
@@ -66,6 +68,12 @@ const turnMachine = setup({
 				);
 			},
 		}),
+		startTurnEndCountdown: () => {
+			// passed on instantiation of the machine
+		},
+		stopTurnEndCountdown: () => {
+			// passed on instantiation of the machine
+		},
 	},
 	guards: {
 		allPlayersAnswered: (
@@ -83,7 +91,10 @@ const turnMachine = setup({
 		noAnswers: {
 			on: {
 				playerSubmitsAnswer: {
-					actions: { type: "addAnswer", params: dynamicParamFuncs.addAnswer },
+					actions: [
+						{ type: "addAnswer", params: dynamicParamFuncs.addAnswer },
+						{ type: "startTurnEndCountdown" },
+					],
 					target: "answerSubmitted",
 				},
 			},
@@ -101,7 +112,8 @@ const turnMachine = setup({
 					actions: { type: "addAnswer", params: dynamicParamFuncs.addAnswer },
 				},
 			},
-			after: { [15000]: { target: "finished" } },
+			after: { [turnEndCountdownMs]: { target: "finished" } },
+			exit: { type: "stopTurnEndCountdown" },
 		},
 		finished: {
 			type: "final",

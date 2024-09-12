@@ -2,6 +2,8 @@ import type { Colour, Player, PlayerScore, Question } from "./entities";
 
 export interface ClientboundSocketServerEvents {
 	"answers:post": (playerId: string, colours: string[]) => void;
+	"countdown:start": (durationMs: number) => void;
+	"countdown:stop": () => void;
 	"lobby:unjoinable": () => void;
 	"player:set": (player: Player) => void;
 	"players:get": (playerNames: Player["name"][]) => void;

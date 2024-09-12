@@ -13,6 +13,7 @@ let checkboxFormElement: HTMLFormElement | undefined;
 let checkboxTemplateElement: HTMLTemplateElement | undefined;
 let colourSectionElement: HTMLElement | undefined;
 let connectionStatusIconElement: HTMLDivElement | undefined;
+let countdownTimerElement: HTMLElement | undefined;
 let questionElement: HTMLElement | undefined;
 let questionNumberElement: HTMLElement | undefined;
 let questionThingElement: HTMLElement | undefined;
@@ -21,6 +22,13 @@ let playerNameElement: HTMLElement | undefined;
 let playerNameFormElement: NameFormElement | undefined;
 let roundResetButtonElement: HTMLButtonElement | undefined;
 let startButtonElement: HTMLButtonElement | undefined;
+
+declare global {
+	interface Window {
+		// biome-ignore lint/correctness/noUndeclaredVariables: Timer is a Bun global
+		timerIntervalId: Timer;
+	}
+}
 
 // biome-ignore lint/style/useNamingConvention: the issue here is the consecutive upper case characters, but given it's due to using a single-character word, this doesn't feel invalid
 const askAQuestion = (question: Question): void => {
@@ -173,6 +181,32 @@ const resetRound = (playerNames: Player["name"][]): void => {
 	if (playerNames.length > 1) {
 		renderStartButton();
 	}
+};
+
+export const renderTimer = (durationMs: number) => {
+	countdownTimerElement ||= getElementById<HTMLElement>("countdown-section");
+	countdownTimerElement.innerText = "Time remaining:";
+	const timeElement = document.createElement("time");
+	countdownTimerElement.appendChild(timeElement);
+
+	let remainingTime = durationMs / 1000; // Convert milliseconds to seconds
+	timeElement.innerText = `${remainingTime}s`;
+	countdownTimerElement.style.display = "block";
+
+	window.timerIntervalId = setInterval(() => {
+		remainingTime--;
+		timeElement.innerText = `${remainingTime}s`;
+		if (remainingTime <= 0) {
+			clearInterval(window.timerIntervalId);
+		}
+	}, 1000);
+};
+
+export const derenderTimer = () => {
+	countdownTimerElement ||= getElementById("countdown-section");
+	countdownTimerElement.innerText = "";
+
+	clearInterval(window.timerIntervalId);
 };
 
 const submitAnswer = async (
