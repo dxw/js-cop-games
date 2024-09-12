@@ -205,6 +205,7 @@ export const renderTimer = (durationMs: number) => {
 export const derenderTimer = () => {
 	countdownTimerElement ||= getElementById("countdown-section");
 	countdownTimerElement.innerText = "";
+	countdownTimerElement.style.display = "none";
 
 	clearInterval(window.timerIntervalId);
 };
