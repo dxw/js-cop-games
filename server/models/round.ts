@@ -1,6 +1,6 @@
 import { type Actor, type InspectionEvent, createActor } from "xstate";
 import type { Answer, Player, Question } from "../@types/entities";
-import { roundMachine } from "../machines/round";
+import { betweenTurnsCountdownMs, roundMachine } from "../machines/round";
 import { turnMachine } from "../machines/turn";
 import { turnEndCountdownMs } from "../machines/turn";
 import type { SocketServer } from "../socketServer";
@@ -14,10 +14,22 @@ class Round {
 
 	constructor(server: SocketServer, players: Player[]) {
 		this.server = server;
-		this.machine = createActor(roundMachine, {
-			input: { players },
-			inspect: machineLogger,
-		});
+		this.machine = createActor(
+			roundMachine.provide({
+				actions: {
+					startBetweenTurnsCountdown: () =>
+						this.server.startCountdown({
+							durationMs: betweenTurnsCountdownMs,
+							description: "Next turn starting in: ",
+						}),
+					stopBetweenTurnsCountdown: () => this.server.stopCountdown(),
+				},
+			}),
+			{
+				input: { players },
+				inspect: machineLogger,
+			},
+		);
 		this.machine.subscribe((state) => {
 			const currentContext = this.machine.getSnapshot().context;
 
@@ -62,7 +74,10 @@ class Round {
 			turnMachine.provide({
 				actions: {
 					startTurnEndCountdown: () =>
-						this.server.startCountdown(turnEndCountdownMs),
+						this.server.startCountdown({
+							durationMs: turnEndCountdownMs,
+							description: "Time remaining: ",
+						}),
 					stopTurnEndCountdown: () => this.server.stopCountdown(),
 				},
 			}),
