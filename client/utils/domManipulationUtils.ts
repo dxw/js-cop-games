@@ -30,6 +30,13 @@ declare global {
 	}
 }
 
+type TimerDescription = "Time remaining: " | "Next turn starting in: ";
+
+type TimerParams = {
+	durationMs: number;
+	description: TimerDescription;
+};
+
 // biome-ignore lint/style/useNamingConvention: the issue here is the consecutive upper case characters, but given it's due to using a single-character word, this doesn't feel invalid
 const askAQuestion = (question: Question): void => {
 	questionElement ||= getElementById("question");
@@ -66,6 +73,14 @@ const derenderStartButton = (): void => {
 	startButtonElement ||= getElementById<HTMLButtonElement>("start-button");
 
 	startButtonElement.style.display = "none";
+};
+
+const derenderTimer = () => {
+	countdownTimerElement ||= getElementById("countdown-section");
+	countdownTimerElement.innerText = "";
+	countdownTimerElement.style.display = "none";
+
+	clearInterval(window.timerIntervalId);
 };
 
 const indicateConnected = (): void => {
@@ -151,6 +166,26 @@ const renderStartButton = (): void => {
 	startButtonElement.style.display = "block";
 };
 
+const renderTimer = ({ durationMs, description }: TimerParams) => {
+	countdownTimerElement ||= getElementById<HTMLElement>("countdown-section");
+
+	countdownTimerElement.innerText = description;
+	const timeElement = document.createElement("time");
+	countdownTimerElement.appendChild(timeElement);
+
+	let remainingTime = durationMs / 1000; // Convert milliseconds to seconds
+	timeElement.innerText = `${remainingTime}s`;
+	countdownTimerElement.style.display = "block";
+
+	window.timerIntervalId = setInterval(() => {
+		remainingTime--;
+		timeElement.innerText = `${remainingTime}s`;
+		if (remainingTime <= 0) {
+			clearInterval(window.timerIntervalId);
+		}
+	}, 1000);
+};
+
 const renderUnjoinableMessage = (): void => {
 	playerNameFormElement ||= getElementById<NameFormElement>("name-form");
 
@@ -181,40 +216,6 @@ const resetRound = (playerNames: Player["name"][]): void => {
 	if (playerNames.length > 1) {
 		renderStartButton();
 	}
-};
-
-export type TimerDescription = "Time remaining: " | "Next turn starting in: ";
-export type TimerParams = {
-	durationMs: number;
-	description: TimerDescription;
-};
-
-export const renderTimer = ({ durationMs, description }: TimerParams) => {
-	countdownTimerElement ||= getElementById<HTMLElement>("countdown-section");
-
-	countdownTimerElement.innerText = description;
-	const timeElement = document.createElement("time");
-	countdownTimerElement.appendChild(timeElement);
-
-	let remainingTime = durationMs / 1000; // Convert milliseconds to seconds
-	timeElement.innerText = `${remainingTime}s`;
-	countdownTimerElement.style.display = "block";
-
-	window.timerIntervalId = setInterval(() => {
-		remainingTime--;
-		timeElement.innerText = `${remainingTime}s`;
-		if (remainingTime <= 0) {
-			clearInterval(window.timerIntervalId);
-		}
-	}, 1000);
-};
-
-export const derenderTimer = () => {
-	countdownTimerElement ||= getElementById("countdown-section");
-	countdownTimerElement.innerText = "";
-	countdownTimerElement.style.display = "none";
-
-	clearInterval(window.timerIntervalId);
 };
 
 const submitAnswer = async (
@@ -253,6 +254,7 @@ export {
 	derenderPlayerNameForm,
 	derenderRoundResetButton,
 	derenderStartButton,
+	derenderTimer,
 	indicateConnected,
 	indicateDisconnected,
 	renderBonusPoints,
@@ -262,8 +264,11 @@ export {
 	renderPlayerName,
 	renderRoundResetButton,
 	renderStartButton,
+	renderTimer,
 	renderUnjoinableMessage,
 	resetPlayerNameFormValue,
 	resetRound,
 	submitAnswer,
 };
+
+export type { TimerDescription, TimerParams };
