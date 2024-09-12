@@ -42,6 +42,7 @@ export class SocketServer {
 	constructor(httpServer: HttpServer) {
 		this.lobby = new Lobby(this);
 		this.server = new Server(httpServer, {});
+		this.sessionStore = new SessionStore();
 
 		this.onCreated();
 	}
