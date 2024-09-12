@@ -23,8 +23,43 @@ export class SocketServer {
 	}
 
 	onCreated() {
+		this.server.use((socket, next) => {
+			const sessionId = socket.handshake.auth.sessionId;
+			if (sessionId) {
+				// find existing session
+				const session = this.sessionStore.findSession(sessionId);
+				if (session) {
+					socket.data.session = session;
+
+					addPlayerHandler(
+						this.server,
+						socket,
+						this.lobby,
+						session.username,
+						session.id,
+					);
+					return next();
+				}
+			}
+			const playerName = socket.handshake.auth.playerName;
+			if (!playerName) {
+				return next(new Error("invalid playerName"));
+			}
+
+			socket.data.session = {
+				id: crypto.randomUUID(),
+				playerName: playerName,
+			};
+			next();
+		});
+
 		this.server.on("connection", (socket) => {
-			logWithTime(`Socket connected: ${socket.id}`);
+			logWithTime(
+				"User connected",
+				[`Name: ${socket.data.playerName}`, `ID: ${socket.data.userId}`].join(
+					"\n",
+				),
+			);
 
 			if (this.round) {
 				socket.emit("lobby:unjoinable");
@@ -36,9 +71,20 @@ export class SocketServer {
 				socket.emit("player:set", player);
 				this.server.emit("players:get", this.lobby.playerNames());
 			});
+
 			socket.on("disconnect", () => {
-				logWithTime(`Socket disconnected: ${socket.id}`);
-				this.lobby.removePlayer(socket.id);
+				logWithTime(
+					"User disconnected",
+					[
+						`Name: ${socket.data.session.playerName}`,
+						`ID: ${socket.data.session.id}`,
+					].join("\n"),
+				);
+
+				this.sessionStore.saveSession(session);
+
+				this.lobby.removePlayer(session.id);
+
 				this.server.emit("players:get", this.lobby.playerNames());
 			});
 			socket.on("round:start", () => {

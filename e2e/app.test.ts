@@ -34,7 +34,6 @@ test("players can join and start the game", async () => {
 
 	await Promise.all(
 		playersPages.map(async (playerPage, playerPageIndex) => {
-			await connect(playerPage);
 			const name = `Player ${playerPageIndex + 1}`;
 			await addName(playerPage, name);
 
@@ -84,17 +83,12 @@ test("players can join and start the game", async () => {
 	}
 });
 
-const connect = async (page: Page) => {
+const addName = async (page: Page, name: Player["name"]) => {
 	await page.goto("/");
 
 	//   Verify page title
 	await expect(page).toHaveTitle("Colour Me Knowledgeable!");
 
-	//   Verify colour is visible
-	await page.getByText("Connected 🟢");
-};
-
-const addName = async (page: Page, name: Player["name"]) => {
 	//   Enter name
 	const displayNameInput = page.getByLabel("Display name");
 	await displayNameInput.fill(name);
@@ -102,6 +96,10 @@ const addName = async (page: Page, name: Player["name"]) => {
 	//   Click join
 	const joinButton = page.getByRole("button", { name: "Join game" });
 	await joinButton.click();
+
+	//   Verify colour is visible
+	await page.getByText("Connected 🟢");
+
 	joinedPlayerNames.push(name);
 };
 
