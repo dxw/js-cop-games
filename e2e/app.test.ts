@@ -89,9 +89,6 @@ const connect = async (page: Page) => {
 
 	//   Verify page title
 	await expect(page).toHaveTitle("Colour Me Knowledgeable!");
-
-	//   Verify colour is visible
-	await page.getByText("Connected 🟢");
 };
 
 const addName = async (page: Page, name: Player["name"]) => {
@@ -102,6 +99,10 @@ const addName = async (page: Page, name: Player["name"]) => {
 	//   Click join
 	const joinButton = page.getByRole("button", { name: "Join game" });
 	await joinButton.click();
+
+	//   Verify colour is visible
+	await page.getByText("Connected 🟢");
+
 	joinedPlayerNames.push(name);
 };
 

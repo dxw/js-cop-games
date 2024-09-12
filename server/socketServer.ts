@@ -1,3 +1,4 @@
+import crypto from "node:crypto";
 import type { Server as HttpServer } from "node:http";
 import { Server } from "socket.io";
 import type { CountdownOptions } from "../client/utils/domManipulationUtils/countdown";
@@ -9,6 +10,8 @@ import type {
 import { Lobby } from "./models/lobby";
 import { Round } from "./models/round";
 import { logWithTime } from "./utils/loggingUtils";
+
+const randomId = () => crypto.randomBytes(8).toString("hex");
 
 export class SocketServer {
 	lobby: Lobby;
@@ -23,8 +26,20 @@ export class SocketServer {
 	}
 
 	onCreated() {
+		this.server.use((socket, next) => {
+			const username = socket.handshake.auth.username;
+			if (!username) {
+				return next(new Error("invalid username"));
+			}
+
+			socket.data.sessionId = randomId();
+			socket.data.userId = randomId();
+			socket.data.username = username;
+			next();
+		});
+
 		this.server.on("connection", (socket) => {
-			logWithTime(`Socket connected: ${socket.id}`);
+			logWithTime(`Socket connected: ${socket.handshake.auth.username}`);
 
 			if (this.round) {
 				socket.emit("lobby:unjoinable");

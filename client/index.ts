@@ -45,7 +45,7 @@ const generateSocketUrl = (): string => {
 const socket: Socket<
 	ClientboundSocketServerEvents,
 	ServerboundSocketServerEvents
-> = io(generateSocketUrl());
+> = io(generateSocketUrl(), { autoConnect: false });
 
 let currentPlayer: Player; // TODO: account for this being undefined?
 let playerNames: Player["name"][] = [];
