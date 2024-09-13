@@ -1,11 +1,19 @@
 import crypto from "node:crypto";
 import type { Server as HttpServer } from "node:http";
-import { Server } from "socket.io";
-import type { Colour, Player, PlayerScore, Question } from "./@types/entities";
+import { Server, type Socket } from "socket.io";
+import type { CountdownOptions } from "../client/utils/domManipulationUtils/countdown";
+import type {
+	Colour,
+	Player,
+	PlayerScore,
+	Question,
+	Session,
+} from "./@types/entities";
 import type {
 	ClientboundSocketServerEvents,
 	ServerboundSocketServerEvents,
 } from "./@types/events";
+import { addPlayerHandler } from "./handlers";
 import { Lobby } from "./models/lobby";
 import { Round } from "./models/round";
 import { SessionStore } from "./sessionStore";
@@ -13,10 +21,25 @@ import { logWithTime } from "./utils/loggingUtils";
 
 const randomId = () => crypto.randomBytes(8).toString("hex");
 
+export type WebSocketServer = Server<
+	ServerboundSocketServerEvents,
+	ClientboundSocketServerEvents,
+	never,
+	{
+		session: Session;
+	}
+>;
+
+export type SocketT = Socket<
+	ServerboundSocketServerEvents,
+	ClientboundSocketServerEvents,
+	never,
+	{ session: Session }
+>;
 export class SocketServer {
 	lobby: Lobby;
 	round?: Round;
-	server: Server<ServerboundSocketServerEvents, ClientboundSocketServerEvents>;
+	server: WebSocketServer;
 	sessionStore: SessionStore;
 
 	constructor(httpServer: HttpServer) {
@@ -35,6 +58,14 @@ export class SocketServer {
 				const session = this.sessionStore.findSession(sessionId);
 				if (session) {
 					socket.data.session = session;
+
+					addPlayerHandler(
+						this.server,
+						socket,
+						this.lobby,
+						session.username,
+						session.id,
+					);
 					return next();
 				}
 			}
@@ -58,9 +89,7 @@ export class SocketServer {
 
 			socket.emit("players:get", this.lobby.playerNames());
 			socket.on("players:post", (name: Player["name"]) => {
-				const player = this.lobby.addPlayer(name, socket.id);
-				socket.emit("player:set", player);
-				this.server.emit("players:get", this.lobby.playerNames());
+				addPlayerHandler(this.server, socket, this.lobby, name, session.id);
 			});
 
 			socket.on("disconnect", () => {
