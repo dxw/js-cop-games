@@ -4,6 +4,7 @@ import type {
 	ClientboundSocketServerEvents,
 	ServerboundSocketServerEvents,
 } from "../server/@types/events";
+import { addAdminModeListener } from "./utils/adminUtils";
 import type { NameFormElement } from "./utils/domManipulationUtils";
 import { renderBonusPoints } from "./utils/domManipulationUtils/bonusPoints";
 import { renderColourCheckboxes } from "./utils/domManipulationUtils/colourCheckboxes";
@@ -26,10 +27,7 @@ import {
 	resetPlayerNameFormValue,
 } from "./utils/domManipulationUtils/playerName";
 import { renderQuestion } from "./utils/domManipulationUtils/question";
-import {
-	renderRoundResetButton,
-	resetRound,
-} from "./utils/domManipulationUtils/roundReset";
+import { resetRound } from "./utils/domManipulationUtils/roundReset";
 import {
 	derenderStartButton,
 	renderStartButton,
@@ -96,7 +94,7 @@ socket.on("round:reset", () => {
 
 socket.on("round:start", () => {
 	derenderStartButton();
-	renderRoundResetButton();
+	addAdminModeListener();
 });
 
 socket.on("round:startable", () => {

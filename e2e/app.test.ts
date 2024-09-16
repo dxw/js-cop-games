@@ -1,4 +1,5 @@
 import { type BrowserContext, type Page, expect, test } from "@playwright/test";
+import { konamiCode } from "../client/utils/adminUtils";
 import type { Colour, Player } from "../server/@types/entities";
 
 const joinedPlayerNames: Player["name"][] = [];
@@ -16,6 +17,11 @@ test.beforeEach(async ({ browser }) => {
 });
 
 test.afterEach(async () => {
+	// biome-ignore lint/complexity/noForEach: this doesn't work with a for ... of loop
+	konamiCode.forEach(async (key) => {
+		await playersPages[0].keyboard.down(key);
+	});
+
 	await playersPages[0].getByRole("button", { name: "Reset round" }).click();
 
 	for (const context of contexts) {
