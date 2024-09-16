@@ -1,6 +1,6 @@
 import type { Server as HttpServer } from "node:http";
 import { Server } from "socket.io";
-import type { TimerParams } from "../client/utils/domManipulationUtils";
+import type { CountdownOptions } from "../client/utils/domManipulationUtils/countdown";
 import type { Colour, Player, PlayerScore, Question } from "./@types/entities";
 import type {
 	ClientboundSocketServerEvents,
@@ -79,8 +79,8 @@ export class SocketServer {
 		this.server.emit("round:startable");
 	}
 
-	startCountdown = (params: TimerParams) => {
-		this.server.emit("countdown:start", params);
+	startCountdown = (countdownOptions: CountdownOptions) => {
+		this.server.emit("countdown:start", countdownOptions);
 	};
 
 	stopCountdown = () => {

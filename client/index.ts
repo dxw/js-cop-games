@@ -4,26 +4,37 @@ import type {
 	ClientboundSocketServerEvents,
 	ServerboundSocketServerEvents,
 } from "../server/@types/events";
-import type { NameFormElement } from "../server/@types/ui";
+import type { NameFormElement } from "./utils/domManipulationUtils";
+import { renderBonusPoints } from "./utils/domManipulationUtils/bonusPoints";
+import { renderColourCheckboxes } from "./utils/domManipulationUtils/colourCheckboxes";
 import {
-	askAQuestion,
-	derenderPlayerNameForm,
-	derenderStartButton,
-	derenderTimer,
-	indicateConnected,
-	indicateDisconnected,
-	renderBonusPoints,
-	renderColourCheckboxes,
+	renderConnectedIndicator,
+	renderDisconnectedIndicator,
+} from "./utils/domManipulationUtils/connectionStatus";
+import {
+	type CountdownOptions,
+	derenderCountdown,
+	renderCountdown,
+} from "./utils/domManipulationUtils/countdown";
+import {
 	renderPlayerList,
 	renderPlayerListWithScores,
+} from "./utils/domManipulationUtils/playerList";
+import {
+	derenderPlayerNameForm,
 	renderPlayerName,
-	renderRoundResetButton,
-	renderStartButton,
-	renderTimer,
-	renderUnjoinableMessage,
 	resetPlayerNameFormValue,
+} from "./utils/domManipulationUtils/playerName";
+import { renderQuestion } from "./utils/domManipulationUtils/question";
+import {
+	renderRoundResetButton,
 	resetRound,
-} from "./utils/domManipulationUtils";
+} from "./utils/domManipulationUtils/roundReset";
+import {
+	derenderStartButton,
+	renderStartButton,
+} from "./utils/domManipulationUtils/startButton";
+import { renderUnjoinableMessage } from "./utils/domManipulationUtils/unjoinableMessage";
 import { getElementById } from "./utils/getElementById";
 import { addPlayer, emitAnswersPost } from "./utils/socketUtils";
 
@@ -42,19 +53,19 @@ let currentPlayer: Player; // TODO: account for this being undefined?
 let playerNames: Player["name"][] = [];
 
 socket.on("connect", () => {
-	indicateConnected();
+	renderConnectedIndicator();
 });
 
-socket.on("countdown:start", (durationMs) => {
-	renderTimer(durationMs);
+socket.on("countdown:start", (countdownOptions: CountdownOptions) => {
+	renderCountdown(countdownOptions);
 });
 
 socket.on("countdown:stop", () => {
-	derenderTimer();
+	derenderCountdown();
 });
 
 socket.on("disconnect", () => {
-	indicateDisconnected();
+	renderDisconnectedIndicator();
 });
 
 socket.on("lobby:unjoinable", () => {
@@ -73,7 +84,7 @@ socket.on("player:set", (player) => {
 });
 
 socket.on("question:get", (question) => {
-	askAQuestion(question);
+	renderQuestion(question);
 	renderColourCheckboxes((colours: Answer["colours"]) =>
 		emitAnswersPost(socket, colours),
 	);
