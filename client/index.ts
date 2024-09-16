@@ -45,8 +45,8 @@ socket.on("connect", () => {
 	indicateConnected();
 });
 
-socket.on("countdown:start", (durationMs) => {
-	renderTimer(durationMs);
+socket.on("countdown:start", (params) => {
+	renderTimer(params);
 });
 
 socket.on("countdown:stop", () => {
