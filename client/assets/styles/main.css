@@ -38,7 +38,7 @@ h1::before {
   vertical-align: middle;
 }
 
-#connection-status-icon {
+#connection-status {
   position: absolute;
   top: 1.5rem;
   right: 1rem;

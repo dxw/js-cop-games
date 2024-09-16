@@ -5,25 +5,36 @@ import type {
 	ServerboundSocketServerEvents,
 } from "../server/@types/events";
 import type { NameFormElement } from "../server/@types/ui";
+import { renderBonusPoints } from "./utils/domManipulationUtils/bonusPoints";
+import { renderColourCheckboxes } from "./utils/domManipulationUtils/colourCheckboxes";
 import {
-	derenderCountdown,
-	derenderPlayerNameForm,
-	derenderStartButton,
-	renderBonusPoints,
-	renderColourCheckboxes,
 	renderConnectedIndicator,
-	renderCountdown,
 	renderDisconnectedIndicator,
+} from "./utils/domManipulationUtils/connectionStatus";
+import {
+	type CountdownOptions,
+	derenderCountdown,
+	renderCountdown,
+} from "./utils/domManipulationUtils/countdown";
+import {
 	renderPlayerList,
 	renderPlayerListWithScores,
+} from "./utils/domManipulationUtils/playerList";
+import {
+	derenderPlayerNameForm,
 	renderPlayerName,
-	renderQuestion,
-	renderRoundResetButton,
-	renderStartButton,
-	renderUnjoinableMessage,
 	resetPlayerNameFormValue,
+} from "./utils/domManipulationUtils/playerName";
+import { renderQuestion } from "./utils/domManipulationUtils/question";
+import {
+	renderRoundResetButton,
 	resetRound,
-} from "./utils/domManipulationUtils";
+} from "./utils/domManipulationUtils/roundReset";
+import {
+	derenderStartButton,
+	renderStartButton,
+} from "./utils/domManipulationUtils/startButton";
+import { renderUnjoinableMessage } from "./utils/domManipulationUtils/unjoinableMessage";
 import { getElementById } from "./utils/getElementById";
 import { addPlayer, emitAnswersPost } from "./utils/socketUtils";
 
@@ -45,8 +56,8 @@ socket.on("connect", () => {
 	renderConnectedIndicator();
 });
 
-socket.on("countdown:start", (params) => {
-	renderCountdown(params);
+socket.on("countdown:start", (countdownOptions: CountdownOptions) => {
+	renderCountdown(countdownOptions);
 });
 
 socket.on("countdown:stop", () => {
