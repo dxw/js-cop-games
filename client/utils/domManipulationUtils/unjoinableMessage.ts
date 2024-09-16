@@ -1,5 +1,4 @@
-import { htmlElements } from ".";
-import type { NameFormElement } from "../../../server/@types/ui";
+import { type NameFormElement, htmlElements } from ".";
 import { getElementById } from "../getElementById";
 
 const renderUnjoinableMessage = (): void => {

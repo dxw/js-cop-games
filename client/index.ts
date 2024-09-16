@@ -4,7 +4,7 @@ import type {
 	ClientboundSocketServerEvents,
 	ServerboundSocketServerEvents,
 } from "../server/@types/events";
-import type { NameFormElement } from "../server/@types/ui";
+import type { NameFormElement } from "./utils/domManipulationUtils";
 import { renderBonusPoints } from "./utils/domManipulationUtils/bonusPoints";
 import { renderColourCheckboxes } from "./utils/domManipulationUtils/colourCheckboxes";
 import {

@@ -1,6 +1,5 @@
-import { htmlElements } from ".";
+import { type NameFormElement, htmlElements } from ".";
 import type { Player } from "../../../server/@types/entities";
-import type { NameFormElement } from "../../../server/@types/ui";
 import { getElementById } from "../getElementById";
 
 const renderPlayerName = (currentPlayer: Player): void => {

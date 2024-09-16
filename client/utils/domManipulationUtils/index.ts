@@ -1,4 +1,8 @@
-import type { NameFormElement } from "../../../server/@types/ui";
+type NameFormElement = HTMLFormElement & {
+	elements: HTMLFormControlsCollection & {
+		name: HTMLInputElement;
+	};
+};
 
 const htmlElements: {
 	bonusPoints?: HTMLParagraphElement;
@@ -25,3 +29,4 @@ declare global {
 }
 
 export { htmlElements };
+export type { NameFormElement };
