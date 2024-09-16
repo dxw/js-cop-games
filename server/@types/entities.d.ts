@@ -23,14 +23,14 @@ type Player = {
 	socketId: Socket["id"];
 };
 
-type Question = {
-	colours: Colour[];
-	subject: string;
-};
-
 type PlayerScore = {
 	player: Player;
 	score: number;
+};
+
+type Question = {
+	colours: Colour[];
+	subject: string;
 };
 
 export type { Answer, Colour, Player, PlayerScore, Question };
