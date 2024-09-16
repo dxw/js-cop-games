@@ -1,9 +1,9 @@
-import type { TimerParams } from "../../client/utils/domManipulationUtils";
+import type { CountdownParams } from "../../client/utils/domManipulationUtils";
 import type { Colour, Player, PlayerScore, Question } from "./entities";
 
 export interface ClientboundSocketServerEvents {
 	"answers:post": (playerId: string, colours: string[]) => void;
-	"countdown:start": ({ durationMs, description }: TimerParams) => void;
+	"countdown:start": ({ durationMs, description }: CountdownParams) => void;
 	"countdown:stop": () => void;
 	"lobby:unjoinable": () => void;
 	"player:set": (player: Player) => void;

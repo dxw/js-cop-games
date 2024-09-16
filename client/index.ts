@@ -7,19 +7,19 @@ import type {
 import type { NameFormElement } from "../server/@types/ui";
 import {
 	askAQuestion,
+	derenderCountdown,
 	derenderPlayerNameForm,
 	derenderStartButton,
-	derenderTimer,
 	indicateConnected,
 	indicateDisconnected,
 	renderBonusPoints,
 	renderColourCheckboxes,
+	renderCountdown,
 	renderPlayerList,
 	renderPlayerListWithScores,
 	renderPlayerName,
 	renderRoundResetButton,
 	renderStartButton,
-	renderTimer,
 	renderUnjoinableMessage,
 	resetPlayerNameFormValue,
 	resetRound,
@@ -46,11 +46,11 @@ socket.on("connect", () => {
 });
 
 socket.on("countdown:start", (params) => {
-	renderTimer(params);
+	renderCountdown(params);
 });
 
 socket.on("countdown:stop", () => {
-	derenderTimer();
+	derenderCountdown();
 });
 
 socket.on("disconnect", () => {

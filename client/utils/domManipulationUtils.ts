@@ -13,7 +13,7 @@ let checkboxFormElement: HTMLFormElement | undefined;
 let checkboxTemplateElement: HTMLTemplateElement | undefined;
 let colourSectionElement: HTMLElement | undefined;
 let connectionStatusIconElement: HTMLDivElement | undefined;
-let countdownTimerElement: HTMLElement | undefined;
+let countdownElement: HTMLElement | undefined;
 let questionElement: HTMLElement | undefined;
 let questionNumberElement: HTMLElement | undefined;
 let questionThingElement: HTMLElement | undefined;
@@ -26,7 +26,7 @@ let startButtonElement: HTMLButtonElement | undefined;
 declare global {
 	interface Window {
 		// biome-ignore lint/correctness/noUndeclaredVariables: Timer is a Bun global
-		timerIntervalId: Timer;
+		countdownIntervalId: Timer;
 	}
 }
 
@@ -183,38 +183,38 @@ const resetRound = (playerNames: Player["name"][]): void => {
 	}
 };
 
-export type TimerDescription = "Time remaining: " | "Next turn starting in: ";
-export type TimerParams = {
+type CountdownDescription = "Time remaining: " | "Next turn starting in: ";
+export type CountdownParams = {
 	durationMs: number;
-	description: TimerDescription;
+	description: CountdownDescription;
 };
 
-export const renderTimer = ({ durationMs, description }: TimerParams) => {
-	countdownTimerElement ||= getElementById<HTMLElement>("countdown-section");
+const renderCountdown = ({ durationMs, description }: CountdownParams) => {
+	countdownElement ||= getElementById<HTMLElement>("countdown-section");
 
-	countdownTimerElement.innerText = description;
+	countdownElement.innerText = description;
 	const timeElement = document.createElement("time");
-	countdownTimerElement.appendChild(timeElement);
+	countdownElement.appendChild(timeElement);
 
 	let remainingTime = durationMs / 1000; // Convert milliseconds to seconds
 	timeElement.innerText = `${remainingTime}s`;
-	countdownTimerElement.style.display = "block";
+	countdownElement.style.display = "block";
 
-	window.timerIntervalId = setInterval(() => {
+	window.countdownIntervalId = setInterval(() => {
 		remainingTime--;
 		timeElement.innerText = `${remainingTime}s`;
 		if (remainingTime <= 0) {
-			clearInterval(window.timerIntervalId);
+			clearInterval(window.countdownIntervalId);
 		}
 	}, 1000);
 };
 
-export const derenderTimer = () => {
-	countdownTimerElement ||= getElementById("countdown-section");
-	countdownTimerElement.innerText = "";
-	countdownTimerElement.style.display = "none";
+const derenderCountdown = () => {
+	countdownElement ||= getElementById("countdown-section");
+	countdownElement.innerText = "";
+	countdownElement.style.display = "none";
 
-	clearInterval(window.timerIntervalId);
+	clearInterval(window.countdownIntervalId);
 };
 
 const submitAnswer = async (
@@ -250,6 +250,7 @@ const submitAnswer = async (
 export {
 	askAQuestion,
 	derenderColourCheckboxes,
+	derenderCountdown,
 	derenderPlayerNameForm,
 	derenderRoundResetButton,
 	derenderStartButton,
@@ -257,6 +258,7 @@ export {
 	indicateDisconnected,
 	renderBonusPoints,
 	renderColourCheckboxes,
+	renderCountdown,
 	renderPlayerList,
 	renderPlayerListWithScores,
 	renderPlayerName,
