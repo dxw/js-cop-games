@@ -30,8 +30,7 @@ declare global {
 	}
 }
 
-// biome-ignore lint/style/useNamingConvention: the issue here is the consecutive upper case characters, but given it's due to using a single-character word, this doesn't feel invalid
-const askAQuestion = (question: Question): void => {
+const renderQuestion = (question: Question): void => {
 	questionElement ||= getElementById("question");
 	questionThingElement ||= getElementById("thing");
 	questionNumberElement ||= getElementById("number");
@@ -68,7 +67,7 @@ const derenderStartButton = (): void => {
 	startButtonElement.style.display = "none";
 };
 
-const indicateConnected = (): void => {
+const renderConnectedIndicator = (): void => {
 	connectionStatusIconElement ||= getElementById<HTMLDivElement>(
 		"connection-status-icon",
 	);
@@ -76,7 +75,7 @@ const indicateConnected = (): void => {
 	connectionStatusIconElement.innerText = "Connected 🟢";
 };
 
-const indicateDisconnected = (): void => {
+const renderDisconnectedIndicator = (): void => {
 	connectionStatusIconElement ||= getElementById<HTMLDivElement>(
 		"connection-status-icon",
 	);
@@ -248,20 +247,20 @@ const submitAnswer = async (
 };
 
 export {
-	askAQuestion,
 	derenderColourCheckboxes,
 	derenderCountdown,
 	derenderPlayerNameForm,
 	derenderRoundResetButton,
 	derenderStartButton,
-	indicateConnected,
-	indicateDisconnected,
 	renderBonusPoints,
 	renderColourCheckboxes,
+	renderConnectedIndicator,
 	renderCountdown,
+	renderDisconnectedIndicator,
 	renderPlayerList,
 	renderPlayerListWithScores,
 	renderPlayerName,
+	renderQuestion,
 	renderRoundResetButton,
 	renderStartButton,
 	renderUnjoinableMessage,

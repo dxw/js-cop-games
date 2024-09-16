@@ -6,18 +6,18 @@ import type {
 } from "../server/@types/events";
 import type { NameFormElement } from "../server/@types/ui";
 import {
-	askAQuestion,
 	derenderCountdown,
 	derenderPlayerNameForm,
 	derenderStartButton,
-	indicateConnected,
-	indicateDisconnected,
 	renderBonusPoints,
 	renderColourCheckboxes,
+	renderConnectedIndicator,
 	renderCountdown,
+	renderDisconnectedIndicator,
 	renderPlayerList,
 	renderPlayerListWithScores,
 	renderPlayerName,
+	renderQuestion,
 	renderRoundResetButton,
 	renderStartButton,
 	renderUnjoinableMessage,
@@ -42,7 +42,7 @@ let currentPlayer: Player; // TODO: account for this being undefined?
 let playerNames: Player["name"][] = [];
 
 socket.on("connect", () => {
-	indicateConnected();
+	renderConnectedIndicator();
 });
 
 socket.on("countdown:start", (params) => {
@@ -54,7 +54,7 @@ socket.on("countdown:stop", () => {
 });
 
 socket.on("disconnect", () => {
-	indicateDisconnected();
+	renderDisconnectedIndicator();
 });
 
 socket.on("lobby:unjoinable", () => {
@@ -73,7 +73,7 @@ socket.on("player:set", (player) => {
 });
 
 socket.on("question:get", (question) => {
-	askAQuestion(question);
+	renderQuestion(question);
 	renderColourCheckboxes((colours: Answer["colours"]) =>
 		emitAnswersPost(socket, colours),
 	);
