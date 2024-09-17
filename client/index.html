@@ -24,29 +24,23 @@
       <h1>Colour Me Knowledgeable!</h1>
     </header>
 
-    <main>  
-      <form id="name-form">
-        <input id="name" type="text" />
-        <label for="name">Display name</label>
+    <main> 
+      <div id="gameplay-column">
+        <form id="name-form"> 
+          <label for="name">Enter your name:</label>
+          <input id="name" type="text" />
   
-        <button type="submit">Join game</button>
-      </form>
-  
-      <h2>Players</h2>
-  
-      <ul id="player-list"></ul>
-  
-      <button id="start-button" style="display: none">Start game!</button>
-      <button id="round-reset-button" style="display: none">Reset round</button>
+          <button type="submit">Join game</button>
+        </form>
+        <button id="start-button" style="display: none">Start game!</button>
 
-      <p id="bonus-points"></p>
-  
+
       <section id="question">
         <h2>Which colours are in this thing?</h2>
         <dl>
-          <dt>Thing</dt>
+          <dt>Thing:</dt>
           <dd id="thing"></dd>
-          <dt>Number of colours</p>
+          <dt>Number of colours: </p>
           <dd id="number"></dd>
         </dl>
       </section>
@@ -54,6 +48,16 @@
       <section id="colour-section"></section>
 
       <section id="countdown-section"></section>
+    </div>
+
+      <div id="players-and-scores-column">
+
+        <h2>Players</h2>
+        <ul id="player-list"></ul>
+        <p id="bonus-points"></p>
+
+        <button id="round-reset-button" style="display: none">Reset round</button>
+      </div>
     </main>
 
     <template id="checkbox-template">

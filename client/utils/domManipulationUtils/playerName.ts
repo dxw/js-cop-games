@@ -5,7 +5,7 @@ import { getElementById } from "../getElementById";
 const renderPlayerName = (currentPlayer: Player): void => {
 	htmlElements.playerName ||= getElementById<HTMLDivElement>("player-name");
 
-	const targetText = `Name: ${currentPlayer.name}`;
+	const targetText = `Your name: ${currentPlayer.name}`;
 	htmlElements.playerName.innerText = targetText;
 };
 

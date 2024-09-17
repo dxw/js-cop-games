@@ -6,11 +6,51 @@
 body {
   --dxw-white: #f9f8f5;
   --dxw-black: #243746;
+  --regular: 300;
+  --bold: 600;
 
-  padding: 1rem;
+  /* Base spacing unit. */
+  --spacing-unit: 1rem;
 
+  /* typography - font sizes */
+  --font-body: calc(var(--font-size-x-small) * var(--spacing-unit));
+  --font-title-small: calc(var(--font-size-small) * var(--spacing-unit));
+  --font-title-medium: calc(var(--font-size-medium) * var(--spacing-unit));
+  --font-title-large: calc(var(--font-size-large) * var(--spacing-unit));
+
+  /* font-size */
+  --font-size-x-small: 1.125;
+  --font-size-small: 1.25;
+  --font-size-medium: 1.5;
+  --font-size-large: 1.875;
+
+
+  /* spacing */
+  --tiny: 0.5;
+  --small: 1;
+  --medium-small: 1.5;
+  --base: 2;
+  --medium-large: 3;
+  --large: 4;
+  --x-large: 6;
+  --xx-large: 9;
+  --spacing-tiny: calc(var(--tiny) * var(--spacing-unit));
+  --spacing-small: calc(var(--small) * var(--spacing-unit));
+  --spacing-medium-small: calc(var(--medium-small) * var(--spacing-unit));
+  --spacing-base: calc(var(--base) * var(--spacing-unit));
+  --spacing-medium-large: calc(var(--medium-large) * var(--spacing-unit));
+  --spacing-large: calc(var(--large) * var(--spacing-unit));
+  --spacing-x-large: calc(var(--x-large) * var(--spacing-unit));
+  --spacing-xx-large: calc(var(--xx-large) * var(--spacing-unit));
+  --body-height: calc(100vh - calc(var(--spacing-base) * 2));
+  --body-width: calc(100vw - calc(var(--spacing-base) * 2));
+  --header-height: var(--spacing-x-large);
+  --main-height: calc(var(--body-height) - var(--header-height));
+
+  padding: var(--spacing-small);
+  
   font-family: Merriweather, serif;
-  font-weight: 300;
+  font-weight: var(--regular);
   color: var(--dxw-black);
 
   background-color: var(--dxw-white);
@@ -23,36 +63,71 @@ h4,
 h5,
 h6 {
   font-family: Poppins, sans-serif;
-  font-weight: 600;
+  font-weight: var(--bold);
 }
 
 h1 {
-  margin-bottom: 1rem;
+  margin-bottom: var(--spacing-small);
   text-align: center;
 }
 
 h1::before {
   content: url("/assets/images/favicon/favicon-32x32.png");
-  height: 2rem;
-  margin-right: 0.5rem;
+  height: var(--spacing-base);
+  margin-right: var(--spacing-tiny);
   vertical-align: middle;
 }
 
-#connection-status {
+
+header {
+  height: var(--header-height);
+}
+
+main {
+  display: flex;
+  height: var(--main-height);
+}
+
+#gameplay-column{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
+  width: calc(calc(var(--body-width) / 3) * 2);
+
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+    label {
+      margin-bottom: var(--spacing-tiny);
+    }
+    
+    input {
+      margin-bottom: var(--spacing-small);
+    }
+  }
+}
+
+#players-and-scores-column{
+  display: flex;
+  flex-direction: column;
+  width: calc(var(--body-width) / 3);
+}
+
+#connection-status-icon {
   position: absolute;
-  top: 1.5rem;
-  right: 1rem;
+  top: var(--spacing-medium-small);
+  right: var(--spacing-base);
 }
 
 #player-name {
   position: absolute;
-  top: 1.5rem;
-  left: 1rem;
-}
-
-#player-list {
-  padding-inline-start: 0;
-  list-style: none;
+  top: var(--spacing-medium-small);
+  left: var(--spacing-base);
 }
 
 #bonus-points {
@@ -61,6 +136,21 @@ h1::before {
 
 #question {
   display: none;
+
+  h2 {
+    margin-bottom: var(--spacing-base);
+  }
+
+  dl {
+    display: grid;
+    grid: 1fr 1fr / 1fr 1fr;
+    width: calc(3 * var(--spacing-xx-large));
+    margin-bottom: var(--spacing-base);
+
+    dd {
+      font-weight: var(--bold);
+    }
+  }
 }
 
 .answer-form fieldset {
@@ -74,3 +164,29 @@ h1::before {
 #countdown-section {
   display: none;
 }
+
+#round-reset-button {
+  align-self: end;
+  width: var(--spacing-xx-large);
+  margin-top: auto;
+}
+
+#start-button {
+  align-self: center;
+  width: var(--spacing-xx-large);
+}
+
+#colour-section {
+  width: 30.5rem;
+  margin-bottom: var(--spacing-base);
+
+  fieldset {
+    margin-bottom: var(--spacing-base);
+  }
+
+  h2 {
+    margin-bottom: var(--spacing-medium-small);
+  }
+}
+
+
