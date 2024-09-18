@@ -102,7 +102,7 @@ class Round {
 					scoresAndBonusPoints: getUpdatedPlayerScoresAndBonusPoints(
 						roundMachineSnapshot.context.bonusPoints,
 						roundMachineSnapshot.context.playerScores,
-						this.turnMachine?.getSnapshot()?.output?.correctPlayerSocketIds ||
+						this.turnMachine?.getSnapshot()?.output?.correctPlayerSessionIds ||
 							[],
 					),
 				});

@@ -1,5 +1,11 @@
 import type { CountdownOptions } from "../../client/utils/domManipulationUtils/countdown";
-import type { Colour, Player, PlayerScore, Question } from "./entities";
+import type {
+	Colour,
+	Player,
+	PlayerScore,
+	Question,
+	Session,
+} from "./entities";
 
 export interface ClientboundSocketServerEvents {
 	"answers:post": (playerId: string, colours: string[]) => void;
@@ -12,6 +18,7 @@ export interface ClientboundSocketServerEvents {
 	"round:reset": () => void;
 	"round:start": () => void;
 	"round:startable": () => void;
+	"session:set": (session: Session) => void;
 	"scoresAndBonusPoints:get": (
 		playerScores: PlayerScore[],
 		bonusPoints: number,

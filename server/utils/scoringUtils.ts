@@ -2,13 +2,13 @@ import type { Answer, Player, PlayerScore, Question } from "../@types/entities";
 
 const allCorrect = (
 	totalPlayerCount: number,
-	correctPlayerSocketIds: Player["socketId"][],
+	correctPlayerSocketIds: Player["sessionId"][],
 ): boolean => {
 	return correctPlayerSocketIds.length === totalPlayerCount;
 };
 
 const allIncorrect = (
-	correctPlayerSocketIds: Player["socketId"][],
+	correctPlayerSocketIds: Player["sessionId"][],
 ): boolean => {
 	return correctPlayerSocketIds.length === 0;
 };
@@ -16,14 +16,14 @@ const allIncorrect = (
 const getUpdatedPlayerScores = (
 	currentPlayerScores: PlayerScore[],
 	bonusPoints: number,
-	correctPlayerSocketIds: Player["socketId"][],
+	correctPlayerSocketIds: Player["sessionId"][],
 ): PlayerScore[] => {
 	const numberOfIncorrectAnswers =
 		currentPlayerScores.length - correctPlayerSocketIds.length;
 	const pointsToAward = numberOfIncorrectAnswers + bonusPoints;
 
 	return currentPlayerScores.map(({ player, score }) => {
-		if (correctPlayerSocketIds.includes(player.socketId)) {
+		if (correctPlayerSocketIds.includes(player.sessionId)) {
 			return { player, score: score + pointsToAward };
 		}
 
@@ -34,7 +34,7 @@ const getUpdatedPlayerScores = (
 const getUpdatedPlayerScoresAndBonusPoints = (
 	currentBonusPoints: number,
 	currentPlayerScores: PlayerScore[],
-	correctPlayerSocketIds: Player["socketId"][],
+	correctPlayerSocketIds: Player["sessionId"][],
 ): { bonusPoints: number; playerScores: PlayerScore[] } => {
 	if (allCorrect(currentPlayerScores.length, correctPlayerSocketIds)) {
 		return {
@@ -57,7 +57,7 @@ const getUpdatedPlayerScoresAndBonusPoints = (
 	};
 };
 
-const getCorrectSocketIdsFromAnswers = (
+const getCorrectSessionIdsFromAnswers = (
 	answers: Answer[],
 	correctAnswer: Question["colours"],
 ) => {
@@ -72,4 +72,7 @@ const getCorrectSocketIdsFromAnswers = (
 		.map((answer) => answer.socketId);
 };
 
-export { getCorrectSocketIdsFromAnswers, getUpdatedPlayerScoresAndBonusPoints };
+export {
+	getCorrectSessionIdsFromAnswers,
+	getUpdatedPlayerScoresAndBonusPoints,
+};

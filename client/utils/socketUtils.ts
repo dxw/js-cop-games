@@ -7,9 +7,11 @@ import type {
 
 const addPlayer = (
 	socket: Socket<ClientboundSocketServerEvents, ServerboundSocketServerEvents>,
-	name: string,
+	playerName: string,
 ): void => {
-	socket.emit("players:post", name);
+	socket.auth = { playerName };
+	socket.connect();
+	socket.emit("players:post", playerName);
 };
 
 const emitAnswersPost = (

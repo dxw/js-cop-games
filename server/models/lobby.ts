@@ -1,6 +1,5 @@
-import type { Socket } from "socket.io";
 import { type Actor, createActor } from "xstate";
-import type { Player } from "../@types/entities";
+import type { Player, Session } from "../@types/entities";
 import { lobbyMachine } from "../machines/lobby";
 import type { SocketServer } from "../socketServer";
 import { machineLogger } from "../utils/loggingUtils";
@@ -31,8 +30,8 @@ class Lobby {
 		return this.machine.getSnapshot().context.players;
 	}
 
-	addPlayer = (name: Player["name"], socketId: Socket["id"]) => {
-		const player = { name, socketId };
+	addPlayer = (name: Player["name"], sessionId: Session["id"]) => {
+		const player = { name, sessionId };
 		this.machine.send({ player, type: "playerJoins" });
 		return this.findPlayer(player);
 	};
@@ -44,7 +43,7 @@ class Lobby {
 	findPlayer = (player: Player): Player => {
 		const desiredPlayer = this.machine
 			.getSnapshot()
-			.context.players.find((p) => p.socketId === player.socketId);
+			.context.players.find((p) => p.sessionId === player.sessionId);
 
 		if (!desiredPlayer) {
 			throw new Error("Player not found in context");
@@ -60,8 +59,8 @@ class Lobby {
 			.reverse();
 	};
 
-	removePlayer = (socketId: Socket["id"]): void => {
-		this.machine.send({ socketId, type: "playerLeaves" });
+	removePlayer = (sessionId: Session["id"]): void => {
+		this.machine.send({ sessionId, type: "playerLeaves" });
 	};
 }
 

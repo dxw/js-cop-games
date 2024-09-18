@@ -45,7 +45,7 @@ const generateSocketUrl = (): string => {
 const socket: Socket<
 	ClientboundSocketServerEvents,
 	ServerboundSocketServerEvents
-> = io(generateSocketUrl());
+> = io(generateSocketUrl(), { autoConnect: false });
 
 let currentPlayer: Player; // TODO: account for this being undefined?
 let playerNames: Player["name"][] = [];
@@ -106,12 +106,26 @@ socket.on("scoresAndBonusPoints:get", (playerScores, bonusPoints) => {
 	renderBonusPoints(bonusPoints);
 });
 
+socket.on("session:set", (session) => {
+	socket.auth = { sessionId: session.id };
+	sessionStorage.setItem("sessionId", session.id);
+});
+
 const nameFormElement = getElementById<NameFormElement>("name-form");
 
 const roundResetButtonElement =
 	getElementById<HTMLButtonElement>("round-reset-button");
 
 const startButtonElement = getElementById<HTMLButtonElement>("start-button");
+
+window.document.addEventListener("DOMContentLoaded", () => {
+	const sessionId = sessionStorage.getItem("sessionId");
+
+	if (sessionId) {
+		socket.auth = { sessionId };
+		socket.connect();
+	}
+});
 
 nameFormElement.addEventListener("submit", (e) => {
 	e.preventDefault();
