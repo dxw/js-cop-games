@@ -1066,10 +1066,10 @@ strip-ansi@^7.1.0:
   dependencies:
     ansi-regex "^6.0.1"
 
-stylelint-config-clean-order@^5.2.0:
-  version "5.4.2"
-  resolved "https://registry.npmjs.org/stylelint-config-clean-order/-/stylelint-config-clean-order-5.4.2.tgz"
-  integrity sha512-lhPnDUL1gQbZYqG9kQx5dfEfiD/EpyVbb6jOiR7YfKzkIVv7Rw4jSKzvxr4v5PZqmRyCSzM3goc93jqfF+OZbA==
+stylelint-config-clean-order@^6.0.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/stylelint-config-clean-order/-/stylelint-config-clean-order-6.1.0.tgz#1726b430339be63a9e6f20fb1e2f29f011b0f766"
+  integrity sha512-Xe1U0stw57Evdcx+7q7XYAniyE7XAKv/bwfH9LcsFCcKTPZflzTiJLXGkQUsPMlA4cfMyxEebqm5bRN2doTD3w==
   dependencies:
     stylelint-order "^6.0.4"
 
