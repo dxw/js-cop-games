@@ -1,5 +1,5 @@
-import { htmlElements } from ".";
-import { getElementById } from "../getElementById";
+import { getElementById } from "../getElementById.ts";
+import { htmlElements } from "./index.ts";
 
 const renderBonusPoints = (bonusPoints: number): void => {
 	htmlElements.bonusPoints ||=

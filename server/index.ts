@@ -1,7 +1,7 @@
 import http from "node:http";
 import handler from "serve-handler";
-import { SocketServer } from "./socketServer";
-import { logWithTime } from "./utils/loggingUtils";
+import { SocketServer } from "./socketServer.ts";
+import { logWithTime } from "./utils/loggingUtils.ts";
 
 const httpServer = http.createServer((request, response) => {
 	return handler(request, response, {

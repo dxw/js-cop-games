@@ -1,6 +1,6 @@
-import { htmlElements } from ".";
-import type { Player, PlayerScore } from "../../../server/@types/entities";
-import { getElementById } from "../getElementById";
+import type { Player, PlayerScore } from "../../../server/@types/entities.d.ts";
+import { getElementById } from "../getElementById.ts";
+import { htmlElements } from "./index.ts";
 
 const renderPlayerList = (playerNames: Player["name"][]): void => {
 	htmlElements.playerList ||= getElementById<HTMLUListElement>("player-list");

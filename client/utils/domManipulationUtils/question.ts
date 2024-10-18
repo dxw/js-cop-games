@@ -1,6 +1,6 @@
-import { htmlElements } from ".";
-import type { Question } from "../../../server/@types/entities";
-import { getElementById } from "../getElementById";
+import type { Question } from "../../../server/@types/entities.d.ts";
+import { getElementById } from "../getElementById.ts";
+import { htmlElements } from "./index.ts";
 
 const renderQuestion = (question: Question): void => {
 	htmlElements.question ||= getElementById("question");

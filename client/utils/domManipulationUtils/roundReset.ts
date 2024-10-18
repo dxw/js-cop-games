@@ -1,7 +1,7 @@
-import { htmlElements } from ".";
-import type { Player } from "../../../server/@types/entities";
-import { getElementById } from "../getElementById";
-import { renderStartButton } from "./startButton";
+import type { Player } from "../../../server/@types/entities.d.ts";
+import { getElementById } from "../getElementById.ts";
+import { htmlElements } from "./index.ts";
+import { renderStartButton } from "./startButton.ts";
 
 const renderRoundResetButton = (): void => {
 	htmlElements.roundResetButton ||=

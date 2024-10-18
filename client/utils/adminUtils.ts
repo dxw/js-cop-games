@@ -1,4 +1,4 @@
-import { renderRoundResetButton } from "./domManipulationUtils/roundReset";
+import { renderRoundResetButton } from "./domManipulationUtils/roundReset.ts";
 
 const konamiCode: KeyboardEvent["key"][] = [
 	"ArrowUp",

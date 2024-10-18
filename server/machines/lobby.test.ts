@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from "bun:test";
 import type { Actor } from "xstate";
 import { createActor, getNextSnapshot } from "xstate";
-import { lobbyMachine } from "./lobby";
+import { lobbyMachine } from "./lobby.ts";
 
 describe("lobbyMachine states", () => {
 	const player1 = { name: "a name", socketId: "id" };

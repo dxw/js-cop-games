@@ -1,7 +1,7 @@
 import { assign, setup } from "xstate";
-import type { Player, PlayerScore, Question } from "../@types/entities";
+import type { Player, PlayerScore, Question } from "../@types/entities.d.ts";
 import questions from "../data/questions.json";
-import type { getUpdatedPlayerScoresAndBonusPoints } from "../utils/scoringUtils";
+import type { getUpdatedPlayerScoresAndBonusPoints } from "../utils/scoringUtils.ts";
 
 const context = {
 	questions: questions as Question[],

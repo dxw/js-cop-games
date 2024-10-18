@@ -1,5 +1,5 @@
-import type { CountdownOptions } from "../../client/utils/domManipulationUtils/countdown";
-import type { Colour, Player, PlayerScore, Question } from "./entities";
+import type { CountdownOptions } from "../../client/utils/domManipulationUtils/countdown.ts";
+import type { Colour, Player, PlayerScore, Question } from "./entities.d.ts";
 
 export interface ClientboundSocketServerEvents {
 	"answers:post": (playerId: string, colours: string[]) => void;

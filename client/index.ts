@@ -1,40 +1,40 @@
 import { type Socket, io } from "socket.io-client";
-import type { Answer, Player } from "../server/@types/entities";
+import type { Answer, Player } from "../server/@types/entities.d.ts";
 import type {
 	ClientboundSocketServerEvents,
 	ServerboundSocketServerEvents,
-} from "../server/@types/events";
-import { addAdminModeListener } from "./utils/adminUtils";
-import type { NameFormElement } from "./utils/domManipulationUtils";
-import { renderBonusPoints } from "./utils/domManipulationUtils/bonusPoints";
-import { renderColourCheckboxes } from "./utils/domManipulationUtils/colourCheckboxes";
+} from "../server/@types/events.d.ts";
+import { addAdminModeListener } from "./utils/adminUtils.ts";
+import { renderBonusPoints } from "./utils/domManipulationUtils/bonusPoints.ts";
+import { renderColourCheckboxes } from "./utils/domManipulationUtils/colourCheckboxes.ts";
 import {
 	renderConnectedIndicator,
 	renderDisconnectedIndicator,
-} from "./utils/domManipulationUtils/connectionStatus";
+} from "./utils/domManipulationUtils/connectionStatus.ts";
 import {
 	type CountdownOptions,
 	derenderCountdown,
 	renderCountdown,
-} from "./utils/domManipulationUtils/countdown";
+} from "./utils/domManipulationUtils/countdown.ts";
+import type { NameFormElement } from "./utils/domManipulationUtils/index.ts";
 import {
 	renderPlayerList,
 	renderPlayerListWithScores,
-} from "./utils/domManipulationUtils/playerList";
+} from "./utils/domManipulationUtils/playerList.ts";
 import {
 	derenderPlayerNameForm,
 	renderPlayerName,
 	resetPlayerNameFormValue,
-} from "./utils/domManipulationUtils/playerName";
-import { renderQuestion } from "./utils/domManipulationUtils/question";
-import { resetRound } from "./utils/domManipulationUtils/roundReset";
+} from "./utils/domManipulationUtils/playerName.ts";
+import { renderQuestion } from "./utils/domManipulationUtils/question.ts";
+import { resetRound } from "./utils/domManipulationUtils/roundReset.ts";
 import {
 	derenderStartButton,
 	renderStartButton,
-} from "./utils/domManipulationUtils/startButton";
-import { renderUnjoinableMessage } from "./utils/domManipulationUtils/unjoinableMessage";
-import { getElementById } from "./utils/getElementById";
-import { addPlayer, emitAnswersPost } from "./utils/socketUtils";
+} from "./utils/domManipulationUtils/startButton.ts";
+import { renderUnjoinableMessage } from "./utils/domManipulationUtils/unjoinableMessage.ts";
+import { getElementById } from "./utils/getElementById.ts";
+import { addPlayer, emitAnswersPost } from "./utils/socketUtils.ts";
 
 const generateSocketUrl = (): string => {
 	const location = window.location;
