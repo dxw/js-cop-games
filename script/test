@@ -5,8 +5,17 @@ set -e
 
 echo "==> Linting the code"
 
-bun run lint:ts
-bun run lint:css
+echo "\x1b[1mLinter:\x1b[0m Biome
+\x1b[1mCoverage:\x1b[0m JavaScript, TypeScript, JSX, TSX, JSON, CSS, GraphQL
+\x1b[1mCoverage restricted by package.json script:\x1b[0m no
+\x1b[1mCoverage last checked:\x1b[0m 18 October 2024"
+bun run lint:biome
+
+echo "\x1b[1mLinter:\x1b[0m Stylelint
+\x1b[1mCoverage:\x1b[0m CSS
+\x1b[1mCoverage restricted by package.json script:\x1b[0m yes
+\x1b[1mCoverage last checked:\x1b[0m 18 October 2024"
+bun run lint:stylelint
 
 echo "==> Typechecking the code"
 
@@ -27,4 +36,3 @@ bunx playwright install chromium
 echo "==> Running the integration tests"
 
 bun run test:integration:cli
-
