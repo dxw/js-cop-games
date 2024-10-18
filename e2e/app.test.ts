@@ -1,6 +1,6 @@
 import { type BrowserContext, type Page, expect, test } from "@playwright/test";
-import { konamiCode } from "../client/utils/adminUtils";
-import type { Colour, Player } from "../server/@types/entities";
+import { konamiCode } from "../client/utils/adminUtils.ts";
+import type { Colour, Player } from "../server/@types/entities.d.ts";
 
 const joinedPlayerNames: Player["name"][] = [];
 let playersPages: Page[] = [];

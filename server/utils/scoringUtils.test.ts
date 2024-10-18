@@ -1,9 +1,9 @@
 import { describe, expect, it } from "bun:test";
-import type { Colour, Player, PlayerScore } from "../@types/entities";
+import type { Colour, Player, PlayerScore } from "../@types/entities.d.ts";
 import {
 	getCorrectSocketIdsFromAnswers,
 	getUpdatedPlayerScoresAndBonusPoints,
-} from "./scoringUtils";
+} from "./scoringUtils.ts";
 
 describe("scoringUtils", () => {
 	describe("getCorrectSocketIdsFromAnswers", () => {

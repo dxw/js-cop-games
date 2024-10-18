@@ -1,105 +1,104 @@
 .colour-cards {
-  --black: #22181c;
-  --grey: #707070;
-  --white: #fafafa;
-  --red: #e60008;
-  --orange: #ff924c;
-  --yellow: #ffca3a;
-  --green: #8ac926;
-  --blue: #1778b5;
-  --purple: #6a4c93;
-  --pink: #ff8cc6;
-  --brown: #a33b20;
-  --selected: #52a675;
+	--black: #22181c;
+	--grey: #707070;
+	--white: #fafafa;
+	--red: #e60008;
+	--orange: #ff924c;
+	--yellow: #ffca3a;
+	--green: #8ac926;
+	--blue: #1778b5;
+	--purple: #6a4c93;
+	--pink: #ff8cc6;
+	--brown: #a33b20;
+	--selected: #52a675;
 
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1rem;
 
-  font-family: Poppins, sans-serif;
-  font-weight: 400;
+	font-family: Poppins, sans-serif;
+	font-weight: 400;
 }
 
 .colour-cards input {
-  display: none;
+	display: none;
 }
 
 .colour-cards__card {
-  height: 6rem;
-  padding: 1rem;
-  border: var(--dxw-black) solid 0.2rem;
-  border-radius: 0.5rem;
+	height: 6rem;
+	padding: 1rem;
+	border: var(--dxw-black) solid 0.2rem;
+	border-radius: 0.5rem;
 }
 
 .colour-cards input:checked + .colour-cards__card {
-  outline: var(--selected) solid 0.2rem;
+	outline: var(--selected) solid 0.2rem;
 }
 
 .colour-cards__card--black {
-  color: var(--dxw-white);
-  background-color: var(--black);
+	color: var(--dxw-white);
+	background-color: var(--black);
 }
 
 .colour-cards__card--blue {
-  color: var(--dxw-white);
-  background-color: var(--blue);
+	color: var(--dxw-white);
+	background-color: var(--blue);
 }
 
 .colour-cards__card--brown {
-  color: var(--dxw-white);
-  background-color: var(--brown);
+	color: var(--dxw-white);
+	background-color: var(--brown);
 }
 
 .colour-cards__card--green {
-  background-color: var(--green);
+	background-color: var(--green);
 }
 
 .colour-cards__card--grey {
-  color: var(--dxw-white);
-  background-color: var(--grey);
+	color: var(--dxw-white);
+	background-color: var(--grey);
 }
 
 .colour-cards__card--orange {
-  background-color: var(--orange);
+	background-color: var(--orange);
 }
 
 .colour-cards__card--pink {
-  background-color: var(--pink);
+	background-color: var(--pink);
 }
 
 .colour-cards__card--purple {
-  color: var(--dxw-white);
-  background-color: var(--purple);
+	color: var(--dxw-white);
+	background-color: var(--purple);
 }
 
 .colour-cards__card--red {
-  color: var(--dxw-white);
-  background-color: var(--red);
+	color: var(--dxw-white);
+	background-color: var(--red);
 }
 
 .colour-cards__card--white {
-  background-color: var(--white);
+	background-color: var(--white);
 }
 
 .colour-cards__card--yellow {
-  background-color: var(--yellow);
+	background-color: var(--yellow);
 }
 
-
 .colour-cards__card p {
-  width: 4rem;
-  text-align: center;
+	width: 4rem;
+	text-align: center;
 }
 
 .colour-cards__name {
-  margin: 0;
+	margin: 0;
 }
 
 .colour-cards__check-mark {
-  display: none;
-  margin-top: 2rem;
+	display: none;
+	margin-top: 2rem;
 }
 
 .colour-cards input:checked + label .colour-cards__check-mark {
-  display: block;
+	display: block;
 }

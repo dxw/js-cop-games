@@ -1,4 +1,9 @@
-import type { Answer, Player, PlayerScore, Question } from "../@types/entities";
+import type {
+	Answer,
+	Player,
+	PlayerScore,
+	Question,
+} from "../@types/entities.d.ts";
 
 const allCorrect = (
 	totalPlayerCount: number,

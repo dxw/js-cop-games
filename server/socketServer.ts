@@ -1,14 +1,19 @@
 import type { Server as HttpServer } from "node:http";
 import { Server } from "socket.io";
-import type { CountdownOptions } from "../client/utils/domManipulationUtils/countdown";
-import type { Colour, Player, PlayerScore, Question } from "./@types/entities";
+import type { CountdownOptions } from "../client/utils/domManipulationUtils/countdown.ts";
+import type {
+	Colour,
+	Player,
+	PlayerScore,
+	Question,
+} from "./@types/entities.d.ts";
 import type {
 	ClientboundSocketServerEvents,
 	ServerboundSocketServerEvents,
-} from "./@types/events";
-import { Lobby } from "./models/lobby";
-import { Round } from "./models/round";
-import { logWithTime } from "./utils/loggingUtils";
+} from "./@types/events.d.ts";
+import { Lobby } from "./models/lobby.ts";
+import { Round } from "./models/round.ts";
+import { logWithTime } from "./utils/loggingUtils.ts";
 
 export class SocketServer {
 	lobby: Lobby;

@@ -1,7 +1,7 @@
-import { htmlElements } from ".";
-import type { Answer } from "../../../server/@types/entities";
-import { getElementById } from "../getElementById";
-import { submitAnswer } from "./answer";
+import type { Answer } from "../../../server/@types/entities.d.ts";
+import { getElementById } from "../getElementById.ts";
+import { submitAnswer } from "./answer.ts";
+import { htmlElements } from "./index.ts";
 
 const renderColourCheckboxes = (
 	emitAnswersPostWrapper: (colours: Answer["colours"]) => void,

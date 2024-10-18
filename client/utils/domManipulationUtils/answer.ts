@@ -1,7 +1,7 @@
-import { htmlElements } from ".";
-import type { Answer, Colour } from "../../../server/@types/entities";
-import { getElementById } from "../getElementById";
-import { derenderColourCheckboxes } from "./colourCheckboxes";
+import type { Answer, Colour } from "../../../server/@types/entities.d.ts";
+import { getElementById } from "../getElementById.ts";
+import { derenderColourCheckboxes } from "./colourCheckboxes.ts";
+import { htmlElements } from "./index.ts";
 
 const submitAnswer = async (
 	emitAnswersPostWrapper: (colours: Answer["colours"]) => void,

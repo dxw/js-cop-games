@@ -35,6 +35,7 @@ const logWithTime = (
 		fractionalSecondDigits: 3,
 	});
 
+	// biome-ignore lint/suspicious/noConsole: this is a logging method
 	console.info(
 		[`\n${currentTime} ${inlineString}`, subsequentLinesString]
 			.filter((string) => string)

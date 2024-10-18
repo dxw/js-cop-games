@@ -1,9 +1,9 @@
 import type { Socket } from "socket.io";
 import { type Actor, createActor } from "xstate";
-import type { Player } from "../@types/entities";
-import { lobbyMachine } from "../machines/lobby";
-import type { SocketServer } from "../socketServer";
-import { machineLogger } from "../utils/loggingUtils";
+import type { Player } from "../@types/entities.d.ts";
+import { lobbyMachine } from "../machines/lobby.ts";
+import type { SocketServer } from "../socketServer.ts";
+import { machineLogger } from "../utils/loggingUtils.ts";
 
 class Lobby {
 	machine: Actor<typeof lobbyMachine>;

@@ -1,5 +1,5 @@
 import { assign, setup } from "xstate";
-import type { Player } from "../@types/entities";
+import type { Player } from "../@types/entities.d.ts";
 
 const context = {
 	players: [] as Player[],

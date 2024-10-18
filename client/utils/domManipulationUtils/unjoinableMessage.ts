@@ -1,5 +1,5 @@
-import { type NameFormElement, htmlElements } from ".";
-import { getElementById } from "../getElementById";
+import { getElementById } from "../getElementById.ts";
+import { type NameFormElement, htmlElements } from "./index.ts";
 
 const renderUnjoinableMessage = (): void => {
 	htmlElements.playerNameForm ||= getElementById<NameFormElement>("name-form");

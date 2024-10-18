@@ -1,11 +1,11 @@
 import { type Actor, type InspectionEvent, createActor } from "xstate";
-import type { Answer, Player, Question } from "../@types/entities";
-import { betweenTurnsCountdownMs, roundMachine } from "../machines/round";
-import { turnMachine } from "../machines/turn";
-import { turnEndCountdownMs } from "../machines/turn";
-import type { SocketServer } from "../socketServer";
-import { machineLogger } from "../utils/loggingUtils";
-import { getUpdatedPlayerScoresAndBonusPoints } from "../utils/scoringUtils";
+import type { Answer, Player, Question } from "../@types/entities.d.ts";
+import { betweenTurnsCountdownMs, roundMachine } from "../machines/round.ts";
+import { turnMachine } from "../machines/turn.ts";
+import { turnEndCountdownMs } from "../machines/turn.ts";
+import type { SocketServer } from "../socketServer.ts";
+import { machineLogger } from "../utils/loggingUtils.ts";
+import { getUpdatedPlayerScoresAndBonusPoints } from "../utils/scoringUtils.ts";
 
 class Round {
 	machine: Actor<typeof roundMachine>;

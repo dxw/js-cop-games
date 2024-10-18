@@ -2,18 +2,17 @@
 @import url("https://fonts.googleapis.com/css?family=Merriweather:300&display=swap");
 @import url("colour-cards.css");
 
-
 body {
-  --dxw-white: #f9f8f5;
-  --dxw-black: #243746;
+	--dxw-white: #f9f8f5;
+	--dxw-black: #243746;
 
-  padding: 1rem;
+	padding: 1rem;
 
-  font-family: Merriweather, serif;
-  font-weight: 300;
-  color: var(--dxw-black);
+	font-family: Merriweather, serif;
+	font-weight: 300;
+	color: var(--dxw-black);
 
-  background-color: var(--dxw-white);
+	background-color: var(--dxw-white);
 }
 
 h1,
@@ -22,55 +21,55 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: Poppins, sans-serif;
-  font-weight: 600;
+	font-family: Poppins, sans-serif;
+	font-weight: 600;
 }
 
 h1 {
-  margin-bottom: 1rem;
-  text-align: center;
+	margin-bottom: 1rem;
+	text-align: center;
 }
 
 h1::before {
-  content: url("/assets/images/favicon/favicon-32x32.png");
-  height: 2rem;
-  margin-right: 0.5rem;
-  vertical-align: middle;
+	content: url("/assets/images/favicon/favicon-32x32.png");
+	height: 2rem;
+	margin-right: 0.5rem;
+	vertical-align: middle;
 }
 
 #connection-status {
-  position: absolute;
-  top: 1.5rem;
-  right: 1rem;
+	position: absolute;
+	top: 1.5rem;
+	right: 1rem;
 }
 
 #player-name {
-  position: absolute;
-  top: 1.5rem;
-  left: 1rem;
+	position: absolute;
+	top: 1.5rem;
+	left: 1rem;
 }
 
 #player-list {
-  padding-inline-start: 0;
-  list-style: none;
+	padding-inline-start: 0;
+	list-style: none;
 }
 
 #bonus-points {
-  display: none;
+	display: none;
 }
 
 #question {
-  display: none;
+	display: none;
 }
 
 .answer-form fieldset {
-  display: inline-block;
+	display: inline-block;
 }
 
 .answer-form button {
-  display: block;
+	display: block;
 }
 
 #countdown-section {
-  display: none;
+	display: none;
 }

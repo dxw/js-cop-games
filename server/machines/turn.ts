@@ -1,6 +1,6 @@
 import { assign, setup } from "xstate";
-import type { Answer, Player, Question } from "../@types/entities";
-import { getCorrectSocketIdsFromAnswers } from "../utils/scoringUtils";
+import type { Answer, Player, Question } from "../@types/entities.d.ts";
+import { getCorrectSocketIdsFromAnswers } from "../utils/scoringUtils.ts";
 
 const context = {
 	answers: [] as Answer[],

@@ -1,9 +1,9 @@
 import type { Socket } from "socket.io-client";
-import type { Answer } from "../../server/@types/entities";
+import type { Answer } from "../../server/@types/entities.d.ts";
 import type {
 	ClientboundSocketServerEvents,
 	ServerboundSocketServerEvents,
-} from "../../server/@types/events";
+} from "../../server/@types/events.d.ts";
 
 const addPlayer = (
 	socket: Socket<ClientboundSocketServerEvents, ServerboundSocketServerEvents>,
