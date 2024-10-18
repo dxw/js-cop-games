@@ -39,9 +39,7 @@ test("players can join and start the game", async () => {
 			await addName(playerPage, name);
 
 			//   Verify name is visible
-			await expect(
-				playerPage.getByText(`Name: ${name}`, { exact: true }),
-			).toBeVisible();
+			await expect(playerPage.getByText(name, { exact: true })).toBeVisible();
 		}),
 	);
 
@@ -96,7 +94,7 @@ const connect = async (page: Page) => {
 
 const addName = async (page: Page, name: Player["name"]) => {
 	//   Enter name
-	const displayNameInput = page.getByLabel("Display name");
+	const displayNameInput = page.getByLabel("Enter your name:");
 	await displayNameInput.fill(name);
 
 	//   Click join
