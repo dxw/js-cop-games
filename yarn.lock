@@ -150,11 +150,11 @@
     "@types/node" "*"
 
 "@types/node@*":
-  version "22.7.9"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-22.7.9.tgz#2bf2797b5e84702d8262ea2cf843c3c3c880d0e9"
-  integrity sha512-jrTfRC7FM6nChvU7X2KqcrgquofrWLFDeYC1hKfwNWomVvrn7JIksqf344WN2X/y8xrgqBd2dJATZV4GbatBfg==
+  version "22.8.2"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-22.8.2.tgz#8e82bb8201c0caf751dcdc61b0a262d2002d438b"
+  integrity sha512-NzaRNFV+FZkvK/KLCsNdTvID0SThyrs5SHB6tsD/lajr22FGC73N2QeDPM2wHtVde8mgcXuSsHQkH5cX1pbPLw==
   dependencies:
-    undici-types "~6.19.2"
+    undici-types "~6.19.8"
 
 "@types/node@>=10.0.0":
   version "22.7.2"
@@ -272,9 +272,9 @@ braces@^3.0.3:
     fill-range "^7.1.1"
 
 bun-types@^1.0.2:
-  version "1.1.32"
-  resolved "https://registry.yarnpkg.com/bun-types/-/bun-types-1.1.32.tgz#f652284250ea1ccdbbec9064494e3732d3f1aec9"
-  integrity sha512-Lxgux4InO/WRjSAEy3iyDscsnDXR8+3rgNDeZYjPAizFYjUraoNuMl9PuRd9XMgFZgdyQwaUX7/QHmOw5KGFQw==
+  version "1.1.33"
+  resolved "https://registry.yarnpkg.com/bun-types/-/bun-types-1.1.33.tgz#4b9be15619222f5354cf01d1e866ba9779e86590"
+  integrity sha512-SOMt3HeI34EyXoAsMxs5qY+e8cjQOn9v1BQl/ZUy1BsOYYuSPBSRVBYE5DjauqY1bOAWGFAjVu9G9pSmCe1bVw==
   dependencies:
     "@types/node" "~20.12.8"
     "@types/ws" "~8.5.10"
@@ -1148,7 +1148,7 @@ undici-types@~5.26.4:
   resolved "https://registry.yarnpkg.com/undici-types/-/undici-types-5.26.5.tgz#bcd539893d00b56e964fd2657a4866b221a65617"
   integrity sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==
 
-undici-types@~6.19.2:
+undici-types@~6.19.2, undici-types@~6.19.8:
   version "6.19.8"
   resolved "https://registry.yarnpkg.com/undici-types/-/undici-types-6.19.8.tgz#35111c9d1437ab83a7cdc0abae2f26d88eda0a02"
   integrity sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw==
