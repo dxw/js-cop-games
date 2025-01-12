@@ -33,7 +33,7 @@
 		"bun-types": "^1.0.2",
 		"socket.io-client": "^4.7.2",
 		"stylelint": "^16.0.0",
-		"stylelint-config-clean-order": "^6.0.0",
+		"stylelint-config-clean-order": "^7.0.0",
 		"stylelint-config-standard": "^36.0.0",
 		"typescript": "^5.2.2"
 	}
