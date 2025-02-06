@@ -148,9 +148,9 @@
     "@types/node" "*"
 
 "@types/node@*":
-  version "22.10.10"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-22.10.10.tgz#85fe89f8bf459dc57dfef1689bd5b52ad1af07e6"
-  integrity sha512-X47y/mPNzxviAGY5TcYPtYL8JsY3kAq2n8fMmKoRCxq/c4v4pyGNCzM2R6+M5/umG4ZfHuT+sgqDYqWc9rJ6ww==
+  version "22.13.1"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-22.13.1.tgz#a2a3fefbdeb7ba6b89f40371842162fac0934f33"
+  integrity sha512-jK8uzQlrvXqEU91UxiK5J7pKHyzgnI1Qnl0QDHIgVGuolJhRb9EEl28Cj9b3rGR8B2lhFCtvIm5os8lFnO/1Ew==
   dependencies:
     undici-types "~6.20.0"
 
@@ -269,9 +269,9 @@ buffer@^6.0.3:
     ieee754 "^1.2.1"
 
 bun-types@^1.0.2:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/bun-types/-/bun-types-1.2.1.tgz#b858acc4083ff2287021d4eb2a71b63fc6132d9f"
-  integrity sha512-p7bmXUWmrPWxhcbFVk7oUXM5jAGt94URaoa3qf4mz43MEhNAo/ot1urzBqctgvuq7y9YxkuN51u+/qm4BiIsHw==
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/bun-types/-/bun-types-1.2.2.tgz#06db618bb0b58939094fa22f2cb1b80df6666fae"
+  integrity sha512-RCbMH5elr9gjgDGDhkTTugA21XtJAy/9jkKe/G3WR2q17VPGhcquf9Sir6uay9iW+7P/BV0CAHA1XlHXMAVKHg==
   dependencies:
     "@types/node" "*"
     "@types/ws" "~8.5.10"
