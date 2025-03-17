@@ -1,58 +1,58 @@
 [
 	{
-		"colours": ["black", "white", "orange", "yellow"],
-		"subject": "duxw"
+		"colours": ["black", "green", "grey", "white"],
+		"subject": "Agender flag"
 	},
 	{
-		"colours": ["white", "red", "green"],
-		"subject": "Caprese salad"
+		"colours": ["black", "green", "grey", "white"],
+		"subject": "Aromantic flag"
 	},
 	{
-		"colours": ["red", "yellow", "blue"],
-		"subject": "Moldovan flag"
+		"colours": ["black", "grey", "purple", "white"],
+		"subject": "Asexual flag"
 	},
 	{
-		"colours": ["black"],
-		"subject": "Temporary (black)"
+		"colours": ["blue", "pink", "purple"],
+		"subject": "Bisexual flag"
 	},
 	{
-		"colours": ["grey"],
-		"subject": "Temporary (grey)"
+		"colours": ["black", "grey", "purple", "white"],
+		"subject": "Demisexual flag"
 	},
 	{
-		"colours": ["white"],
-		"subject": "Temporary (white)"
+		"colours": ["black", "blue", "pink", "purple", "white"],
+		"subject": "Genderfluid flag"
 	},
 	{
-		"colours": ["red"],
-		"subject": "Temporary (red)"
+		"colours": ["green", "purple", "white"],
+		"subject": "Genderqueer flag"
 	},
 	{
-		"colours": ["orange"],
-		"subject": "Temporary (orange)"
+		"colours": ["purple", "yellow"],
+		"subject": "Intersex flag"
 	},
 	{
-		"colours": ["yellow"],
-		"subject": "Temporary (yellow)"
+		"colours": ["orange", "pink", "white"],
+		"subject": "Lesbian flag (2018 five stripes version)"
 	},
 	{
-		"colours": ["green"],
-		"subject": "Temporary (green)"
+		"colours": ["black", "purple", "white", "yellow"],
+		"subject": "Nonbinary flag"
 	},
 	{
-		"colours": ["blue"],
-		"subject": "Temporary (blue)"
+		"colours": ["blue", "yellow", "pink"],
+		"subject": "Pansexual flag"
 	},
 	{
-		"colours": ["purple"],
-		"subject": "Temporary (purple)"
+		"colours": ["blue", "green", "pink"],
+		"subject": "Polysexual flag"
 	},
 	{
-		"colours": ["pink"],
-		"subject": "Temporary (pink)"
+		"colours": ["blue", "green", "orange", "red", "purple", "yellow"],
+		"subject": "Rainbow flag"
 	},
 	{
-		"colours": ["brown"],
-		"subject": "Temporary (brown)"
+		"colours": ["blue", "pink", "white"],
+		"subject": "Transgender flag"
 	}
 ]
