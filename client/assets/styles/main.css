@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css?family=Poppins:400,600&display=swap");
-@import url("https://fonts.googleapis.com/css?family=Merriweather:300&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Merriweather:300,600&display=swap");
 @import url("colour-cards.css");
 
 body {
@@ -43,6 +43,14 @@ h1::before {
 	right: 1rem;
 }
 
+#name-form {
+	margin-bottom: 1rem;
+
+	label {
+		margin-right: 1rem;
+	}
+}
+
 #player-name {
 	position: absolute;
 	top: 1.5rem;
@@ -56,14 +64,36 @@ h1::before {
 
 #bonus-points {
 	display: none;
+	margin-bottom: 1rem;
 }
 
 #question {
 	display: none;
+
+	h2 {
+		margin-bottom: 1rem;
+	}
+
+	dl {
+    display: grid;
+    grid: 1fr 1fr / 1fr 1fr;
+		width: 29rem;
+		margin-bottom: 1rem;
+
+    dt {
+			max-width: 10rem;
+      font-weight: 600;
+    }
+
+		dd {
+			width: 19rem;
+		}
+  }
 }
 
 .answer-form fieldset {
 	display: inline-block;
+	margin-bottom: 1rem;
 }
 
 .answer-form button {
