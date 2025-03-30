@@ -148,9 +148,9 @@
     "@types/node" "*"
 
 "@types/node@*":
-  version "22.13.10"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-22.13.10.tgz#df9ea358c5ed991266becc3109dc2dc9125d77e4"
-  integrity sha512-I6LPUvlRH+O6VRUqYOcMudhaIdUVWfsjnZavnsraHvpBwaEyMN29ry+0UVJhImYL16xsscu0aske3yA+uPOWfw==
+  version "22.13.14"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-22.13.14.tgz#70d84ec91013dcd2ba2de35532a5a14c2b4cc912"
+  integrity sha512-Zs/Ollc1SJ8nKUAgc7ivOEdIBM8JAKgrqqUYi2J997JuKO7/tpQC+WCetQ1sypiKCQWHdvdg9wBNpUPEWZae7w==
   dependencies:
     undici-types "~6.20.0"
 
@@ -173,10 +173,10 @@
   resolved "https://registry.yarnpkg.com/@types/web/-/web-0.0.213.tgz#4dc17717624eb852f2325c77eb18e4b5f76d270b"
   integrity sha512-LuVykOBqlH+P9GI9Q2IWL3bwoV9oJqVGfjutUW0c1LJL4Jdceq5455cJHwcjyhip7+w9hmgv9IvaKXf+FWvRNg==
 
-"@types/ws@~8.5.10":
-  version "8.5.14"
-  resolved "https://registry.yarnpkg.com/@types/ws/-/ws-8.5.14.tgz#93d44b268c9127d96026cf44353725dd9b6c3c21"
-  integrity sha512-bd/YFLW+URhBzMXurx7lWByOu+xzU9+kb3RboOteXYDfW+tr+JZa99OyNmPINEGB/ahzKrEuc8rcv4gnpJmxTw==
+"@types/ws@*":
+  version "8.18.0"
+  resolved "https://registry.yarnpkg.com/@types/ws/-/ws-8.18.0.tgz#8a2ec491d6f0685ceaab9a9b7ff44146236993b5"
+  integrity sha512-8svvI3hMyvN0kKCJMvTJP/x6Y/EoQbepff882wL+Sn5QsXb3etnamgrJq4isrBxSJj5L2AuXcI0+bgkoAXGUJw==
   dependencies:
     "@types/node" "*"
 
@@ -269,12 +269,12 @@ buffer@^6.0.3:
     ieee754 "^1.2.1"
 
 bun-types@^1.0.2:
-  version "1.2.5"
-  resolved "https://registry.yarnpkg.com/bun-types/-/bun-types-1.2.5.tgz#1e090315033036fbd2eeae89adfd3327c3cc56f7"
-  integrity sha512-3oO6LVGGRRKI4kHINx5PIdIgnLRb7l/SprhzqXapmoYkFl5m4j6EvALvbDVuuBFaamB46Ap6HCUxIXNLCGy+tg==
+  version "1.2.7"
+  resolved "https://registry.yarnpkg.com/bun-types/-/bun-types-1.2.7.tgz#6dfc6800a41491bcac0ffd48a2c46c9de74dcaa5"
+  integrity sha512-P4hHhk7kjF99acXqKvltyuMQ2kf/rzIw3ylEDpCxDS9Xa0X0Yp/gJu/vDCucmWpiur5qJ0lwB2bWzOXa2GlHqA==
   dependencies:
     "@types/node" "*"
-    "@types/ws" "~8.5.10"
+    "@types/ws" "*"
 
 bytes@3.0.0:
   version "3.0.0"
