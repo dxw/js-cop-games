@@ -34,7 +34,7 @@
 		"socket.io-client": "4.8.1",
 		"stylelint": "^16.17.0",
 		"stylelint-config-clean-order": "^7.0.0",
-		"stylelint-config-standard": "^37.0.0",
+		"stylelint-config-standard": "^38.0.0",
 		"typescript": "^5.8.2"
 	}
 }
