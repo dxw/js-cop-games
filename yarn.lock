@@ -268,10 +268,10 @@ buffer@^6.0.3:
     base64-js "^1.3.1"
     ieee754 "^1.2.1"
 
-bun-types@^1.2.7:
-  version "1.2.8"
-  resolved "https://registry.yarnpkg.com/bun-types/-/bun-types-1.2.8.tgz#b6f373bac4054449a9d5150475b829f58c089f09"
-  integrity sha512-D5npfxKIGuYe9dTHLK1hi4XFmbMdKYoLrgyd25rrUyCrnyU4ljmQW7vDdonvibKeyU72mZuixIhQ2J+q6uM0Mg==
+bun-types@^1.2.8:
+  version "1.2.9"
+  resolved "https://registry.yarnpkg.com/bun-types/-/bun-types-1.2.9.tgz#e0208ba62f534eb64284c1f347f73bde7105c0f0"
+  integrity sha512-dk/kOEfQbajENN/D6FyiSgOKEuUi9PWfqKQJEgwKrCMWbjS/S6tEXp178mWvWAcUSYm9ArDlWHZKO3T/4cLXiw==
   dependencies:
     "@types/node" "*"
     "@types/ws" "*"
