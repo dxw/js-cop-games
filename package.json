@@ -29,7 +29,7 @@
 		"@biomejs/biome": "1.9.4",
 		"@playwright/test": "^1.39.0",
 		"@types/serve-handler": "^6.1.1",
-		"@types/web": "^0.0.216",
+		"@types/web": "^0.0.217",
 		"bun-types": "^1.2.8",
 		"socket.io-client": "4.8.1",
 		"stylelint": "^16.17.0",
