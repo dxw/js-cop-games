@@ -30,7 +30,7 @@
 		"@playwright/test": "1.51.1",
 		"@types/serve-handler": "6.1.4",
 		"@types/web": "0.0.219",
-		"bun-types": "1.2.9",
+		"bun-types": "1.2.10",
 		"socket.io-client": "4.8.1",
 		"stylelint": "16.18.0",
 		"stylelint-config-clean-order": "7.0.0",
