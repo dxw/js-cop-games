@@ -27,7 +27,7 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
-		"@playwright/test": "1.53.0",
+		"@playwright/test": "1.53.1",
 		"@types/serve-handler": "6.1.4",
 		"@types/web": "0.0.243",
 		"bun-types": "1.2.16",
