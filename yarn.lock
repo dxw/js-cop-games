@@ -276,10 +276,10 @@ braces@^3.0.3:
   dependencies:
     fill-range "^7.1.1"
 
-bun-types@1.2.22:
-  version "1.2.22"
-  resolved "https://registry.yarnpkg.com/bun-types/-/bun-types-1.2.22.tgz#c4c4339ffda16ba8c637938025d0975da6213b5b"
-  integrity sha512-hwaAu8tct/Zn6Zft4U9BsZcXkYomzpHJX28ofvx7k0Zz2HNz54n1n+tDgxoWFGB4PcFvJXJQloPhaV2eP3Q6EA==
+bun-types@1.2.23:
+  version "1.2.23"
+  resolved "https://registry.yarnpkg.com/bun-types/-/bun-types-1.2.23.tgz#d2550c5b1ad32cc779d27e146d1062cb45329101"
+  integrity sha512-R9f0hKAZXgFU3mlrA0YpE/fiDvwV0FT9rORApt2aQVWSuJDzZOyB5QLc0N/4HF57CS8IXJ6+L5E4W1bW6NS2Aw==
   dependencies:
     "@types/node" "*"
 
