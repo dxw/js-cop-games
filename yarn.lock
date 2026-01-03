@@ -185,10 +185,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/web@0.0.309":
-  version "0.0.309"
-  resolved "https://registry.yarnpkg.com/@types/web/-/web-0.0.309.tgz#8028b7068575c49a8627f7f0183459730b1afa8f"
-  integrity sha512-8PEVqnrkAxokSEJPYjNqzmoOELlIrlHG4xsEb6oLOxMzsgqn/n6eYrgSYKG1QgptAcP88mmL7h2cpJQU60F3Qw==
+"@types/web@0.0.310":
+  version "0.0.310"
+  resolved "https://registry.yarnpkg.com/@types/web/-/web-0.0.310.tgz#afb9e6c77ab1b25fb0bd5dc939555a701ab6428c"
+  integrity sha512-XN++V7UZGEeRg8MXJBkzMqmcAWoCRN1UV/zpQxg9YnJQ9pIPSuzEG7oidC+nXi/J8pmfb3UgFv+TjEDzMiNnRg==
 
 accepts@~1.3.4:
   version "1.3.8"
