@@ -853,11 +853,6 @@ postcss-selector-parser@^7.1.0:
     cssesc "^3.0.0"
     util-deprecate "^1.0.2"
 
-postcss-sorting@^8.0.2:
-  version "8.0.2"
-  resolved "https://registry.npmjs.org/postcss-sorting/-/postcss-sorting-8.0.2.tgz"
-  integrity sha512-M9dkSrmU00t/jK7rF6BZSZauA5MAaBW4i5EnJXspMwt4iqTh/L9j6fgMnbElEOfyRyfLfVbIHj/R52zHzAPe1Q==
-
 postcss-value-parser@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/postcss-value-parser/-/postcss-value-parser-4.2.0.tgz#723c09920836ba6d3e5af019f92bc0971c02e514"
@@ -871,15 +866,6 @@ postcss@^8.4.24:
     nanoid "^3.3.7"
     picocolors "^1.1.0"
     source-map-js "^1.2.1"
-
-postcss@^8.4.32:
-  version "8.4.33"
-  resolved "https://registry.npmjs.org/postcss/-/postcss-8.4.33.tgz"
-  integrity sha512-Kkpbhhdjw2qQs2O2DGX+8m5OVqEcbB9HRBvuYM9pgrjEFUg30A9LmXNlTAUj4S9kgtGyrMbTzVjH7E+s5Re2yg==
-  dependencies:
-    nanoid "^3.3.7"
-    picocolors "^1.0.0"
-    source-map-js "^1.0.2"
 
 postcss@^8.5.6:
   version "8.5.6"
@@ -1005,7 +991,7 @@ socket.io@^4.1.3:
     socket.io-adapter "~2.5.2"
     socket.io-parser "~4.2.4"
 
-source-map-js@^1.0.1, source-map-js@^1.0.2, source-map-js@^1.2.1:
+source-map-js@^1.0.1, source-map-js@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/source-map-js/-/source-map-js-1.2.1.tgz#1ce5650fddd87abc099eda37dcff024c2667ae46"
   integrity sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==
@@ -1026,12 +1012,10 @@ strip-ansi@^6.0.1:
   dependencies:
     ansi-regex "^5.0.1"
 
-stylelint-config-clean-order@7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/stylelint-config-clean-order/-/stylelint-config-clean-order-7.0.0.tgz#f18c9c4ad2ca205a5fa18cf80e71826234e35242"
-  integrity sha512-R28w1xNliIbem3o+VIrNjAU8cMgxrGlDoXVqWW7lJ1OvSDsmNGj5aKSW6Xm7i5PK4E99T3Hs19BJFni5IbE56g==
-  dependencies:
-    stylelint-order "^6.0.4"
+stylelint-config-clean-order@8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/stylelint-config-clean-order/-/stylelint-config-clean-order-8.0.0.tgz#f1d4f33a2bd90b0b0630384e1115bf841b34ca01"
+  integrity sha512-Ub+1k1OQvJPf6HKMRyku6DgOmdhD5ZTrevcbfyHP21Zf7pbs5ds4a8HbKY8iadA5RFlwiXwkzqLDytxQOqfDnA==
 
 stylelint-config-recommended@^17.0.0:
   version "17.0.0"
@@ -1044,14 +1028,6 @@ stylelint-config-standard@39.0.1:
   integrity sha512-b7Fja59EYHRNOTa3aXiuWnhUWXFU2Nfg6h61bLfAb5GS5fX3LMUD0U5t4S8N/4tpHQg3Acs2UVPR9jy2l1g/3A==
   dependencies:
     stylelint-config-recommended "^17.0.0"
-
-stylelint-order@^6.0.4:
-  version "6.0.4"
-  resolved "https://registry.npmjs.org/stylelint-order/-/stylelint-order-6.0.4.tgz"
-  integrity sha512-0UuKo4+s1hgQ/uAxlYU4h0o0HS4NiQDud0NAUNI0aa8FJdmYHA5ZZTFHiV5FpmE3071e9pZx5j0QpVJW5zOCUA==
-  dependencies:
-    postcss "^8.4.32"
-    postcss-sorting "^8.0.2"
 
 stylelint-selector-bem-pattern@^4.0.0:
   version "4.0.1"
